@@ -1,0 +1,23 @@
+---
+import IconCard from '../common/IconCard.astro';
+import FluidBackground from './FluidBackground.astro';
+import { hero } from '../../data/home';
+---
+
+<section id="hero" class="relative flex min-h-screen flex-col items-center justify-center gap-6 overflow-hidden px-6 text-center">
+	<FluidBackground />
+
+	<div class="relative z-10 flex flex-col items-center gap-6">
+		<div class="flex h-24 w-24 items-center justify-center rounded-full bg-neutral-200 text-2xl font-semibold dark:bg-neutral-800">
+			AS
+		</div>
+
+		<p class="text-xl font-semibold text-neutral-500 dark:text-neutral-400 md:text-2xl">{hero.greeting}</p>
+
+		<h1 class="text-3xl font-bold tracking-tight sm:text-4xl md:text-6xl">{hero.role}</h1>
+	</div>
+
+	<nav class="relative z-10 flex w-full flex-col gap-3 px-4 sm:grid sm:grid-cols-5 lg:max-w-2xl">
+		{hero.navItems.map((item) => <IconCard {...item} />)}
+	</nav>
+</section>

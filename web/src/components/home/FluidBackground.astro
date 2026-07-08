@@ -1,0 +1,42 @@
+---
+---
+
+<div class="absolute inset-0 h-full w-full">
+	<div id="fluid-container" class="h-full w-full"></div>
+</div>
+
+<script>
+	import { fluidThemes } from '../../data/home';
+
+	const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	const getTheme = () => (document.documentElement.classList.contains('dark') ? fluidThemes.dark : fluidThemes.light);
+
+	if (!prefersReducedMotion) {
+		const container = document.getElementById('fluid-container') as HTMLElement;
+
+		import('webgl-fluid-enhanced').then(({ default: WebGLFluidEnhanced }) => {
+			const theme = getTheme();
+
+			const fluid = new WebGLFluidEnhanced(container);
+			fluid.setConfig({
+				transparent: true,
+				shading: false,
+				bloom: false,
+				sunrays: false,
+				splatForce: 2000,
+				curl: 8,
+				velocityDissipation: 0.15,
+				densityDissipation: 0.8,
+				brightness: theme.brightness,
+				colorPalette: theme.palette,
+			});
+			fluid.start();
+
+			window.addEventListener('theme-change', () => {
+				const theme = getTheme();
+				fluid.setConfig({ colorPalette: theme.palette, brightness: theme.brightness });
+			});
+		});
+	}
+</script>

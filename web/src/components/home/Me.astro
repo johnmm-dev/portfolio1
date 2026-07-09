@@ -1,0 +1,116 @@
+---
+import GithubIcon from '../common/icons/GithubIcon.astro';
+import LinkedinIcon from '../common/icons/LinkedinIcon.astro';
+import FacebookIcon from '../common/icons/FacebookIcon.astro';
+import InstagramIcon from '../common/icons/InstagramIcon.astro';
+import YoutubeIcon from '../common/icons/YoutubeIcon.astro';
+import { meTeaser } from '../../data/about';
+import { connect, socialLinks } from '../../data/social';
+
+const socialIcons = {
+	github: GithubIcon,
+	linkedin: LinkedinIcon,
+	facebook: FacebookIcon,
+	instagram: InstagramIcon,
+	youtube: YoutubeIcon,
+};
+
+const activeSocialLinks = Object.values(socialLinks)
+	.filter((link) => link.active)
+	.sort((a, b) => a.order - b.order);
+---
+
+<section id="me" class="flex min-h-screen flex-col justify-center px-6 py-16">
+	<div class="relative z-10 mx-auto max-w-6xl">
+		<div
+			class="pointer-events-none absolute -top-24 left-1/2 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-500/10 blur-3xl dark:bg-blue-500/20"
+		>
+		</div>
+
+		<div class="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
+			<div class="flex flex-col gap-6 lg:order-2">
+				<span class="text-xs font-semibold tracking-[0.18em] opacity-70">
+					{meTeaser.label}
+				</span>
+
+				<h2 class="text-3xl font-bold tracking-tight sm:text-4xl">
+					{meTeaser.heading}
+				</h2>
+
+				<div class="flex flex-col gap-4 text-neutral-600 dark:text-neutral-300">
+					{meTeaser.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+				</div>
+
+				<div class="flex flex-wrap gap-3">
+					{
+						meTeaser.ctas
+							.filter((cta) => cta.active)
+							.sort((a, b) => a.order - b.order)
+							.map((cta, index) => (
+								<a
+									href={cta.href}
+									target={cta.href.startsWith('http') ? '_blank' : undefined}
+									rel={cta.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+									class={
+										index === 0
+											? 'rounded-full bg-neutral-900 px-5 py-2.5 text-sm font-semibold text-white transition active:scale-95 dark:bg-white dark:text-neutral-900'
+											: 'rounded-full border border-neutral-300 px-5 py-2.5 text-sm font-semibold transition active:scale-95 dark:border-neutral-700'
+									}
+								>
+									{cta.label}
+								</a>
+							))
+					}
+				</div>
+
+				<div class="flex flex-wrap gap-2">
+					{
+						meTeaser.tags
+							.filter((tag) => tag.active)
+							.map((tag) => (
+								<span class="rounded-full border border-neutral-200 px-3 py-1 text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:text-neutral-300">
+									{tag.label}
+								</span>
+							))
+					}
+				</div>
+
+				<div>
+					<p class="text-xs font-semibold tracking-[0.18em] opacity-70">{connect.heading}</p>
+
+					<div class="mt-3 flex gap-3">
+						{
+							activeSocialLinks.map((link) => {
+								const Icon = socialIcons[link.icon];
+								return (
+									<a
+										href={link.href}
+										target="_blank"
+										rel="noopener noreferrer"
+										aria-label={link.label}
+										class="flex h-11 w-11 items-center justify-center rounded-full border border-neutral-200 bg-white/30 backdrop-blur-lg transition active:scale-95 dark:border-neutral-700 dark:bg-neutral-800/30"
+									>
+										<Icon />
+									</a>
+								);
+							})
+						}
+					</div>
+				</div>
+			</div>
+
+			<div class="grid grid-cols-2 gap-4 lg:order-1">
+				{
+					meTeaser.stats
+						.filter((stat) => stat.active)
+						.map((stat) => (
+							<div class="rounded-2xl border border-neutral-200 bg-white/30 p-5 backdrop-blur-lg dark:border-neutral-700 dark:bg-neutral-800/30">
+								<p class="text-lg font-bold tracking-tight">{stat.value}</p>
+								<p class="mt-1 text-xs text-neutral-500 dark:text-neutral-400">{stat.label}</p>
+							</div>
+						))
+				}
+			</div>
+		</div>
+	</div>
+</section>

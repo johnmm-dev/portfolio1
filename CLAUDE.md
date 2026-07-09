@@ -11,12 +11,24 @@ This is a monorepo-in-waiting — a backend is planned for later.
 ```
 my-portfolio/
 ├── CLAUDE.md   ← this file (overall project context)
+├── docs/        ← standing conventions (see "Conventions" below)
 └── web/         ← the Astro site (frontend)
     └── CLAUDE.md → AGENTS.md  (Astro's own agent guidance, auto-generated, unrelated to this file)
 ```
 
 When a backend is added later, it will live at root-level `api/` (sibling to `web/`),
 not nested under an `apps/` directory — kept flat since there are only two apps.
+
+## Conventions
+Standing decisions and patterns live in `docs/`, kept up to date as the project grows.
+**Always follow these when writing code or committing in this repo:**
+- `docs/CONVENTIONS.md` — code and data patterns (directory structure, content/data
+  separation, the `active` flag convention, shared content registries, icon pattern,
+  theming, TypeScript conventions, etc.)
+- `docs/COMMIT_CONVENTIONS.md` — commit message format and workflow
+
+If a decision made while coding isn't captured there yet, add it once it's confirmed
+working — these docs exist so patterns aren't relearned or reinvented each session.
 
 ## Working style (read this before doing anything)
 The user wants to *learn Astro properly* while building this — treat this as a mentorship
@@ -175,17 +187,20 @@ should still default to minimal/static:
 1. A future "Ask me anything" section (deferred, not part of current milestones) that
    queries an LLM about Adnan. Built as a dynamic island (client component + server API
    route, likely via the future `api/` app), not a reason to make the rest dynamic.
-2. A WebGL fluid animation on the landing page hero, built ahead of the polish
+2. A WebGL fluid animation behind the whole homepage, built ahead of the polish
    milestone at the user's request. Lives at `web/src/components/home/FluidBackground.astro`,
    using the `webgl-fluid-enhanced` npm package (typed, maintained wrapper around the
    same algorithm as Pavel Dobryakov's original WebGL-Fluid-Simulation) rather than
-   vendoring raw shader code. Scoped to the hero section only (`overflow-hidden` on the
-   section, canvas is `absolute inset-0` within it, content wrapped in `relative z-10`).
-   Transparent canvas (`TRANSPARENT: true`) so it inherits the page's dark/light
-   background automatically instead of duplicating theme logic. No auto-splats
-   (`INITIAL: false`, `SPLAT_KEY: ''`) — reacts to real mouse movement only. Loaded via
-   dynamic `import()` so it never blocks initial render, and skipped entirely when
-   `prefers-reduced-motion` is set.
+   vendoring raw shader code. Mounted once at the page level in `index.astro` (not inside
+   `Hero.astro`), as a `position: fixed`, `inset-0` layer pinned to the viewport, so it
+   reacts to mouse movement anywhere on the page and its render cost stays constant
+   (viewport-sized) as more homepage sections are added, rather than growing with total
+   page height. Each homepage section's content wrapper uses `relative z-10` to stay
+   above it. Transparent canvas (`TRANSPARENT: true`) so it inherits the page's
+   dark/light background automatically instead of duplicating theme logic. No
+   auto-splats (`INITIAL: false`, `SPLAT_KEY: ''`) — reacts to real mouse movement only.
+   Loaded via dynamic `import()` so it never blocks initial render, and skipped entirely
+   when `prefers-reduced-motion` is set.
 
 ## First milestones (in order — do not skip ahead)
 1. Understand Astro project structure.

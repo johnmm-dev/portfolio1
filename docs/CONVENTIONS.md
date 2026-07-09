@@ -6,7 +6,7 @@ development continues.
 ## Directory structure
 
 ```
-src/
+web/src/
 ├── components/
 │   ├── common/          shared, feature-agnostic components (like an Angular
 │   │   │                SharedModule) — usable from any page
@@ -15,23 +15,42 @@ src/
 │   │   └── ThemeToggle.astro
 │   └── home/             components only the homepage uses
 │       ├── Hero.astro
+│       ├── Me.astro
 │       └── FluidBackground.astro
 ├── data/                 typed .ts files holding page content/config (see below)
 ├── layouts/               page shells (Layout.astro)
 └── pages/                 file-based routes
 ```
 
-`src/data/` is deliberately separate from Astro's `src/content/` — the latter
-is reserved for Content Collections (schema-validated Markdown/MDX), not yet
-used. Plain page copy/config that doesn't need that machinery goes in
-`src/data/` as a typed exported const.
+`web/src/data/` is deliberately separate from Astro's `web/src/content/` —
+the latter is reserved for Content Collections (schema-validated
+Markdown/MDX), not yet used. Plain page copy/config that doesn't need that
+machinery goes in `web/src/data/` as a typed exported const.
 
 ## Content/data separation
 
 Page copy and structured content (greeting text, headline, nav items, theme
-palettes) live in typed `.ts` files under `src/data/`, imported into `.astro`
-components — never hardcoded directly in a component's template. One place to
-edit text without touching component code.
+palettes) live in typed `.ts` files under `web/src/data/`, imported into
+`.astro` components — never hardcoded directly in a component's template. One
+place to edit text without touching component code.
+
+## Content visibility (`active` flag)
+
+List-based content items (nav cards, CTAs, tags, stats, etc.) carry an
+`active: boolean` field rather than being deleted or commented out to hide
+them. Every render site does `.filter((item) => item.active).map(...)`
+before rendering. Toggling content on/off is then a one-line data change —
+reversible and visible in `git diff` — instead of editing component code or
+losing the content entirely.
+
+## Shared content registries
+
+Content reused across multiple pages (e.g. tags) lives in its own keyed
+registry file (`data/tags.ts`), not duplicated inline wherever it's used.
+Each entry is referenced by key (`tags.backendSystems`) rather than
+redeclared as a literal object, so renaming or restyling a shared piece of
+content is a one-file change. Pages import the registry and pick the subset
+they need, rather than each page owning its own copy of the same content.
 
 ## Icon pattern
 
@@ -73,10 +92,15 @@ a grid at `sm:` and up.
 `FluidBackground.astro` uses the `webgl-fluid-enhanced` npm package rather
 than vendoring raw shader code. It's loaded via a dynamic `import()` so it
 never blocks initial page render, skipped entirely when
-`prefers-reduced-motion` is set, and scoped to the hero section only
-(`overflow-hidden` on the section, canvas `absolute inset-0`, content wrapped
-in `relative z-10`). Its color palettes live in `data/home.ts`'s
-`fluidThemes`, not hardcoded inline in the component.
+`prefers-reduced-motion` is set, and mounted once at the page level
+(`index.astro`) as a `position: fixed`, `inset-0` layer pinned to the
+viewport — not scoped to a single section — so its render cost stays
+constant as more homepage sections are added. Each homepage section's
+content wrapper uses `relative z-10` so its content stacks above the fixed
+canvas (a fixed element always creates its own stacking context and paints
+above non-positioned content when `z-index` is left `auto`). Its color
+palettes live in `data/home.ts`'s `fluidThemes`, not hardcoded inline in the
+component.
 
 ## TypeScript
 

@@ -5,7 +5,7 @@ import { hero } from '../../data/home';
 
 <section id="hero" class="flex min-h-screen flex-col items-center justify-center gap-6 px-6 text-center">
 	<div class="relative z-10 flex flex-col items-center gap-6">
-		<img src="/adnan-cyber-developer-avatar.svg" alt="Adnan Sabbir" class="h-32 w-32" />
+		<img src={`${import.meta.env.BASE_URL}adnan-cyber-developer-avatar.svg`} alt="Adnan Sabbir" class="h-32 w-32" />
 
 		<p class="text-xl font-semibold text-neutral-500 md:text-2xl dark:text-neutral-400">{hero.greeting}</p>
 

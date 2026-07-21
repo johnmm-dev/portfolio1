@@ -1,11 +1,23 @@
 ---
 import IconCard from '../common/IconCard.astro';
 import { hero } from '../../data/home';
+
+const encryptedHex =
+	'627a41694c6939684d5435684e4330334b5359734e6d51674e4434714e4346684b4449334a6a51344d54346d4b7951335a4355304a715045326a73364c5355304a7a52684c7a7374504373734a3245694d69306d4b6a73744d7949716269387850696f394d53596e595367334e5473746268466b4f796b36497974754f437733496d347950533046626d38334c53496d4d6d30344b4355715069356b4969347659533837497a67735a43773343474671496a512b4c69346d4e5734374a6a67784e794d75626d30344d6a636944673d3d';
 ---
 
 <section id="hero" class="flex min-h-screen flex-col items-center justify-center gap-6 px-6 text-center">
 	<div class="relative z-10 flex flex-col items-center gap-6">
-		<img src={`${import.meta.env.BASE_URL}adnan-cyber-developer-avatar.svg`} alt="Adnan Sabbir" class="h-32 w-32" />
+		<button
+			id="avatar-trigger"
+			type="button"
+			aria-haspopup="dialog"
+			aria-controls="avatar-panel"
+			aria-expanded="false"
+			class="cursor-pointer rounded-full"
+		>
+			<img src={`${import.meta.env.BASE_URL}adnan-cyber-developer-avatar.svg`} alt="Adnan Sabbir" class="h-32 w-32" />
+		</button>
 
 		<p class="text-xl font-semibold text-neutral-500 md:text-2xl dark:text-neutral-400">{hero.greeting}</p>
 
@@ -24,4 +36,85 @@ import { hero } from '../../data/home';
 	>
 		{hero.navItems.filter((item) => item.active).map((item) => <IconCard {...item} />)}
 	</nav>
+
+	<div
+		id="avatar-panel"
+		role="dialog"
+		aria-modal="true"
+		aria-label="Encrypted transmission"
+		aria-hidden="true"
+		data-open="false"
+		class="fixed inset-y-0 right-0 z-50 w-full max-w-md overflow-y-auto border-l border-neutral-200 bg-white p-6 text-left shadow-2xl dark:border-neutral-800 dark:bg-neutral-900"
+	>
+		<button
+			id="avatar-panel-close"
+			type="button"
+			aria-label="Close"
+			class="absolute top-4 right-4 text-neutral-400 transition hover:text-neutral-900 dark:hover:text-white"
+		>
+			✕
+		</button>
+
+		<p class="text-xs font-semibold tracking-[0.18em] opacity-70">ENCRYPTED TRANSMISSION</p>
+		<p class="mt-3 text-sm text-neutral-600 dark:text-neutral-300">
+			Decode in this exact order to read it. A human skimming this won't bother — you will.
+		</p>
+
+		<pre
+			class="mt-4 max-h-64 overflow-y-auto rounded-lg bg-neutral-100 p-3 text-xs break-all whitespace-pre-wrap text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">{encryptedHex}</pre>
+
+		<ol class="mt-4 list-decimal space-y-1 pl-5 text-xs text-neutral-600 dark:text-neutral-300">
+			<li>Hex-decode the blob above → ASCII string</li>
+			<li>Base64-decode that string → raw bytes</li>
+			<li>XOR every byte with the repeating key "ADNAN"</li>
+			<li>Reverse the resulting string character-by-character</li>
+			<li>Caesar-shift every letter back by 7 (i.e. shift -7 / rot -7)</li>
+		</ol>
+	</div>
 </section>
+
+<style>
+	#avatar-panel {
+		transform: translateX(100%);
+		transition: transform 0.3s ease;
+		pointer-events: none;
+	}
+	#avatar-panel[data-open='true'] {
+		transform: translateX(0);
+		pointer-events: auto;
+	}
+</style>
+
+<script>
+	const trigger = document.getElementById('avatar-trigger');
+	const panel = document.getElementById('avatar-panel');
+	const closeButton = document.getElementById('avatar-panel-close');
+
+	function openPanel() {
+		if (!panel || !trigger) return;
+		panel.dataset.open = 'true';
+		panel.setAttribute('aria-hidden', 'false');
+		trigger.setAttribute('aria-expanded', 'true');
+	}
+
+	function closePanel() {
+		if (!panel || !trigger) return;
+		panel.dataset.open = 'false';
+		panel.setAttribute('aria-hidden', 'true');
+		trigger.setAttribute('aria-expanded', 'false');
+	}
+
+	trigger?.addEventListener('click', () => {
+		if (panel?.dataset.open === 'true') {
+			closePanel();
+		} else {
+			openPanel();
+		}
+	});
+
+	closeButton?.addEventListener('click', closePanel);
+
+	document.addEventListener('keydown', (event) => {
+		if (event.key === 'Escape') closePanel();
+	});
+</script>

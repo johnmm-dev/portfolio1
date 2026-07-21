@@ -79,15 +79,18 @@ It's fine to state plainly that GitHub is a mix of real projects, experiments, l
 notes, old robotics work, and small tools. The site is the curated story.
 
 ## Positioning
-Software Engineer at Odoo R&D, based in Dubai. Focus: backend systems, ERP/localization,
-e-invoicing, compliance flows, developer tooling, product engineering. Also has a robotics
-background (founding team lead, BRACU Duburi) and creates long-form technical tutorials
-for Bangla-speaking developers.
+Senior Software Engineer with 7+ years across full-stack and backend systems, currently
+at Odoo R&D in Dubai on ERP product engineering and developer tooling — localization and
+e-invoicing are part of that work, not the whole focus, and should not be the lead framing.
+Prior experience spans distributed systems at scale (Cefalo/House of Math, 2M+ users),
+company-wide frontend architecture (Shohoz), and full-stack delivery (Selise). Also has a
+robotics background (founding team lead, BRACU Duburi) and creates long-form technical
+tutorials for Bangla-speaking developers.
 
 **Core message (use as anchor for homepage/about copy):**
-> Backend-focused software engineer at Odoo R&D, working around ERP localization,
-> e-invoicing, compliance flows, developer tooling, and product engineering. Former
-> robotics team founder and technical educator.
+> Senior Software Engineer with 7+ years building backend systems, distributed
+> architectures, and full-stack products — currently at Odoo R&D on ERP product
+> engineering and developer tooling. Former robotics team founder and technical educator.
 
 ## Tone
 Professional, honest, concise, not arrogant. Avoid generic lines like "passionate

@@ -1,0 +1,43 @@
+---
+import { skillCategories } from '../../data/skills';
+
+const activeCategories = skillCategories
+	.filter((category) => category.active)
+	.sort((a, b) => a.order - b.order)
+	.map((category) => ({
+		...category,
+		skills: category.skills.filter((skill) => skill.active).sort((a, b) => a.order - b.order),
+	}));
+---
+
+<section id="skills" class="flex min-h-screen flex-col justify-center px-6 py-16">
+	<div class="relative z-10 mx-auto max-w-6xl">
+		<span class="text-xs font-semibold tracking-[0.18em] opacity-70">Skills</span>
+
+		<h2 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">How I work.</h2>
+
+		<div class="mt-10 grid gap-4 lg:grid-cols-3">
+			{
+				activeCategories.map((category) => (
+					<div
+						class:list={[
+							'rounded-2xl border border-neutral-200 bg-white/30 p-6 backdrop-blur-lg dark:border-[#49618b52] dark:bg-[linear-gradient(145deg,#101d35d1,#081020e0)] dark:shadow-[inset_0_1px_#ffffff06,0_20px_60px_#00000029]',
+							category.order === 1 && 'lg:col-span-3',
+						]}
+					>
+						<p class="text-sm font-semibold">{category.heading}</p>
+
+						<div class:list={['mt-4 grid gap-4', category.order === 1 && 'sm:grid-cols-2 lg:grid-cols-3']}>
+							{category.skills.map((skill) => (
+								<div>
+									<p class="text-sm font-semibold">{skill.name}</p>
+									<p class="mt-1 text-xs text-neutral-500 dark:text-neutral-400">{skill.proof}</p>
+								</div>
+							))}
+						</div>
+					</div>
+				))
+			}
+		</div>
+	</div>
+</section>

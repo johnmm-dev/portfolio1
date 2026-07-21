@@ -31,7 +31,7 @@ export const socialLinks = {
 	},
 	youtube: {
 		label: 'YouTube',
-		href: 'https://www.youtube.com/c/adnansabbirr',
+		href: 'https://www.youtube.com/@AdnanSabbirr',
 		icon: 'youtube',
 		active: true,
 		order: 5,

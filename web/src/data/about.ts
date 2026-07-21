@@ -26,8 +26,8 @@ export const meTeaser = {
 		"Outside work, I'm usually reading, fishing, hiking, or chasing small adventures away from the screen.",
 	],
 	ctas: [
-		{ label: 'Read more about me', href: '/about', active: true, order: 1 },
-		{ label: 'View selected work', href: '/selected-work', active: true, order: 2 },
+		{ label: 'Read more about me', href: '/about', active: false, order: 1 },
+		{ label: 'View selected work', href: '/selected-work', active: false, order: 2 },
 	] satisfies AboutLink[],
 	tags: [
 		tags.backendSystems,

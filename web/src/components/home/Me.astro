@@ -88,7 +88,7 @@ const activeSocialLinks = Object.values(socialLinks)
 										target="_blank"
 										rel="noopener noreferrer"
 										aria-label={link.label}
-										class="flex h-11 w-11 items-center justify-center rounded-full border border-neutral-200 bg-white/30 backdrop-blur-lg transition active:scale-95 dark:border-neutral-700 dark:bg-neutral-800/30"
+										class="flex h-11 w-11 items-center justify-center rounded-full border border-neutral-200 bg-white/30 backdrop-blur-lg transition active:scale-95 dark:border-[#49618b52] dark:bg-[linear-gradient(145deg,#101d35d1,#081020e0)] dark:shadow-[inset_0_1px_#ffffff06,0_20px_60px_#00000029]"
 									>
 										<Icon />
 									</a>
@@ -104,7 +104,7 @@ const activeSocialLinks = Object.values(socialLinks)
 					meTeaser.stats
 						.filter((stat) => stat.active)
 						.map((stat) => (
-							<div class="rounded-2xl border border-neutral-200 bg-white/30 p-5 backdrop-blur-lg dark:border-neutral-700 dark:bg-neutral-800/30">
+							<div class="rounded-2xl border border-neutral-200 bg-white/30 p-5 backdrop-blur-lg dark:border-[#49618b52] dark:bg-[linear-gradient(145deg,#101d35d1,#081020e0)] dark:shadow-[inset_0_1px_#ffffff06,0_20px_60px_#00000029]">
 								<p class="text-lg font-bold tracking-tight">{stat.value}</p>
 								<p class="mt-1 text-xs text-neutral-500 dark:text-neutral-400">{stat.label}</p>
 							</div>

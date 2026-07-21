@@ -19,6 +19,24 @@ my-portfolio/
 When a backend is added later, it will live at root-level `api/` (sibling to `web/`),
 not nested under an `apps/` directory — kept flat since there are only two apps.
 
+## Commands
+All commands run from `web/` (the Astro app):
+
+```bash
+npm install
+npm run dev             # dev server at localhost:4321
+npm run build           # production build to web/dist/
+npm run preview         # preview the production build
+npm run lint            # eslint .
+npm run format           # prettier --write .
+npm run format:check    # prettier --check . (no writes)
+npm run astro -- check  # Astro/TS diagnostics
+```
+
+No test runner is configured yet. `web/CLAUDE.md` (generated from `web/AGENTS.md`)
+adds one Astro-specific note: run the dev server as `astro dev --background` and
+manage it with `astro dev stop` / `status` / `logs`.
+
 ## Conventions
 Standing decisions and patterns live in `docs/`, kept up to date as the project grows.
 **Always follow these when writing code or committing in this repo:**

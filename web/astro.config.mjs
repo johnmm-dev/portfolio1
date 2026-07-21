@@ -5,8 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://adnansabbir.github.io',
-	base: '/my-portfolio/',
+	site: 'https://adnansabbir.com',
 	devToolbar: {
 		enabled: false,
 	},

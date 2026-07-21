@@ -61,6 +61,10 @@ For each step:
 
 Do not jump ahead. Do not build multiple milestones in one go unless explicitly asked.
 
+When a step adds a new page, its "done" includes the per-page SEO basics from
+"SEO goals" below (title, description, OG tags, one `<h1>`) — not just the visual
+result. Don't defer these to a later cleanup pass.
+
 ## Project goal
 A clean, fast, SEO-friendly personal portfolio/blog site for Adnan Sabbir.
 
@@ -184,9 +188,13 @@ Target queries: Adnan Sabbir, Adnan Sabbir Odoo, Adnan Sabbir Software Engineer,
 Adnan Sabbir GitHub, Adnan Sabbir BRACU Duburi, Odoo developer Dubai, Backend engineer
 Odoo, ERP localization engineer, E-invoicing Odoo engineer.
 
-Requirements: clean semantic HTML, proper title/meta descriptions, Open Graph tags,
-good heading hierarchy, fast static pages, sitemap (later), RSS (later), Person schema
-(later), canonical URLs (later).
+**Bake into every page as it's built, not deferred to a later pass:** a unique
+`<title>` and `<meta name="description">` (via `Layout.astro`'s `title`/`description`
+props), Open Graph + Twitter Card tags, one semantic `<h1>` per page with a sensible
+heading hierarchy below it, and descriptive `alt` text on images.
+
+**Site-wide, once there's more than one page (milestone 9):** sitemap.xml, RSS feed,
+Person JSON-LD schema, canonical URLs.
 
 ## Design direction
 Minimal, technical, readable, slightly premium. A serious engineer's website, not a
@@ -229,5 +237,6 @@ should still default to minimal/static:
 6. Add Production Contributions section.
 7. Add Writing page.
 8. Add MDX blog support.
-9. Add SEO metadata.
+9. Add site-wide SEO (sitemap, RSS, Person schema, canonical URLs) — per-page basics
+   (title, description, OG tags, heading hierarchy) are already baked in per step.
 10. Polish design and deploy.

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://adnansabbir.com/sitemap-index.xml

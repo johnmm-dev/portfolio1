@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import ThemeToggle from '../components/common/ThemeToggle.astro';
+import { socialLinks } from '../data/social';
 
 interface Props {
 	title: string;
@@ -8,6 +9,21 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL('og-image.jpg', Astro.site);
+
+const personSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'Person',
+	name: 'Adnan Sabbir',
+	jobTitle: 'Software Engineer',
+	worksFor: { '@type': 'Organization', name: 'Odoo' },
+	url: Astro.site,
+	sameAs: Object.values(socialLinks)
+		.filter((link) => link.active)
+		.map((link) => link.href),
+};
 ---
 
 <!doctype html>
@@ -25,6 +41,23 @@ const { title, description } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalURL} />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="Adnan Sabbir" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:image" content={ogImageURL} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImageURL} />
+
+		<script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
 	</head>
 	<body
 		class="bg-white font-sans text-neutral-900 antialiased dark:bg-[radial-gradient(circle_at_82%_20%,#1446843d,#0000_30%),linear-gradient(145deg,#040711_0%,#071022_55%,#060914_100%)] dark:text-neutral-100"

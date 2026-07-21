@@ -22,7 +22,7 @@ const activeItems = selectedWorkTeaser.items.filter((item) => item.active).sort(
 						<div>
 							{item.logo && (
 								<div class="mb-3 flex h-10 w-fit items-center rounded-lg bg-white px-3 py-2">
-									<img src={item.logo} alt={item.title} class="h-full object-contain" />
+									<img src={item.logo} alt={item.title} loading="lazy" class="h-full object-contain" />
 								</div>
 							)}
 							{item.icon && (

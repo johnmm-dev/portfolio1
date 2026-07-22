@@ -16,7 +16,7 @@ export const hero = {
 		{ label: 'Me', href: '#me', icon: 'user', color: '#2563EB', active: true },
 		{ label: 'Projects', href: '#projects', icon: 'folder', color: '#059669', active: true },
 		{ label: 'Skills', href: '#skills', icon: 'terminal', color: '#7C3AED', active: true },
-		{ label: 'Fun', href: '#fun', icon: 'star', color: '#DB2777', active: false },
+		{ label: 'Fun', href: '#fun', icon: 'star', color: '#DB2777', active: true },
 		{ label: 'Contact', href: '#contact', icon: 'send', color: '#D97706', active: false },
 	] satisfies NavItem[],
 };

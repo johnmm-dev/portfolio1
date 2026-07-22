@@ -59,7 +59,7 @@ const galleryEntries: GalleryEntry[] = [...activeItems.slice(0, 2), 'heading', .
 									muted
 									loop
 									playsinline
-									preload="metadata"
+									preload="none"
 								/>
 							) : entry.image ? (
 								<img src={entry.image} alt={entry.caption} loading="lazy" class="h-full w-full object-cover" />

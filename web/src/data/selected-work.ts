@@ -4,6 +4,10 @@ export interface WorkItem {
 	title: string;
 	description: string;
 	logo?: string;
+	// Intrinsic dimensions of `logo`, so the <img> can reserve its layout
+	// space before loading (prevents layout shift).
+	logoWidth?: number;
+	logoHeight?: number;
 	icon?: 'youtube';
 	href?: string;
 	linkLabel?: string;
@@ -21,6 +25,8 @@ export const selectedWorkTeaser = {
 			description:
 				"Public, reviewed pull requests to Odoo's core codebase under @adns-odoo — ERP features, fixes, and production business logic.",
 			logo: '/work/odoo.png',
+			logoWidth: 300,
+			logoHeight: 131,
 			href: 'https://github.com/odoo/odoo/pulls?q=is%3Apr+author%3Aadns-odoo',
 			linkLabel: 'View contributions',
 			tags: [tags.erpSystems, tags.backendSystems],
@@ -32,6 +38,8 @@ export const selectedWorkTeaser = {
 			description:
 				'Backend and distributed systems work on the gamification team at Cefalo Bangladesh Ltd, scaling House of Math’s learning platform to 2M+ users.',
 			logo: '/work/house-of-math.svg',
+			logoWidth: 234,
+			logoHeight: 45,
 			href: 'https://www.houseofmath.com/',
 			linkLabel: 'Visit site',
 			tags: [tags.edtech, tags.backendSystems],
@@ -43,6 +51,8 @@ export const selectedWorkTeaser = {
 			description:
 				'Founded and led the first team from Bangladesh in an international autonomous underwater robotics challenge.',
 			logo: '/work/bracu-duburi.png',
+			logoWidth: 168,
+			logoHeight: 64,
 			href: 'https://bracu-duburi.github.io/#/auv/duburi_2',
 			linkLabel: 'View project',
 			tags: [tags.robotics],

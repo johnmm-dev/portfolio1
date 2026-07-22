@@ -22,11 +22,12 @@ const aspectByNumber: Record<number, string> = {
 };
 
 const activeItems = funGallery.items.filter((item) => item.active);
-// On mobile/masonry, the heading renders above the grid as normal. On the
-// tall desktop grid, it instead renders as its own entry right after item 2
-// (see .fun-heading below, filling the space next to items 1-2) - only one
-// of the two is ever visible, toggled by the same breakpoint that switches
-// the grid on.
+// On mobile/masonry, the heading renders above the grid as normal (the only
+// real <h2> for this section). On the tall desktop grid, a second, purely
+// presentational copy fills the space next to items 1-2 (see .fun-heading
+// below) - toggled by the same breakpoint that switches the grid on. It's
+// aria-hidden and non-heading markup so assistive tech and DOM-only tooling
+// never see two headings with identical text.
 type GalleryEntry = (typeof activeItems)[number] | 'heading';
 const galleryEntries: GalleryEntry[] = [...activeItems.slice(0, 2), 'heading', ...activeItems.slice(2)];
 ---
@@ -42,9 +43,9 @@ const galleryEntries: GalleryEntry[] = [...activeItems.slice(0, 2), 'heading', .
 			{
 				galleryEntries.map((entry) =>
 					entry === 'heading' ? (
-						<div class="fun-heading mb-4 flex-col items-center justify-center text-center">
+						<div class="fun-heading mb-4 flex-col items-center justify-center text-center" aria-hidden="true">
 							<span class="text-xs font-semibold tracking-[0.18em] opacity-70">{funGallery.label}</span>
-							<h2 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">{funGallery.heading}</h2>
+							<p class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">{funGallery.heading}</p>
 						</div>
 					) : (
 						<div

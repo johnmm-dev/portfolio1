@@ -115,21 +115,21 @@ Avoid unnecessary animations, heavy JavaScript, or complex backend features unle
 explicitly requested. Do not over-engineer.
 
 ## Site structure
-Hybrid model: the homepage is a single scrolling page with short teaser sections;
-each section (except Contact) has a "See more" link to its own dedicated page for
-deeper content and SEO indexing.
+Single-page homepage: every section (Me, Selected Work, Skills, Fun, Contact) is a
+scroll section only. No dedicated per-section pages, no "See more" links — this was
+the original plan but is no longer intended.
 
 - Home (scroll sections, each short with big fonts/key stats):
   - Hero — avatar/memoji + name + role, matches a toukoum.fr-style layout (kept
     deliberately — personality signal, not scope creep)
-  - Me → "See more" → `/about`
-  - Projects / Selected Work → "See more" → `/selected-work` (Production
-    Contributions gets its own dedicated page too, linked from here)
-  - Skills → "See more" → `/skills` (what he did with each skill, not just a tag list)
-  - Fun → "See more" → `/fun`
+  - Me
+  - Projects / Selected Work (Production Contributions still gets its own
+    dedicated page, linked directly from this section)
+  - Skills
+  - Fun
   - Contact — home section only, no dedicated page (it's already the terminal
     action, and all the relevant info already lives on that one card)
-- Production Contributions (own page, linked from Selected Work)
+- Production Contributions (own page, linked from the Selected Work section)
 - Writing / Blog (own pages per post — required for content collections, can't be a
   scroll section)
 

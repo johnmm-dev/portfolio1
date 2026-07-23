@@ -12,6 +12,11 @@ export interface SkillCategory {
 	order: number;
 }
 
+export const skillsTeaser = {
+	label: 'Skills',
+	heading: 'What I work with.',
+};
+
 export const skillCategories = [
 	{
 		heading: 'Backend & Cloud',

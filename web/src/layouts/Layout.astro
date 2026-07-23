@@ -60,12 +60,16 @@ const personSchema = {
 		<script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
 	</head>
 	<body
-		class="bg-white font-sans text-neutral-900 antialiased dark:bg-[radial-gradient(circle_at_82%_20%,#1446843d,#0000_30%),linear-gradient(145deg,#040711_0%,#071022_55%,#060914_100%)] dark:text-neutral-100"
-	>
+		class:list={[
+			'bg-white font-sans text-neutral-900 antialiased',
+			'dark:bg-[radial-gradient(circle_at_82%_20%,#1446843d,#0000_30%),linear-gradient(145deg,#040711_0%,#071022_55%,#060914_100%)] dark:text-neutral-100',
+		]}>
 		<a
 			href="#main-content"
-			class="sr-only rounded-full bg-white px-4 py-2 text-sm font-semibold text-neutral-900 focus:not-sr-only focus:fixed focus:top-6 focus:left-6 focus:z-50"
-		>
+			class:list={[
+				'sr-only rounded-full bg-white px-4 py-2 text-sm font-semibold text-neutral-900',
+				'focus:not-sr-only focus:fixed focus:top-6 focus:left-6 focus:z-50',
+			]}>
 			Skip to content
 		</a>
 		<ThemeToggle />

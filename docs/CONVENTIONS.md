@@ -126,9 +126,62 @@ reads far better than one giant wrapped string — and `prettier-plugin-tailwind
 still sorts the classes inside each array element. Short `class` strings stay
 as plain `class="..."` — this isn't a wholesale replacement of `class`.
 
-**Caveat:** running `prettier --write` on a file that mixes a multi-line
-`class:list` array with a self-closing child tag (e.g. `<GithubIcon />`) has
-been observed to corrupt the markup — dropping the tag's closing `>`, losing
-the child's `/>`, and misplacing a `</div>`. Always diff (or rebuild/re-check)
-after formatting a file that uses `class:list`, rather than trusting the
-formatter blindly.
+**Note:** an earlier pass here mistakenly blamed Prettier for markup
+corruption (dropped `>`, lost self-closing `/>`) when converting a `class` to
+`class:list`. Isolated retesting showed Prettier/`class:list` formats
+correctly in every case tried, including a self-closing child component
+right after the array — the actual cause was a manual edit that dropped a
+tag's closing `>` while typing the replacement. Still: diff (or rebuild/
+re-check) after any manual multi-line markup edit, `class:list` or not — that
+practice is what caught the mistake in the first place.
+
+## Shared "glass card" surface: `.card-surface`
+
+`global.css` defines `.card-surface` in `@layer components` — the border,
+translucent background, backdrop blur, and full dark-mode trio (border color,
+gradient background, inset+drop shadow) shared identically across
+`IconCard`, `Fun`'s gallery cards, `Me`'s social icons and stat cards,
+`SelectedWork`, `Skills`, `Contact`'s outer card, and `SectionNav`'s floating
+bar. It deliberately excludes radius, padding, and interactivity classes
+(`rounded-*`, `p-*`, `transition active:scale-95`) — those still vary per
+usage and are added alongside `card-surface` on each element, e.g.
+`class="card-surface rounded-2xl p-6"`.
+
+## Shared section title: `.section-label` / `.section-heading`
+
+`global.css` also defines `.section-label` (the small eyebrow text above a
+heading) and `.section-heading` (the `<h2>` itself, including its `mt-2`
+spacing from the label) in `@layer components`. Used identically across
+every homepage section — `Me`, `SelectedWork`, `Skills`, `Fun` (both its
+visible and `aria-hidden` desktop copy), `Contact` — plus the two other
+eyebrow-style labels on the page (`Me`'s "Let's connect", `Hero`'s
+"ENCRYPTED TRANSMISSION" easter-egg panel).
+
+`Skills` used to hardcode its label/heading text directly instead of reading
+from `data/skills.ts` (unlike every other section) — fixed by adding a
+`skillsTeaser` export there, matching `about.ts`/`selected-work.ts`/`fun.ts`/
+`contact.ts`'s pattern.
+
+If a section's label+heading sit inside a flex container that has its own
+`gap-*` (e.g. `Me`'s `flex flex-col gap-6`), wrap the label+heading pair in
+their own child `<div>` — otherwise the flex gap adds on top of
+`.section-heading`'s own `mt-2`, since gap and margin don't collapse in
+flexbox.
+
+## 3 in-card text sizes: `.card-title` / `.card-body` / `.card-meta`
+
+`global.css` defines `.card-title` (`text-lg`, 18px), `.card-body`
+(`text-base`, 16px), and `.card-meta` (`text-sm`, 14px) — the only 3 font
+sizes used for text inside cards (`Skills`, `Selected Work`, `Me`'s stat
+cards, `Contact`). `card-title` is the largest. These classes are named by
+size tier, not literal role — e.g. `card-body` is also used for actual
+titles (skill name, item title, category heading, location name), and
+`card-meta` covers both descriptions and small secondary bits (tags, links,
+stat label, coordinates). They're size-only, deliberately excluding weight
+and color — those still vary by the text's role even within one size tier
+(e.g. `card-meta` covers plain descriptions, medium-weight tags, and a
+semibold link, all at the same size), so `font-*`/color utilities are still
+added alongside, e.g. `class="card-body font-semibold"`.
+
+Contact's subtitle previously used a one-off arbitrary `text-[15px]`, not on
+Tailwind's scale at all — folded into `card-body` for consistency.

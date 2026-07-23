@@ -20,7 +20,7 @@ export const meTeaser = {
 	label: 'About',
 	heading: "Software engineer with a builder's background.",
 	paragraphs: [
-		'I design and build backend systems, product workflows, and developer tools. I like understanding how systems fit together — from business rules and data models to the small tools that make daily engineering faster.',
+		'I design and build backend systems, product workflows, and developer tools. I like understanding how systems fit together, from business rules and data models to the small tools that make daily engineering faster.',
 		"Currently, I work at Odoo R&D in Dubai, contributing to ERP systems, product workflows, and production business logic in Odoo's public codebase.",
 		'Before Odoo, I worked across freight, logistics, medical auditing, and education technology. My path also includes founding BRACU Duburi, an autonomous underwater robotics team, and creating long-form technical tutorials for Bangla-speaking developers.',
 		"Outside work, I'm usually reading, fishing, hiking, or chasing small adventures away from the screen.",
@@ -59,7 +59,7 @@ export const about = {
 	sections: [
 		{
 			heading: 'Currently',
-			body: 'I work on backend and product engineering at Odoo R&D — mostly ERP localization, e-invoicing, and compliance workflows, plus the developer tooling that supports that work.',
+			body: 'I work on backend and product engineering at Odoo R&D, mostly ERP localization, e-invoicing, and compliance workflows, plus the developer tooling that supports that work.',
 			active: true,
 		},
 		{
@@ -69,7 +69,7 @@ export const about = {
 		},
 		{
 			heading: 'Teaching',
-			body: 'I make long-form technical tutorials for Bangla-speaking developers. My GitHub stays intentionally exploratory — personal projects, learning notes, small tools — this site is the curated version of that work.',
+			body: 'I make long-form technical tutorials for Bangla-speaking developers. My GitHub stays intentionally exploratory: personal projects, learning notes, small tools. This site is the curated version of that work.',
 			active: true,
 		},
 	] satisfies AboutSection[],

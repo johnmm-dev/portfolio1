@@ -11,14 +11,14 @@ const activeItems = selectedWorkTeaser.items.filter((item) => item.active).sort(
 
 <section id="projects" class="flex min-h-screen flex-col justify-center px-6 py-16">
 	<div class="relative z-10 mx-auto max-w-6xl">
-		<span class="text-xs font-semibold tracking-[0.18em] opacity-70">{selectedWorkTeaser.label}</span>
+		<span class="section-label">{selectedWorkTeaser.label}</span>
 
-		<h2 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">{selectedWorkTeaser.heading}</h2>
+		<h2 class="section-heading">{selectedWorkTeaser.heading}</h2>
 
 		<div class="mt-10 grid gap-4 sm:grid-cols-2">
 			{
 				activeItems.map((item) => (
-					<div class="flex flex-col justify-between rounded-2xl border border-neutral-200 bg-white/30 p-6 backdrop-blur-lg dark:border-[#49618b52] dark:bg-[linear-gradient(145deg,#101d35d1,#081020e0)] dark:shadow-[inset_0_1px_#ffffff06,0_20px_60px_#00000029]">
+					<div class="card-surface flex flex-col justify-between rounded-2xl p-6">
 						<div>
 							{item.logo && (
 								<div class="mb-3 flex h-10 w-fit items-center rounded-lg bg-white px-3 py-2">
@@ -40,14 +40,18 @@ const activeItems = selectedWorkTeaser.items.filter((item) => item.active).sort(
 									})()}
 								</div>
 							)}
-							<p class="text-sm font-semibold">{item.title}</p>
-							<p class="mt-2 text-xs text-neutral-500 dark:text-neutral-400">{item.description}</p>
+							<p class="card-body font-semibold">{item.title}</p>
+							<p class="card-meta mt-2 text-neutral-500 dark:text-neutral-400">{item.description}</p>
 
 							<div class="mt-4 flex flex-wrap gap-2">
 								{item.tags
 									.filter((tag) => tag.active)
 									.map((tag) => (
-										<span class="rounded-full border border-neutral-200 px-3 py-1 text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:text-neutral-300">
+										<span
+											class:list={[
+												'card-meta rounded-full border border-neutral-200 px-3 py-1 font-medium text-neutral-600',
+												'dark:border-neutral-700 dark:text-neutral-300',
+											]}>
 											{tag.label}
 										</span>
 									))}
@@ -59,8 +63,7 @@ const activeItems = selectedWorkTeaser.items.filter((item) => item.active).sort(
 								href={item.href}
 								target={item.href.startsWith('http') ? '_blank' : undefined}
 								rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-								class="mt-4 text-xs font-semibold underline-offset-4 hover:underline"
-							>
+								class="card-meta mt-4 font-semibold underline-offset-4 hover:underline">
 								{item.linkLabel ?? 'Learn more'} →
 							</a>
 						)}

@@ -6,3 +6,44 @@
 @theme {
 	--font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
 }
+
+@layer components {
+	/* Shared "glass card" surface (border, background, blur, dark-mode
+	   trio) reused across IconCard, Fun, Me, SelectedWork, and Skills.
+	   Deliberately excludes radius/padding/interactivity — those still
+	   vary per usage and are added alongside this class. */
+	.card-surface {
+		@apply border border-neutral-200 bg-white/30 backdrop-blur-lg;
+		@apply dark:border-[#49618b52] dark:bg-[linear-gradient(145deg,#101d35d1,#081020e0)] dark:shadow-[inset_0_1px_#ffffff06,0_20px_60px_#00000029];
+	}
+
+	/* Small eyebrow label above a section heading (e.g. "Skills", "Contact").
+	   Shared across every homepage section's title. */
+	.section-label {
+		@apply text-xs font-semibold tracking-[0.18em] opacity-70;
+	}
+
+	/* Section heading shared across every homepage section title. mt-2 sets
+	   its spacing from .section-label above it - if a parent uses a flex
+	   gap (e.g. Me.astro), wrap the label+heading pair in their own div so
+	   this margin isn't added on top of the gap. */
+	.section-heading {
+		@apply mt-2 text-3xl leading-[1.15] font-bold tracking-tight text-balance sm:text-4xl;
+	}
+
+	/* The 3 font sizes used for text inside cards (Skills, Selected Work,
+	   About's stat cards, Contact) - size only, not weight/color, since
+	   those still vary by the text's role even within the same tier.
+	   card-title is the largest. Named by tier/size, not literal role - e.g.
+	   card-body is also used for actual titles (skill name, item title),
+	   and card-meta covers both descriptions and small secondary bits. */
+	.card-title {
+		@apply text-lg;
+	}
+	.card-body {
+		@apply text-base;
+	}
+	.card-meta {
+		@apply text-sm;
+	}
+}

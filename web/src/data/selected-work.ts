@@ -23,7 +23,7 @@ export const selectedWorkTeaser = {
 		{
 			title: 'Odoo Production Contributions',
 			description:
-				"Public, reviewed pull requests to Odoo's core codebase under @adns-odoo — ERP features, fixes, and production business logic.",
+				"Public, reviewed pull requests to Odoo's core codebase under @adns-odoo: ERP features, fixes, and production business logic.",
 			logo: '/work/odoo.png',
 			logoWidth: 300,
 			logoHeight: 131,

@@ -1,8 +1,7 @@
 ---
 import { funGallery } from '../../data/fun';
 
-const cardClass =
-	'relative flex w-full items-center justify-center overflow-hidden rounded-2xl border border-neutral-200 bg-white/30 backdrop-blur-lg dark:border-[#49618b52] dark:bg-[linear-gradient(145deg,#101d35d1,#081020e0)] dark:shadow-[inset_0_1px_#ffffff06,0_20px_60px_#00000029]';
+const cardClass = 'card-surface relative flex w-full items-center justify-center overflow-hidden rounded-2xl';
 
 // Mobile aspect ratio for each item's box. Originally derived from the
 // desktop grid cell shape (see the `.fun-item-N` rules below) at a uniform
@@ -35,8 +34,8 @@ const galleryEntries: GalleryEntry[] = [...activeItems.slice(0, 2), 'heading', .
 <section id="fun" class="flex min-h-screen flex-col justify-center px-6 py-16">
 	<div class="relative z-10 mx-auto w-full max-w-6xl">
 		<div class="fun-heading-top mb-10">
-			<span class="text-xs font-semibold tracking-[0.18em] opacity-70">{funGallery.label}</span>
-			<h2 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">{funGallery.heading}</h2>
+			<span class="section-label">{funGallery.label}</span>
+			<h2 class="section-heading">{funGallery.heading}</h2>
 		</div>
 
 		<div class="fun-grid columns-2 gap-4">
@@ -44,13 +43,12 @@ const galleryEntries: GalleryEntry[] = [...activeItems.slice(0, 2), 'heading', .
 				galleryEntries.map((entry) =>
 					entry === 'heading' ? (
 						<div class="fun-heading mb-4 flex-col items-center justify-center text-center" aria-hidden="true">
-							<span class="text-xs font-semibold tracking-[0.18em] opacity-70">{funGallery.label}</span>
-							<p class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">{funGallery.heading}</p>
+							<span class="section-label">{funGallery.label}</span>
+							<p class="section-heading">{funGallery.heading}</p>
 						</div>
 					) : (
 						<div
-							class={`${cardClass} fun-item-${entry.number} ${aspectByNumber[entry.number]} fun-box mb-4 break-inside-avoid`}
-						>
+							class={`${cardClass} fun-item-${entry.number} ${aspectByNumber[entry.number]} fun-box mb-4 break-inside-avoid`}>
 							{entry.type === 'video' && entry.video ? (
 								<video
 									class="fun-video h-full w-full object-cover"
@@ -70,7 +68,11 @@ const galleryEntries: GalleryEntry[] = [...activeItems.slice(0, 2), 'heading', .
 
 							{entry.type === 'video' && (
 								<span class="fun-play-icon absolute inset-0 flex items-center justify-center">
-									<span class="flex h-10 w-10 items-center justify-center rounded-full bg-black/50 text-base text-white backdrop-blur-sm">
+									<span
+										class:list={[
+											'flex h-10 w-10 items-center justify-center rounded-full bg-black/50 text-base text-white',
+											'backdrop-blur-sm',
+										]}>
 										▶
 									</span>
 								</span>

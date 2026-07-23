@@ -10,28 +10,22 @@ import { socialLinks } from '../../data/social';
 
 <section id="contact" class="flex min-h-screen flex-col justify-center px-6 py-16">
 	<div
-		class:list={[
-			'contact-card relative z-10 mx-auto flex w-full max-w-5xl flex-col overflow-hidden rounded-3xl border border-neutral-200 bg-white/60 shadow-sm',
-			'md:flex-row',
-			'dark:border-[#49618b52] dark:bg-[linear-gradient(160deg,#101d35d1,#081020e0)] dark:shadow-black/40',
-		]}>
+		class="card-surface contact-card relative z-10 mx-auto flex w-full max-w-5xl flex-col overflow-hidden rounded-3xl md:flex-row">
 		<div class="contact-glow" aria-hidden="true"></div>
 		<div class="contact-grid" aria-hidden="true"></div>
 
 		<div class="relative z-10 flex flex-1 flex-col justify-center p-8 md:p-12">
-			<span class="text-xs font-semibold tracking-[0.18em] opacity-70">{contact.label}</span>
+			<span class="section-label">{contact.label}</span>
 
-			<h2 class="mt-3 text-3xl leading-[1.15] font-bold tracking-tight text-balance sm:text-4xl">
-				{contact.heading}
-			</h2>
+			<h2 class="section-heading">{contact.heading}</h2>
 
-			<p class="mt-4 max-w-[36ch] text-[15px] leading-relaxed text-neutral-600 dark:text-neutral-300">
+			<p class="card-body mt-4 max-w-[36ch] leading-relaxed text-neutral-600 dark:text-neutral-300">
 				{contact.subtitle}
 			</p>
 
 			<div
 				class:list={[
-					'mt-6 inline-flex w-fit items-center gap-2 rounded-full border border-neutral-200 px-3 py-1.5 text-xs font-medium text-neutral-600',
+					'card-meta mt-6 inline-flex w-fit items-center gap-2 rounded-full border border-neutral-200 px-3 py-1.5 font-medium text-neutral-600',
 					'dark:border-neutral-700 dark:text-neutral-300',
 				]}>
 				<span class="relative flex h-2 w-2">
@@ -77,8 +71,8 @@ import { socialLinks } from '../../data/social';
 				</span>
 
 				<div class="relative z-10 flex flex-col">
-					<span class="text-sm font-semibold">{contact.location}</span>
-					<span class="font-mono text-xs text-neutral-500 dark:text-neutral-400">{contact.coordinates}</span>
+					<span class="card-body font-semibold">{contact.location}</span>
+					<span class="card-meta font-mono text-neutral-500 dark:text-neutral-400">{contact.coordinates}</span>
 				</div>
 			</div>
 
@@ -86,7 +80,7 @@ import { socialLinks } from '../../data/social';
 				class="flex items-center gap-2 rounded-full border border-neutral-200 py-1.5 pr-1.5 pl-4 dark:border-neutral-700">
 				<a
 					href={`mailto:${contact.email}`}
-					class="font-mono text-sm text-neutral-700 hover:underline dark:text-neutral-200">
+					class="card-body font-mono text-neutral-700 hover:underline dark:text-neutral-200">
 					{contact.email}
 				</a>
 				<button

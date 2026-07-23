@@ -100,7 +100,10 @@ content wrapper uses `relative z-10` so its content stacks above the fixed
 canvas (a fixed element always creates its own stacking context and paints
 above non-positioned content when `z-index` is left `auto`). Its color
 palettes live in `data/home.ts`'s `fluidThemes`, not hardcoded inline in the
-component.
+component. Transparent canvas (`TRANSPARENT: true`) so it inherits the
+page's dark/light background automatically instead of duplicating theme
+logic. No auto-splats (`INITIAL: false`, `SPLAT_KEY: ''`) — reacts to real
+mouse movement only, never fires on its own.
 
 ## TypeScript
 

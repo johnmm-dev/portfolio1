@@ -127,7 +127,8 @@ deeper content and SEO indexing.
     Contributions gets its own dedicated page too, linked from here)
   - Skills → "See more" → `/skills` (what he did with each skill, not just a tag list)
   - Fun → "See more" → `/fun`
-  - Contact — home section only, no dedicated page (it's already the terminal action)
+  - Contact — home section only, no dedicated page (it's already the terminal
+    action, and all the relevant info already lives on that one card)
 - Production Contributions (own page, linked from Selected Work)
 - Writing / Blog (own pages per post — required for content collections, can't be a
   scroll section)

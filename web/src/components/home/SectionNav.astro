@@ -1,4 +1,5 @@
 ---
+import HomeIcon from '../common/icons/HomeIcon.astro';
 import UserIcon from '../common/icons/UserIcon.astro';
 import FolderIcon from '../common/icons/FolderIcon.astro';
 import TerminalIcon from '../common/icons/TerminalIcon.astro';
@@ -15,23 +16,25 @@ const icons = {
 };
 
 const activeItems = hero.navItems.filter((item) => item.active);
+
+const linkClass =
+	'section-nav-link flex flex-col items-center gap-0.5 rounded-full px-3 py-1.5 text-[10px] font-medium text-neutral-500 transition active:scale-95 md:px-4 md:py-2 md:text-xs dark:text-neutral-400';
 ---
 
 <nav
 	id="section-nav"
 	aria-label="Quick navigation"
 	data-visible="false"
-	class="fixed inset-x-0 bottom-4 z-40 mx-auto flex w-fit gap-1 rounded-full border border-neutral-200 bg-white/70 px-2 py-2 shadow-lg backdrop-blur-lg md:bottom-6 md:gap-2 md:px-3 dark:border-[#49618b52] dark:bg-[linear-gradient(145deg,#101d35d1,#081020e0)] dark:shadow-[inset_0_1px_#ffffff06,0_20px_60px_#00000029]"
->
+	class="fixed inset-x-0 bottom-4 z-40 mx-auto flex w-fit gap-1 rounded-full border border-neutral-200 bg-white/70 px-2 py-2 shadow-lg backdrop-blur-lg md:bottom-6 md:gap-2 md:px-3 dark:border-[#49618b52] dark:bg-[linear-gradient(145deg,#101d35d1,#081020e0)] dark:shadow-[inset_0_1px_#ffffff06,0_20px_60px_#00000029]">
+	<a href="#hero" data-section-link="hero" class={linkClass}>
+		<HomeIcon color="#0EA5E9" />
+		<span>Home</span>
+	</a>
 	{
 		activeItems.map((item) => {
 			const Icon = icons[item.icon];
 			return (
-				<a
-					href={item.href}
-					data-section-link={item.href.replace('#', '')}
-					class="section-nav-link flex flex-col items-center gap-0.5 rounded-full px-3 py-1.5 text-[10px] font-medium text-neutral-500 transition active:scale-95 md:px-4 md:py-2 md:text-xs dark:text-neutral-400"
-				>
+				<a href={item.href} data-section-link={item.href.replace('#', '')} class={linkClass}>
 					<Icon color={item.color} />
 					<span>{item.label}</span>
 				</a>

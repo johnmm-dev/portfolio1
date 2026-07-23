@@ -107,3 +107,28 @@ component.
 - Astro's `astro/tsconfigs/strict` preset is used as-is.
 - Component inputs are typed via a local `interface Props`.
 - Content data files export typed consts (e.g. `NavItem[]`, `FluidTheme`).
+
+## Prettier: `bracketSameLine`
+
+`.prettierrc.json` sets `bracketSameLine: true`, so a multi-line tag's closing
+`>` sits on the same line as its last attribute instead of getting its own
+line — one fewer line per wrapped tag, with no effect on rendering (`class`
+attribute values are just whitespace-normalized strings either way).
+
+## Long `class` lists: `class:list`
+
+Only for `class` strings long enough to force an ugly attribute wrap (roughly
+over ~120 chars), use Astro's `class:list={[...]}` directive instead of a
+single `class="..."` string, splitting the array into logical groups (base
+utilities, `md:` overrides, `dark:` overrides, state variants). Prettier then
+wraps each array element onto its own line regardless of `printWidth`, which
+reads far better than one giant wrapped string — and `prettier-plugin-tailwindcss`
+still sorts the classes inside each array element. Short `class` strings stay
+as plain `class="..."` — this isn't a wholesale replacement of `class`.
+
+**Caveat:** running `prettier --write` on a file that mixes a multi-line
+`class:list` array with a self-closing child tag (e.g. `<GithubIcon />`) has
+been observed to corrupt the markup — dropping the tag's closing `>`, losing
+the child's `/>`, and misplacing a `</div>`. Always diff (or rebuild/re-check)
+after formatting a file that uses `class:list`, rather than trusting the
+formatter blindly.

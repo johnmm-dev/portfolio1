@@ -1,0 +1,14 @@
+---
+import IconBase from './IconBase.astro';
+
+interface Props {
+	color?: string;
+	size?: number;
+}
+
+const { color, size } = Astro.props;
+---
+
+<IconBase color={color} size={size}>
+	<path d="M20 6 9 17l-5-5"></path>
+</IconBase>

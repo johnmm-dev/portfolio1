@@ -10,7 +10,9 @@ export interface NavItem {
 
 // Inactive items still show up locally under `npm run dev` so they can be
 // previewed before flipping `active` to true; the production build excludes
-// them entirely.
+// them from nav rendering (this only hides the nav link and homepage
+// section, not the page route itself, which still builds and is reachable
+// directly, just unlinked and excluded from the sitemap, see astro.config.mjs).
 export const isNavItemVisible = (item: NavItem) => item.active || import.meta.env.DEV;
 
 // Exported on its own so other files (the homepage Writing section, the

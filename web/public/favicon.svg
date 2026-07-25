@@ -1,14 +1,65 @@
-<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <title>Adnan programmer favicon</title>
-  <g id="Adnan-Favicon-A-Code-Chevron">
-    <path d="M84 420L211 92H278L173 420H84Z"/>
-    <path d="M250 92L438 256L250 420H345L470 306C501 278 501 234 470 206L345 92H250Z"/>
-    <path d="M184 282H329L285 338H162L184 282Z"/>
-  </g>
-  <style>
-    #Adnan-Favicon-A-Code-Chevron { fill: #6d28d9; }
-    @media (prefers-color-scheme: dark) {
-      #Adnan-Favicon-A-Code-Chevron { fill: #c4b5fd; }
-    }
-  </style>
+<svg width="512" height="512" viewBox="111 50 290 290" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<title>Adnan Sabbir</title>
+
+	<g id="tech-halo" fill="none" stroke-linecap="round" stroke-linejoin="round">
+		<path d="M92 273C83 188 132 111 206 82" stroke="#7C3AED" stroke-width="9"></path>
+		<path d="M306 78C378 99 428 163 426 240" stroke="#22D3EE" stroke-width="9"></path>
+		<path d="M91 204H67V179H48" stroke="#22D3EE" stroke-width="7"></path>
+		<path d="M420 278H445V303H464" stroke="#7C3AED" stroke-width="7"></path>
+		<circle cx="48" cy="179" r="8" fill="#22D3EE" stroke="none"></circle>
+		<circle cx="464" cy="303" r="8" fill="#7C3AED" stroke="none"></circle>
+		<circle cx="214" cy="79" r="7" fill="#7C3AED" stroke="none"></circle>
+		<circle cx="299" cy="76" r="7" fill="#22D3EE" stroke="none"></circle>
+	</g>
+
+	<g id="cyber-head" stroke="#0B1020" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+		<path
+			d="M178 183C178 130 211 102 256 102C301 102 334 130 334 183V244C334 293 302 324 256 324C210 324 178 293 178 244V183Z"
+			fill="#D89569"></path>
+		<path
+			d="M181 244C190 291 215 315 256 315C297 315 322 291 331 244L312 273L288 289L256 297L224 289L200 273L181 244Z"
+			fill="#C27B57"
+			stroke="none"></path>
+		<path d="M206 269L221 287L256 299L291 287L306 269" fill="none" stroke="#8C4E38" stroke-width="7"></path>
+		<path d="M238 284C248 290 264 290 274 284" fill="none" stroke="#713C31" stroke-width="7"></path>
+	</g>
+
+	<g id="cyber-hair" stroke="#0B1020" stroke-width="9" stroke-linejoin="round">
+		<path
+			d="M177 189C160 163 170 125 195 105C197 86 208 70 225 59L232 91C244 77 257 68 274 61L270 93C288 80 306 77 325 80L314 108C340 126 347 160 333 190L318 160L292 143L258 151L222 143L194 163L177 189Z"
+			fill="#121A2B"></path>
+		<path d="M205 111C234 130 279 130 308 109" fill="none" stroke="#33415F" stroke-width="8"></path>
+		<path d="M226 91L239 119M275 93L265 123M314 108L291 132" fill="none" stroke="#7C3AED" stroke-width="6"></path>
+	</g>
+
+	<g id="robot-ears" stroke="#0B1020" stroke-width="9" stroke-linejoin="round">
+		<path d="M172 191H156L143 210V246L159 260H179V191H172Z" fill="#263451"></path>
+		<path d="M340 191H356L369 210V246L353 260H333V191H340Z" fill="#263451"></path>
+		<rect x="147" y="213" width="24" height="26" rx="8" fill="#7C3AED" stroke="none"></rect>
+		<rect x="341" y="213" width="24" height="26" rx="8" fill="#22D3EE" stroke="none"></rect>
+	</g>
+
+	<g id="luminous-visor" stroke-linecap="round" stroke-linejoin="round">
+		<path
+			d="M170 190L193 174H319L342 190L333 239L310 253H202L179 239L170 190Z"
+			fill="#0A1020"
+			stroke="#0B1020"
+			stroke-width="10"></path>
+		<path
+			d="M189 197L204 187H308L323 197L317 225L302 236H210L195 225L189 197Z"
+			fill="#12213A"
+			stroke="#22D3EE"
+			stroke-width="7"></path>
+		<path d="M204 211H238L249 221H263L274 211H308" stroke="#67E8F9" stroke-width="8"></path>
+		<circle cx="256" cy="220" r="5" fill="#7C3AED"></circle>
+		<path d="M205 194L221 232" stroke="#A5F3FC" stroke-width="6" opacity="0.65"></path>
+		<path d="M281 191L300 235" stroke="#A5F3FC" stroke-width="5" opacity="0.35"></path>
+	</g>
+
+	<g id="facial-circuits" fill="none" stroke-linecap="round" stroke-linejoin="round">
+		<path d="M198 258H211L223 270" stroke="#7C3AED" stroke-width="6"></path>
+		<path d="M314 258H301L289 270" stroke="#22D3EE" stroke-width="6"></path>
+		<circle cx="195" cy="258" r="5" fill="#7C3AED" stroke="none"></circle>
+		<circle cx="317" cy="258" r="5" fill="#22D3EE" stroke="none"></circle>
+	</g>
 </svg>

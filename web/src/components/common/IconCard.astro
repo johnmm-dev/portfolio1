@@ -4,6 +4,7 @@ import FolderIcon from './icons/FolderIcon.astro';
 import TerminalIcon from './icons/TerminalIcon.astro';
 import StarIcon from './icons/StarIcon.astro';
 import SendIcon from './icons/SendIcon.astro';
+import PenIcon from './icons/PenIcon.astro';
 import type { NavItem } from '../../data/home';
 
 const icons = {
@@ -12,6 +13,7 @@ const icons = {
 	terminal: TerminalIcon,
 	star: StarIcon,
 	send: SendIcon,
+	pen: PenIcon,
 };
 
 type Props = Omit<NavItem, 'active'>;
@@ -24,7 +26,7 @@ const Icon = icons[icon];
 	href={href}
 	class:list={[
 		'card-surface flex w-full items-center gap-3 rounded-2xl px-4 py-4 transition active:scale-95',
-		'sm:aspect-square sm:w-28 sm:flex-col sm:justify-center sm:gap-1 sm:px-0 sm:py-6',
+		'sm:aspect-square sm:w-20 sm:flex-col sm:justify-center sm:gap-1 sm:px-0 sm:py-6 md:w-24 lg:w-28',
 	]}>
 	<Icon color={color} />
 	<span class="text-base font-medium">{label}</span>

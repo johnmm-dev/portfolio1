@@ -1,4 +1,4 @@
-export type IconName = 'user' | 'folder' | 'terminal' | 'star' | 'send';
+export type IconName = 'user' | 'folder' | 'terminal' | 'star' | 'send' | 'pen';
 
 export interface NavItem {
 	label: string;
@@ -7,6 +7,23 @@ export interface NavItem {
 	color: string;
 	active: boolean;
 }
+
+// Inactive items still show up locally under `npm run dev` so they can be
+// previewed before flipping `active` to true; the production build excludes
+// them entirely.
+export const isNavItemVisible = (item: NavItem) => item.active || import.meta.env.DEV;
+
+// Exported on its own so other files (the homepage Writing section, the
+// sitemap filter) can reference this exact item directly instead of
+// searching `navItems` by label, which would silently break if the label's
+// display text ever changed.
+export const writingNavItem: NavItem = {
+	label: 'Writing',
+	href: '#writing',
+	icon: 'pen',
+	color: '#0891B2',
+	active: false,
+};
 
 export const hero = {
 	greeting: "Hey, I'm Adnan 👋",
@@ -17,6 +34,7 @@ export const hero = {
 		{ label: 'Projects', href: '#projects', icon: 'folder', color: '#059669', active: true },
 		{ label: 'Skills', href: '#skills', icon: 'terminal', color: '#7C3AED', active: true },
 		{ label: 'Fun', href: '#fun', icon: 'star', color: '#DB2777', active: true },
+		writingNavItem,
 		{ label: 'Contact', href: '#contact', icon: 'send', color: '#D97706', active: true },
 	] satisfies NavItem[],
 };

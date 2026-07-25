@@ -1,0 +1,60 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { isPostVisible } from '../../content.config';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog', isPostVisible);
+	return posts.map((post) => ({
+		params: { slug: post.id },
+		props: { post },
+	}));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout title={`${post.data.title} — Adnan Sabbir`} description={post.data.description}>
+	<article class="mx-auto max-w-3xl px-6 py-16">
+		<div class="flex gap-4">
+			<a href="/" class="card-meta font-semibold underline-offset-4 hover:underline">← Home</a>
+			<a href="/writing" class="card-meta font-semibold underline-offset-4 hover:underline">All posts</a>
+		</div>
+
+		<p class="card-meta mt-6 text-neutral-500 dark:text-neutral-400">
+			{
+				post.data.pubDate.toLocaleDateString('en-US', {
+					year: 'numeric',
+					month: 'long',
+					day: 'numeric',
+				})
+			}
+		</p>
+		<h1 class="section-heading">{post.data.title}</h1>
+
+		<div class="post-content mt-8">
+			<Content />
+		</div>
+	</article>
+</Layout>
+
+<style>
+	.post-content :global(p) {
+		margin-top: 1.25em;
+		line-height: 1.75;
+	}
+	.post-content :global(h2) {
+		margin-top: 2em;
+		font-size: 1.5rem;
+		font-weight: 700;
+	}
+	.post-content :global(ul),
+	.post-content :global(ol) {
+		margin-top: 1.25em;
+		padding-left: 1.5em;
+	}
+	.post-content :global(li) {
+		margin-top: 0.5em;
+	}
+</style>

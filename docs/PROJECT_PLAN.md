@@ -44,11 +44,13 @@ the original plan but is no longer intended.
     dedicated page, linked directly from this section)
   - Skills
   - Fun
+  - Writing — teaser section listing the latest posts, linking out to `/writing`
+    for the full list (same pattern as Selected Work → Production Contributions)
   - Contact — home section only, no dedicated page (it's already the terminal
     action, and all the relevant info already lives on that one card)
 - Production Contributions (own page, linked from the Selected Work section)
-- Writing / Blog (own pages per post — required for content collections, can't be a
-  scroll section)
+- Writing / Blog (own pages per post, required for content collections; the
+  homepage Writing section is just a teaser, not a substitute)
 
 Quick-nav pills on the hero jump to each home section; a floating nav bar
 appears/updates to show the current section once scrolled past the hero

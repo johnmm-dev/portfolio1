@@ -5,7 +5,8 @@ import FolderIcon from '../common/icons/FolderIcon.astro';
 import TerminalIcon from '../common/icons/TerminalIcon.astro';
 import StarIcon from '../common/icons/StarIcon.astro';
 import SendIcon from '../common/icons/SendIcon.astro';
-import { hero } from '../../data/home';
+import PenIcon from '../common/icons/PenIcon.astro';
+import { hero, isNavItemVisible } from '../../data/home';
 
 const icons = {
 	user: UserIcon,
@@ -13,9 +14,10 @@ const icons = {
 	terminal: TerminalIcon,
 	star: StarIcon,
 	send: SendIcon,
+	pen: PenIcon,
 };
 
-const activeItems = hero.navItems.filter((item) => item.active);
+const activeItems = hero.navItems.filter(isNavItemVisible);
 
 const linkClass =
 	'section-nav-link flex flex-col items-center gap-0.5 rounded-full px-3 py-1.5 text-[10px] font-medium text-neutral-500 transition active:scale-95 md:px-4 md:py-2 md:text-xs dark:text-neutral-400';

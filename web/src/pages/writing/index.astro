@@ -1,8 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import { writingTeaser } from '../../data/writing';
-import { isPostVisible } from '../../content.config';
+import Layout from '@/layouts/Layout.astro';
+import { writingTeaser } from '@/data/writing';
+import { isPostVisible } from '@/content.config';
 
 const posts = (await getCollection('blog', isPostVisible)).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),

@@ -111,6 +111,17 @@ mouse movement only, never fires on its own.
 - Component inputs are typed via a local `interface Props`.
 - Content data files export typed consts (e.g. `NavItem[]`, `FluidTheme`).
 
+## Import alias: `@/*`
+
+`tsconfig.json` maps `@/*` to `src/*` (Astro resolves this natively, no
+extra Vite config needed, including inside client-side `<script>` blocks).
+Any import that crosses up out of the current directory (`../`) uses `@/...`
+instead, e.g. `import { hero } from '@/data/home'` rather than
+`'../../data/home'` — the exact prefix depth otherwise silently breaks when a
+file moves. Imports that stay within the same directory or a direct child
+(`./icons/GithubIcon.astro`) stay relative; this isn't a wholesale ban on
+relative imports, just on parent-traversing ones.
+
 ## Prettier: `bracketSameLine`
 
 `.prettierrc.json` sets `bracketSameLine: true`, so a multi-line tag's closing

@@ -1,8 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
-import { writingTeaser } from '../../data/writing';
-import { writingNavItem, isNavItemVisible } from '../../data/home';
-import { isPostVisible } from '../../content.config';
+import { writingTeaser } from '@/data/writing';
+import { writingNavItem, isNavItemVisible } from '@/data/home';
+import { isPostVisible } from '@/content.config';
 
 const isActive = isNavItemVisible(writingNavItem);
 

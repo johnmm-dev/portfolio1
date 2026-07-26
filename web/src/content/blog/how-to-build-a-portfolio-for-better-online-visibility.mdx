@@ -1,0 +1,268 @@
+---
+title: 'How to Build a Portfolio for Better Online Visibility'
+description: 'A practical guide to making a portfolio easier for search engines to discover without sacrificing design, speed, or usability.'
+pubDate: 2026-07-26
+tags: ['career', 'developerTools', 'technicalWriting']
+draft: true
+seriesInfo:
+  slug: 'building-a-portfolio'
+  name: 'Building a Portfolio'
+  part: 2
+thumbnail: 'how-to-build-a-portfolio-for-better-online-visibility.jpg'
+---
+
+A portfolio can look impressive and still remain almost invisible online.
+
+Animations, polished layouts, and interactive effects matter after someone reaches the website. They do not help much when search engines cannot discover the pages, understand the content, or connect the site with relevant searches.
+
+The opposite approach is not ideal either. A technically optimized portfolio that feels generic, slow, or difficult to use may appear in search but fail to leave an impression on the person who opens it.
+
+A useful portfolio has to work for both audiences.
+
+Search engines need clear content, accessible pages, and understandable structure. Human visitors need speed, clarity, personality, and a reason to remember the site.
+
+This article covers the practical decisions that help a portfolio serve both audiences and improve its online visibility.
+
+For the story behind building and finally publishing this portfolio, see [How I Finally Built My Portfolio](/writing/how-i-finally-built-my-portfolio).
+
+## Decide what the portfolio should communicate
+
+Before choosing a framework or thinking about search engine optimization, decide what the site should help people understand.
+
+A portfolio cannot communicate every skill, project, and interest with equal importance.
+
+For my site, the main purpose is to present my software engineering experience, the systems I have worked on, selected projects, and the subjects I write about.
+
+That decision affects the structure of the website.
+
+A visitor should not need to study the interface to understand who I am. The important information should be visible through clear text, headings, navigation, and links.
+
+Search engines need the same clarity.
+
+If the page only contains vague phrases such as "building great products" or "creating innovative solutions," there is very little concrete information to understand.
+
+Specific content is more useful:
+
+- The type of engineering work you do
+- The industries or systems you have worked with
+- The projects you have built
+- The problems you write about
+- The way someone can contact you
+
+The first step toward visibility is not adding keywords everywhere. It is clearly explaining what the site represents.
+
+## Give important subjects their own pages
+
+It is common to place an entire portfolio on one long homepage.
+
+That can create a smooth browsing experience, but it also means every subject is competing inside the same page.
+
+A single homepage cannot provide enough detail about every project, article, and area of experience.
+
+Important subjects should have their own stable pages where possible.
+
+For example:
+
+- A writing page can list published articles.
+- Each article can have its own URL.
+- A project can have a dedicated case study.
+- An experience page can provide more context than a short homepage summary.
+
+Each page gives search engines a focused piece of content to understand.
+
+It also gives visitors a link they can save, share, or send to someone else.
+
+A title such as `My Project` gives very little context. Something like `Building BRACU Duburi, an Autonomous Underwater Robot` makes the subject immediately clear.
+
+The goal is not to create a separate page for every sentence. It is to give meaningful topics enough space to stand on their own.
+
+## Make the main content available in HTML
+
+A portfolio is usually a content-focused website. Its experience, projects, biography, and articles change only when the owner updates them.
+
+Static generation is therefore a good fit. This portfolio uses Astro, which generates static pages by default, so the important headings, paragraphs, and links are already present in the HTML sent to the browser.
+
+Search engines can process JavaScript, and frameworks such as React or Angular can also produce searchable websites. The framework name alone does not determine whether a site is visible.
+
+What matters is the result.
+
+The essential content should not depend on a complicated client-side process before it becomes readable.
+
+Static generation was a good fit for my portfolio because it gave me a simple and predictable output. It does not guarantee a better ranking, but it removes an unnecessary layer between the content and the search engine.
+
+## Use clear titles, descriptions, and headings
+
+Every important page should explain its purpose directly.
+
+The page title should describe the actual subject. The description should summarize what a visitor will find there.
+
+The same principle applies to headings.
+
+Headings should organize the page and help readers scan it. They should not be decorative phrases that only make sense after reading several paragraphs.
+
+Clear wording helps both audiences:
+
+- Visitors can quickly decide whether the page is relevant.
+- Search engines receive stronger context about the page.
+
+Metadata should stay honest. Adding unrelated technologies or exaggerated claims may attract the wrong visitor and weaken the credibility of the site.
+
+## Help search engines find every public page
+
+A sitemap is simply a file that lists the public pages on a website.
+
+Think of it as a directory you hand to a search engine. It says, "These are the pages on my site that I want you to know about."
+
+Without one, search engines can still find pages by following links. A sitemap makes that process easier, especially for a new portfolio that does not yet have many other websites linking to it.
+
+My portfolio generates a sitemap automatically.
+
+For most portfolio owners, the important steps are simple:
+
+- Generate a sitemap.
+- Include the pages that are ready for visitors.
+- Make sure the links use the real production domain.
+- Submit the sitemap through Google Search Console.
+
+A sitemap does not guarantee that a page will appear in search results. It only helps search engines discover what exists.
+
+The page still needs useful content before it has a reason to be indexed or shown.
+
+## Optimize images before publishing them
+
+Images can make a portfolio more convincing, but they are also one of the easiest ways to make it slow.
+
+A project screenshot exported directly from a design tool or phone can be several megabytes. Loading multiple large images can delay the page, especially on mobile connections.
+
+Before adding an image, I would check:
+
+- Does it need to be this large?
+- Can it use a modern format such as WebP or AVIF?
+- Can it be compressed without an obvious loss of quality?
+- Does the page load a smaller version on smaller screens?
+- Is the image below the visible area loaded only when needed?
+
+An image should also have useful alternative text when it communicates information.
+
+For example, `project screenshot` is not very helpful. A description such as `Dashboard showing freight audit exceptions grouped by status` gives more context.
+
+Decorative images do not need detailed descriptions. The text should explain what the image contributes, not repeat the file name.
+
+## Make the portfolio load quickly
+
+Visitors do not separate performance from design.
+
+A beautiful portfolio that takes too long to become usable feels poorly designed.
+
+Large scripts, unoptimized images, heavy fonts, and unnecessary animations can all slow down the first visit. This matters even more on mobile devices and weaker connections.
+
+My homepage includes a fluid WebGL animation. It gives the site personality and creates a stronger first impression, but it should remain an enhancement.
+
+The important content cannot depend on it.
+
+My name, navigation, experience, and writing should still be available if the animation loads slowly or fails completely.
+
+When reviewing a portfolio, I would check:
+
+- How quickly the main text appears
+- Whether the page becomes interactive without delay
+- Whether the layout moves while loading
+- Whether large effects block scrolling or navigation
+- Whether unnecessary JavaScript is being sent
+- Whether fonts and images are delaying the first screen
+
+The goal is not to remove everything interesting. It is to make sure each visual feature provides enough value to justify its cost.
+
+## Design for different screen sizes
+
+A portfolio is not only viewed on a laptop.
+
+Someone may open it from a phone after seeing a shared link, scanning a QR code, reading a message, or searching for your name.
+
+A responsive portfolio should adapt without requiring the visitor to zoom, rotate the device, or fight with the navigation.
+
+Important checks include:
+
+- Text remains readable on small screens.
+- Buttons and links are easy to tap.
+- Navigation does not cover the content.
+- Images do not overflow the page.
+- Code blocks and long URLs can be read or scrolled.
+- Animations do not make mobile devices struggle.
+- The most important information appears early.
+
+Responsiveness is not an extra feature. It is part of the basic experience.
+
+It also prevents a situation where the desktop portfolio looks polished while the version most people first encounter feels unfinished.
+
+## Publish content around focused subjects
+
+A homepage may help someone find a portfolio by searching for the owner's name.
+
+Articles provide more ways to be discovered.
+
+A detailed article about a backend problem contains more useful context than listing `backend engineering` inside a skills section. It can answer a specific question, attract a relevant reader, and show how the author thinks.
+
+I plan to write mainly about backend engineering, system design, developer tooling, and selected experiences outside work.
+
+The goal is not to publish unrelated articles only to attract search traffic.
+
+The goal is to build a useful body of writing around subjects I genuinely understand or experience.
+
+Over time, those pages give search engines more context about the site and give readers more reasons to return.
+
+## Start with a simple publishing system
+
+I use MDX for the writing section.
+
+Each article is stored as a file with frontmatter and Markdown content. Astro converts it into a static page when the website is built.
+
+I could have started by building a backend, API, database, administration interface, comments system, and engagement features.
+
+None of those systems was necessary for publishing a readable article.
+
+A sophisticated content platform with no content does not improve visibility.
+
+The simplest system that makes publishing reliable is usually the better starting point. A backend, validation layer, or administration interface can be added later when the number of articles and publishing requirements justify it.
+
+## Verify what search engines can see
+
+Publishing the portfolio is only the beginning.
+
+Google Search Console can help verify:
+
+- Whether the sitemap was processed
+- Whether important pages were discovered
+- Whether pages were indexed
+- Whether crawling problems exist
+- Which searches produce impressions
+- Which pages receive clicks
+
+This information is more useful than assuming that everything works because the site is online.
+
+If an important page is not indexed, investigate the reason. If the page appears for an unexpected search, review its wording and structure. If one article receives impressions but visitors cannot find related work, improve the internal links.
+
+Search visibility should be improved using evidence rather than guesswork.
+
+## Build for both audiences
+
+A visible portfolio is not created by one framework, one metadata tag, or one sitemap.
+
+It develops from several decisions working together:
+
+- Clear and specific content
+- Focused pages with stable URLs
+- Accessible HTML
+- Useful titles and descriptions
+- A sitemap that lists the public pages
+- Optimized images
+- Fast loading
+- Responsive design
+- Writing around relevant subjects
+- Verification through search tools
+
+The technical structure helps search engines discover and understand the website.
+
+The design, speed, and usability help people trust, enjoy, and remember it.
+
+A good portfolio should serve both audiences: make its important information easy for search engines to discover and make that information useful enough for people to remember.

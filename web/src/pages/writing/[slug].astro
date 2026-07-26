@@ -2,41 +2,134 @@
 import { getCollection, render } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import { isPostVisible } from '@/content.config';
+import { tags } from '@/data/tags';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog', isPostVisible);
-	return posts.map((post) => ({
-		params: { slug: post.id },
-		props: { post },
-	}));
+
+	return posts.map((post) => {
+		const seriesParts = post.data.seriesInfo
+			? posts
+					.filter((p) => p.data.seriesInfo?.slug === post.data.seriesInfo?.slug)
+					.sort((a, b) => a.data.seriesInfo!.part - b.data.seriesInfo!.part)
+			: [];
+		const currentIndex = seriesParts.findIndex((p) => p.id === post.id);
+		const prevPart = currentIndex > 0 ? seriesParts[currentIndex - 1] : null;
+		const nextPart = currentIndex >= 0 && currentIndex < seriesParts.length - 1 ? seriesParts[currentIndex + 1] : null;
+
+		const seriesIds = new Set(seriesParts.map((p) => p.id));
+		const relatedPosts = posts
+			.filter((p) => p.id !== post.id && !seriesIds.has(p.id))
+			.map((p) => ({
+				post: p,
+				sharedTags: p.data.tags.filter((tag) => post.data.tags.includes(tag)).length,
+			}))
+			.filter((entry) => entry.sharedTags > 0)
+			.sort((a, b) => b.sharedTags - a.sharedTags || b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf())
+			.slice(0, 5)
+			.map((entry) => entry.post);
+
+		return {
+			params: { slug: post.id },
+			props: { post, prevPart, nextPart, relatedPosts },
+		};
+	});
 }
 
-const { post } = Astro.props;
+const { post, prevPart, nextPart, relatedPosts } = Astro.props;
 const { Content } = await render(post);
+const seriesName = post.data.seriesInfo?.name;
+const prevPartNumber = prevPart?.data.seriesInfo?.part;
+const nextPartNumber = nextPart?.data.seriesInfo?.part;
+const hasOtherParts = Boolean(seriesName) && (prevPartNumber !== undefined || nextPartNumber !== undefined);
+const hasRelated = relatedPosts.length > 0;
+const postTags = post.data.tags.map((key) => tags[key]).filter((tag) => tag.active);
 ---
 
-<Layout title={`${post.data.title} — Adnan Sabbir`} description={post.data.description}>
-	<article class="mx-auto max-w-3xl px-6 py-16">
-		<div class="flex gap-4">
-			<a href="/" class="card-meta font-semibold underline-offset-4 hover:underline">← Home</a>
-			<a href="/writing" class="card-meta font-semibold underline-offset-4 hover:underline">All posts</a>
-		</div>
+<Layout
+	title={`${post.data.title} — Adnan Sabbir`}
+	description={post.data.description}
+	image={post.data.thumbnail ? `/blog/${post.data.thumbnail}` : undefined}
+	type="article"
+	pubDate={post.data.pubDate}>
+	<div class="mx-auto grid max-w-5xl gap-10 px-6 py-16 lg:grid-cols-[1fr_300px]">
+		<article>
+			<div class="flex gap-4">
+				<a href="/" class="card-meta font-semibold underline-offset-4 hover:underline">← Home</a>
+				<a href="/writing" class="card-meta font-semibold underline-offset-4 hover:underline">All posts</a>
+			</div>
 
-		<p class="card-meta mt-6 text-neutral-500 dark:text-neutral-400">
+			<p class="card-meta mt-6 text-neutral-500 dark:text-neutral-400">
+				{
+					post.data.pubDate.toLocaleDateString('en-US', {
+						year: 'numeric',
+						month: 'long',
+						day: 'numeric',
+					})
+				}
+			</p>
+			<h1 class="section-heading">{post.data.title}</h1>
+
 			{
-				post.data.pubDate.toLocaleDateString('en-US', {
-					year: 'numeric',
-					month: 'long',
-					day: 'numeric',
-				})
+				postTags.length > 0 && (
+					<div class="mt-4 flex flex-wrap gap-2">
+						{postTags.map((tag) => (
+							<span
+								class:list={[
+									'card-meta rounded-full border border-neutral-200 px-3 py-1 font-medium text-neutral-600',
+									'dark:border-neutral-700 dark:text-neutral-300',
+								]}>
+								{tag.label}
+							</span>
+						))}
+					</div>
+				)
 			}
-		</p>
-		<h1 class="section-heading">{post.data.title}</h1>
 
-		<div class="post-content mt-8">
-			<Content />
-		</div>
-	</article>
+			<div class="post-content mt-8">
+				<Content />
+			</div>
+		</article>
+
+		{
+			(hasOtherParts || hasRelated) && (
+				<aside class="flex flex-col gap-6 lg:sticky lg:top-6 lg:self-start">
+					{hasOtherParts && (
+						<div class="card-surface rounded-2xl p-6">
+							<p class="card-title font-semibold">Other Parts of {seriesName}</p>
+							<div class="mt-4 flex flex-col gap-4">
+								{prevPart && prevPartNumber !== undefined && (
+									<a href={`/writing/${prevPart.id}`} class="block">
+										<span class="card-meta block text-neutral-500 dark:text-neutral-400">← Part {prevPartNumber}</span>
+										<span class="card-body block font-medium hover:underline">{prevPart.data.title}</span>
+									</a>
+								)}
+								{nextPart && nextPartNumber !== undefined && (
+									<a href={`/writing/${nextPart.id}`} class="block">
+										<span class="card-meta block text-neutral-500 dark:text-neutral-400">Part {nextPartNumber} →</span>
+										<span class="card-body block font-medium hover:underline">{nextPart.data.title}</span>
+									</a>
+								)}
+							</div>
+						</div>
+					)}
+
+					{hasRelated && (
+						<div class="card-surface rounded-2xl p-6">
+							<p class="card-title font-semibold">Related Writings</p>
+							<div class="mt-4 flex flex-col gap-3">
+								{relatedPosts.map((related) => (
+									<a href={`/writing/${related.id}`} class="card-body block font-medium hover:underline">
+										{related.data.title}
+									</a>
+								))}
+							</div>
+						</div>
+					)}
+				</aside>
+			)
+		}
+	</div>
 </Layout>
 
 <style>

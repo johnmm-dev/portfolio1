@@ -24,7 +24,7 @@ export const writingNavItem: NavItem = {
 	href: '#writing',
 	icon: 'pen',
 	color: '#0891B2',
-	active: false,
+	active: true,
 };
 
 export const hero = {

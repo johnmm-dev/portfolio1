@@ -47,7 +47,7 @@ const postTags = post.data.tags.map((key) => tags[key]).filter((tag) => tag.acti
 ---
 
 <Layout
-	title={`${post.data.title} — Adnan Sabbir`}
+	title={post.data.title}
 	description={post.data.description}
 	image={post.data.thumbnail ? `/blog/${post.data.thumbnail}` : undefined}
 	type="article"

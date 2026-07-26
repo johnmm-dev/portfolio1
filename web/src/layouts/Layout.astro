@@ -6,12 +6,15 @@ import { socialLinks } from '@/data/social';
 interface Props {
 	title: string;
 	description: string;
+	image?: string;
+	type?: 'website' | 'article';
+	pubDate?: Date;
 }
 
-const { title, description } = Astro.props;
+const { title, description, image = 'og-image.jpg', type = 'website', pubDate } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const ogImageURL = new URL('og-image.jpg', Astro.site);
+const ogImageURL = new URL(image, Astro.site);
 
 const personSchema = {
 	'@context': 'https://schema.org',
@@ -24,6 +27,19 @@ const personSchema = {
 		.filter((link) => link.active)
 		.map((link) => link.href),
 };
+
+const articleSchema =
+	type === 'article' && pubDate
+		? {
+				'@context': 'https://schema.org',
+				'@type': 'Article',
+				headline: title,
+				description,
+				image: ogImageURL,
+				datePublished: pubDate.toISOString(),
+				author: { '@type': 'Person', name: 'Adnan Sabbir', url: Astro.site },
+			}
+		: null;
 ---
 
 <!doctype html>
@@ -45,7 +61,7 @@ const personSchema = {
 		<meta name="description" content={description} />
 		<link rel="canonical" href={canonicalURL} />
 
-		<meta property="og:type" content="website" />
+		<meta property="og:type" content={type} />
 		<meta property="og:site_name" content="Adnan Sabbir" />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
@@ -60,6 +76,7 @@ const personSchema = {
 		<meta name="twitter:image" content={ogImageURL} />
 
 		<script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+		{articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}
 	</head>
 	<body
 		class:list={[

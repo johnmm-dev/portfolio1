@@ -4,6 +4,8 @@ Personal portfolio and technical writing site for Adnan Sabbir, a backend-focuse
 software engineer at Odoo R&D working on ERP localization, e-invoicing, compliance
 flows, developer tooling, and product engineering.
 
+**Live at [adnansabbir.com](https://adnansabbir.com)**
+
 ## Why this exists
 
 GitHub already hosts a broad, exploratory mix of personal projects, learning notes,
@@ -22,7 +24,27 @@ reviewed pull requests under the `@adns-odoo` account.
 - Long-form technical writing on ERP localization, e-invoicing, and backend
   engineering practice
 
+## Tech stack
+
+- [Astro](https://astro.build) + Tailwind CSS, static-first, deployed to GitHub
+  Pages
+- Blog content managed in [Sanity Studio](https://www.sanity.io/) and fetched
+  at build time, not hand-authored as local files
+- TypeScript throughout
+
+## Repo layout
+
+```
+my-portfolio/
+├── docs/     working style, content strategy, code/commit conventions
+├── studio/   Sanity Studio, the blog's content management system
+└── web/      the Astro site itself
+```
+
+See `CLAUDE.md` for full repo orientation and commands.
+
 ## Status
 
-Actively being built, section by section. This README will be updated as the site
-grows.
+Homepage is complete and live: Hero, Me, Selected Work, Skills, Fun, and Contact.
+The Writing section is also live, backed by Sanity for content. A dedicated
+Production Contributions page is still in progress.

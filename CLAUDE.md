@@ -27,7 +27,7 @@ This is a monorepo-in-waiting — a backend is planned for later.
 my-portfolio/
 ├── CLAUDE.md   ← this file (repo orientation only, see "Documentation map" above)
 ├── docs/        ← working style, content strategy, code/commit conventions
-├── studio/      ← Sanity Studio (blog CMS, mid-migration — see docs/SANITY_MIGRATION.md)
+├── studio/      ← Sanity Studio (blog content management, see docs/CONVENTIONS.md)
 └── web/         ← the Astro site (frontend)
 ```
 
@@ -56,18 +56,16 @@ Sanity Studio commands run from `studio/`:
 
 ```bash
 npm install
-npm run dev             # local Studio dev server
-npx sanity schema deploy  # push schema changes (schemaTypes/) to the project
-npx sanity deploy         # deploy the hosted Studio (adnansabbir-blog.sanity.studio)
+npm run dev       # local Studio dev server
+npx sanity deploy # deploy both the schema and the hosted Studio app
 ```
 
 ## Tech stack
 - Astro
 - Tailwind CSS
-- Markdown / MDX for blog posts (being migrated to Sanity, see
-  `docs/SANITY_MIGRATION.md` — draft posts as files in a public repo were too
-  exposed)
-- Sanity Studio for blog content management (`studio/`)
+- Blog content lives in Sanity (`studio/`), fetched at build time via a
+  custom Content Collection loader — no local Markdown/MDX files, see
+  `docs/CONVENTIONS.md`'s "Blog content (Sanity)" section
 - Static-first architecture
 - Deployed via GitHub Pages (see `.github/workflows/deploy.yml`), live at
   adnansabbir.com

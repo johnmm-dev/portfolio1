@@ -123,8 +123,7 @@ page automatically, `sameAs` pulled from `data/social.ts`'s active links).
 this alone drives the title, meta description, OG/Twitter tags, and canonical URL
 together. The sitemap and Person schema need no manual touch (automatic /
 site-wide). Only revisit `robots.txt` if the new page shouldn't be indexed (e.g. a
-draft), and only add page-specific structured data if the page is a different kind
-of entity (e.g. `Article` schema for blog posts, once those exist).
+draft). Blog posts (`/writing/[slug]`) already get `Article` schema and a
+per-post `og:image` automatically — see `docs/PROJECT_PLAN.md` milestone 9.
 
-**Still deferred:** RSS feed — needs actual blog content to exist first (milestone 9,
-see `docs/PROJECT_PLAN.md`).
+**Still deferred:** RSS feed (milestone 10, see `docs/PROJECT_PLAN.md`).

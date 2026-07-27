@@ -18,14 +18,18 @@ web/src/
 │       ├── Me.astro
 │       └── FluidBackground.astro
 ├── data/                 typed .ts files holding page content/config (see below)
+├── lib/                   thin wrappers around external services (Sanity client,
+│                          Portable Text rendering) — see "Blog content" below
 ├── layouts/               page shells (Layout.astro)
-└── pages/                 file-based routes
+├── pages/                 file-based routes
+└── content.config.ts      Astro Content Collections config (the `blog`
+                           collection, fetched from Sanity — see below)
 ```
 
-`web/src/data/` is deliberately separate from Astro's `web/src/content/` —
-the latter is reserved for Content Collections (schema-validated
-Markdown/MDX), not yet used. Plain page copy/config that doesn't need that
-machinery goes in `web/src/data/` as a typed exported const.
+`web/src/data/` holds plain page copy/config as typed exported consts —
+content that doesn't need schema validation or an external source. The
+`blog` Content Collection (schema-validated, fetched from Sanity) is a
+different, heavier-weight thing; see "Blog content (Sanity)" below.
 
 ## Content/data separation
 
@@ -51,6 +55,52 @@ Each entry is referenced by key (`tags.backendSystems`) rather than
 redeclared as a literal object, so renaming or restyling a shared piece of
 content is a one-file change. Pages import the registry and pick the subset
 they need, rather than each page owning its own copy of the same content.
+
+## Blog content (Sanity)
+
+Blog posts live in Sanity, not as local files — `web/src/content.config.ts`
+defines a custom Content Layer loader (`sanityBlogLoader`) that fetches
+`blogPost` documents via GROQ at build time and feeds them into a normal
+Astro Content Collection, so page code still uses `getCollection`/
+`isPostVisible` exactly as it would for file-based content.
+
+- **Studio**: real local project at root-level `studio/`, schema authored as
+  source in `studio/schemaTypes/blogPost.ts`. Deploy with `npx sanity
+  deploy` (this deploys both the schema and the hosted Studio app in one
+  step — running `schema deploy` alone updates the data other tools read,
+  but the Studio *app* itself embeds the schema at build time and won't
+  show the change until redeployed). Hosted at
+  https://adnansabbir-blog.sanity.studio/.
+- **Project ID / dataset**: read from `SANITY_PROJECT_ID`/`SANITY_DATASET`
+  env vars (`web/.env` locally, GitHub repository variables in CI) rather
+  than hardcoded — see `web/.env.example`. Not actually secret (the dataset
+  is public, no token needed), just kept as config rather than inline.
+- **Tags**: still a hardcoded string enum (`options.list` in the Sanity
+  schema), kept in sync by hand with `web/src/data/tags.ts` — a
+  reference-document model for tags was tried and explicitly reverted, so
+  don't re-suggest it without being asked.
+- **Images**: `thumbnail` and body images are real Sanity `image` assets
+  with a required `alt` field, resolved to CDN URLs (`@sanity/image-url`)
+  at load time in the loader, not per-render.
+- **Body content**: stored as Portable Text, rendered to an HTML string via
+  `web/src/lib/portableText.ts` (`@portabletext/to-html`) and inserted with
+  `set:html`, not Astro's `render()` (that's for Markdown/MDX collections
+  only). Alt text and link hrefs are escaped before insertion
+  (`escapeHTML`) since this is raw HTML output.
+- **Required fields**: validated in three places on purpose — `Rule.required()`
+  in the Sanity schema (stops an incomplete post being published through
+  Studio), a GROQ `defined()`/`count()` filter in the loader (backstop for
+  anything published before that validation existed, or via a direct
+  API/CLI write that bypasses Studio), and the loader wraps each post's
+  parse/store in try/catch so one malformed post is skipped with a warning
+  instead of failing the entire build.
+- **Draft preview**: `draft: boolean` is a plain content field, not
+  Sanity's native draft/publish state — the client always reads
+  `perspective: 'published'` with no auth token. A post with `draft: true`
+  is a fully published Sanity document that `isPostVisible` (same pattern
+  as file-based content) hides in production and shows under `npm run dev`.
+  This was a deliberate choice (no token in a public repo), not an
+  oversight — a real unpublished Sanity draft can't be previewed this way.
 
 ## Icon pattern
 

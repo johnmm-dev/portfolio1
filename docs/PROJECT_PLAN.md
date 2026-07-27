@@ -28,11 +28,11 @@ unless explicitly requested. Do not over-engineer.
 
 ## Status
 Homepage is done: Hero, Me, Selected Work, Skills, Fun, and Contact are all built,
-polished, and live at adnansabbir.com (GitHub Pages). The Writing/blog pipeline
-(MDX, content collection, `/writing` + `/writing/[slug]` pages, homepage teaser
-section) is also built, but the nav link and homepage section stay off
-(`active: false` on the Writing nav item in `data/home.ts`) until there's a real
-first post — see "First milestones" below for what's next.
+polished, and live at adnansabbir.com (GitHub Pages). The Writing/blog section is
+also live — nav link, homepage teaser, `/writing` index, and per-post pages are
+all built and switched on, with content fetched from Sanity Studio (`studio/`)
+at build time (see `docs/CONVENTIONS.md`'s "Blog content (Sanity)" section) —
+see "First milestones" below for what's next.
 
 ## Site structure
 Single-page homepage: every section (Me, Selected Work, Skills, Fun, Contact) is a
@@ -78,16 +78,16 @@ else should still default to minimal/static):
 5. Add Selected Work section. ✅
 6. Polish design and deploy homepage. ✅
 7. Add Writing page. ✅
-8. Add MDX blog support. ✅
-9. Write and publish the first real post (flip the Writing nav item's `active`
-   to `true` once it's ready). ← next up
-   - At this point, also add per-article `og:image`/`og:type="article"` and
-     `Article` JSON-LD to `/writing/[slug]` (currently every post uses the
-     generic site `og-image.jpg`, `og:type="website"`, and `Person` schema —
-     deliberately deferred until a real post exists, per
-     `docs/CONTENT_STRATEGY.md`'s SEO goals).
-10. Add RSS feed once there's blog content — everything else in
-    `docs/CONTENT_STRATEGY.md`'s "SEO goals" (sitemap, Person schema, canonical
-    URLs, per-page basics) is already done/baked in per step.
+8. Add blog support — built with MDX first, then migrated to Sanity Studio
+   (see `docs/CONVENTIONS.md`'s "Blog content (Sanity)" section) once draft
+   posts as files in a public repo turned out to be too exposed. ✅
+9. Write and publish the first real posts, flip the Writing nav item's
+   `active` to `true`. ✅ — per-article `og:image`, `og:type="article"`, and
+   `Article` JSON-LD are also live on `/writing/[slug]` (falls back to the
+   generic site `og-image.jpg`/`Person` schema only when a post has no
+   thumbnail).
+10. Add RSS feed. ← next up — everything else in `docs/CONTENT_STRATEGY.md`'s
+    "SEO goals" (sitemap, Person schema, canonical URLs, per-page basics) is
+    already done/baked in per step.
 11. Add Production Contributions section (own page, linked from Selected Work) —
     deferred behind the blog for now.

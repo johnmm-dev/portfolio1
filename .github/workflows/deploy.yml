@@ -25,6 +25,9 @@ jobs:
         with:
           path: web
           node-version: 22
+        env:
+          SANITY_PROJECT_ID: ${{ vars.SANITY_PROJECT_ID }}
+          SANITY_DATASET: ${{ vars.SANITY_DATASET }}
 
   deploy:
     needs: build

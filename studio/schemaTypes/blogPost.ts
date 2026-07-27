@@ -1,0 +1,121 @@
+import { defineType, defineField, defineArrayMember } from 'sanity';
+
+// Keep in sync with web/src/data/tags.ts until the Astro site reads tags
+// from Sanity directly.
+const TAG_OPTIONS = [
+  { title: 'Backend Systems', value: 'backendSystems' },
+  { title: 'Product Architecture', value: 'productArchitecture' },
+  { title: 'ERP Systems', value: 'erpSystems' },
+  { title: 'Developer Tools', value: 'developerTools' },
+  { title: 'Robotics', value: 'robotics' },
+  { title: 'Technical Writing', value: 'technicalWriting' },
+  { title: 'Logistics', value: 'logistics' },
+  { title: 'EdTech', value: 'edtech' },
+  { title: 'Career', value: 'career' },
+  { title: 'Dubai', value: 'dubai' },
+  { title: 'Hiking', value: 'hiking' },
+  { title: 'Fishing', value: 'fishing' },
+];
+
+export const blogPost = defineType({
+  name: 'blogPost',
+  type: 'document',
+  title: 'Blog Post',
+  orderings: [
+    {
+      name: 'pubDateDesc',
+      title: 'Publish date, newest first',
+      by: [{ field: 'pubDate', direction: 'desc' }],
+    },
+    {
+      name: 'pubDateAsc',
+      title: 'Publish date, oldest first',
+      by: [{ field: 'pubDate', direction: 'asc' }],
+    },
+    {
+      name: 'title',
+      title: 'Title',
+      by: [{ field: 'title', direction: 'asc' }],
+    },
+  ],
+  fields: [
+    defineField({ name: 'title', type: 'string', title: 'Title' }),
+    defineField({
+      name: 'slug',
+      type: 'slug',
+      title: 'Slug',
+      options: { source: 'title', maxLength: 96 },
+    }),
+    defineField({
+      name: 'description',
+      type: 'text',
+      rows: 3,
+      title: 'Description',
+      description: 'Used as the meta description and card summary. Keep it under ~160 characters.',
+    }),
+    defineField({ name: 'pubDate', type: 'datetime', title: 'Publish Date' }),
+    defineField({
+      name: 'tags',
+      type: 'array',
+      title: 'Tags',
+      of: [defineArrayMember({ type: 'string' })],
+      options: { list: TAG_OPTIONS },
+    }),
+    defineField({
+      name: 'draft',
+      type: 'boolean',
+      title: 'Draft',
+      description: 'Draft posts are excluded from the production build/sitemap.',
+      initialValue: true,
+    }),
+    defineField({
+      name: 'seriesInfo',
+      type: 'object',
+      title: 'Series Info',
+      description: 'Optional multi-part post grouping.',
+      fields: [
+        defineField({ name: 'slug', type: 'string', title: 'Series Slug' }),
+        defineField({ name: 'name', type: 'string', title: 'Series Name' }),
+        defineField({ name: 'part', type: 'number', title: 'Part Number' }),
+      ],
+    }),
+    defineField({
+      name: 'thumbnail',
+      type: 'image',
+      title: 'Thumbnail',
+      options: { hotspot: true },
+      fields: [defineField({ name: 'alt', type: 'string', title: 'Alt text' })],
+    }),
+    defineField({
+      name: 'body',
+      type: 'array',
+      title: 'Body',
+      of: [
+        defineArrayMember({
+          type: 'block',
+          marks: {
+            decorators: [
+              { title: 'Strong', value: 'strong' },
+              { title: 'Italic', value: 'em' },
+              { title: 'Code', value: 'code' },
+              { title: 'Underline', value: 'underline' },
+              { title: 'Strike', value: 'strike-through' },
+            ],
+            annotations: [
+              {
+                name: 'link',
+                type: 'object',
+                title: 'Link',
+                fields: [defineField({ name: 'href', type: 'url', title: 'URL' })],
+              },
+            ],
+          },
+        }),
+        defineArrayMember({ type: 'image', title: 'Image', options: { hotspot: true } }),
+      ],
+    }),
+  ],
+  preview: {
+    select: { title: 'title', subtitle: 'pubDate', media: 'thumbnail' },
+  },
+});

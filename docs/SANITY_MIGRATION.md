@@ -1,12 +1,21 @@
-# Sanity migration (planned, not yet integrated)
+# Sanity migration (Studio live, Astro fetch not yet integrated)
 
 Blog posts are currently local `.mdx` files under `web/src/content/blog/`,
 loaded via Astro's `astro:content` glob loader (see `content.config.ts`).
 The plan is to move posts into Sanity Studio instead, fetching and building
-from there. **Not implemented yet** — this doc exists so the plan survives
-a machine switch. Update `content.config.ts`, `Writing.astro`,
-`writing/index.astro`, and `writing/[slug].astro` when the integration is
-actually built.
+from there.
+
+**Studio setup is done**: a real local Studio project lives at root-level
+`studio/` (schema as source in `studio/schemaTypes/`, deployed via
+`npx sanity schema deploy`), with a hosted Studio at
+https://adnansabbir-blog.sanity.studio/. Project `8iczsrc5`, dataset
+`production`. The three existing posts are already pushed as `blogPost`
+documents.
+
+**Not yet done**: the actual Astro build still reads from the local `.mdx`
+files, not Sanity. Update `content.config.ts`, `Writing.astro`,
+`writing/index.astro`, and `writing/[slug].astro` to fetch from Sanity
+instead when that integration is built, then discard the `.mdx` files.
 
 ## Schema
 

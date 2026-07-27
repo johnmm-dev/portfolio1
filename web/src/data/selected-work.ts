@@ -24,7 +24,7 @@ export const selectedWorkTeaser = {
 			title: 'Odoo Production Contributions',
 			description:
 				"Public, reviewed pull requests to Odoo's core codebase under @adns-odoo: ERP features, fixes, and production business logic.",
-			logo: '/work/odoo.png',
+			logo: '/work/odoo.webp',
 			logoWidth: 300,
 			logoHeight: 131,
 			href: 'https://github.com/odoo/odoo/pulls?q=is%3Apr+author%3Aadns-odoo',
@@ -50,7 +50,7 @@ export const selectedWorkTeaser = {
 			title: 'BRACU Duburi — Underwater Robotics',
 			description:
 				'Founded and led the first team from Bangladesh in an international autonomous underwater robotics challenge.',
-			logo: '/work/bracu-duburi.png',
+			logo: '/work/bracu-duburi.webp',
 			logoWidth: 168,
 			logoHeight: 64,
 			href: 'https://bracu-duburi.github.io/#/auv/duburi_2',

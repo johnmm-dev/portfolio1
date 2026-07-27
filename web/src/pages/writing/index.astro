@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
-import { writingTeaser } from '@/data/writing';
+import { writingTeaser, writingDefaultImage } from '@/data/writing';
 import { isPostVisible } from '@/content.config';
 
 const posts = (await getCollection('blog', isPostVisible)).sort(
@@ -9,7 +9,7 @@ const posts = (await getCollection('blog', isPostVisible)).sort(
 );
 ---
 
-<Layout title="Writing — Adnan Sabbir" description={writingTeaser.description}>
+<Layout title="Writing — Adnan Sabbir" description={writingTeaser.description} image={writingDefaultImage.url}>
 	<section class="mx-auto max-w-3xl px-6 py-16">
 		<a href="/" class="card-meta font-semibold underline-offset-4 hover:underline">← Back to home</a>
 
@@ -21,13 +21,11 @@ const posts = (await getCollection('blog', isPostVisible)).sort(
 				posts.length > 0 ? (
 					posts.map((post) => (
 						<a href={`/writing/${post.id}`} class="card-surface flex gap-4 rounded-2xl p-4 sm:p-6">
-							{post.data.thumbnail && (
-								<img
-									src={post.data.thumbnail.url}
-									alt={post.data.thumbnail.alt}
-									class="h-24 w-24 shrink-0 rounded-xl object-cover sm:h-28 sm:w-28"
-								/>
-							)}
+							<img
+								src={post.data.thumbnail?.url ?? writingDefaultImage.url}
+								alt={post.data.thumbnail?.alt ?? writingDefaultImage.alt}
+								class="h-24 w-24 shrink-0 rounded-xl object-cover sm:h-28 sm:w-28"
+							/>
 							<div class="min-w-0">
 								<div class="flex items-center gap-2">
 									<p class="card-meta text-neutral-500 dark:text-neutral-400">

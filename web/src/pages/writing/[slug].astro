@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import { isPostVisible } from '@/content.config';
 import { tags } from '@/data/tags';
+import { writingDefaultImage } from '@/data/writing';
 import { renderPortableText } from '@/lib/portableText';
 
 export async function getStaticPaths() {
@@ -50,7 +51,7 @@ const postTags = post.data.tags.map((key) => tags[key]).filter((tag) => tag.acti
 <Layout
 	title={post.data.title}
 	description={post.data.description}
-	image={post.data.thumbnail?.url}
+	image={post.data.thumbnail?.url ?? writingDefaultImage.url}
 	type="article"
 	pubDate={post.data.pubDate}>
 	<div class="mx-auto grid max-w-5xl gap-10 px-6 py-16 lg:grid-cols-[1fr_300px]">

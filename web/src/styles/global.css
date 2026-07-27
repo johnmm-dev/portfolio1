@@ -46,4 +46,12 @@
 	.card-meta {
 		@apply text-sm;
 	}
+
+	/* Marks a draft post wherever it's shown. Only ever rendered in dev -
+	   the production build excludes draft posts entirely - so this exists
+	   purely to flag "not live yet" while previewing locally. */
+	.draft-badge {
+		@apply rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold tracking-wide text-amber-800 uppercase;
+		@apply dark:bg-amber-500/15 dark:text-amber-300;
+	}
 }

@@ -1,12 +1,57 @@
 import { defineCollection, type CollectionEntry } from 'astro:content';
-import { glob } from 'astro/loaders';
+import type { Loader } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { tags } from '@/data/tags';
+import { sanityClient, urlForImage } from '@/lib/sanity';
 
 const tagKeys = Object.keys(tags) as [keyof typeof tags, ...(keyof typeof tags)[]];
 
+const BLOG_QUERY = `*[_type == "blogPost"]{
+	title,
+	"slug": slug.current,
+	description,
+	pubDate,
+	tags,
+	draft,
+	seriesInfo,
+	thumbnail{ alt, "asset": asset-> },
+	body
+}`;
+
+function sanityBlogLoader(): Loader {
+	return {
+		name: 'sanity-blog',
+		load: async ({ store, parseData, logger }) => {
+			const posts = await sanityClient.fetch(BLOG_QUERY);
+			store.clear();
+			for (const post of posts) {
+				const data = await parseData({
+					id: post.slug,
+					data: {
+						title: post.title,
+						description: post.description,
+						pubDate: post.pubDate,
+						tags: post.tags ?? [],
+						draft: post.draft ?? false,
+						seriesInfo: post.seriesInfo ?? undefined,
+						thumbnail: post.thumbnail
+							? {
+									url: urlForImage(post.thumbnail.asset).width(1200).height(630).fit('crop').auto('format').url(),
+									alt: post.thumbnail.alt ?? '',
+								}
+							: undefined,
+						body: post.body ?? [],
+					},
+				});
+				store.set({ id: post.slug, data });
+			}
+			logger.info(`Loaded ${posts.length} post(s) from Sanity`);
+		},
+	};
+}
+
 const blog = defineCollection({
-	loader: glob({ pattern: '**/*.mdx', base: './src/content/blog' }),
+	loader: sanityBlogLoader(),
 	schema: z.object({
 		title: z.string(),
 		description: z.string(),
@@ -23,9 +68,10 @@ const blog = defineCollection({
 				part: z.number().int().positive(),
 			})
 			.optional(),
-		// Filename only, relative to public/blog/. Used both as the listing
-		// card thumbnail and directly as the og:image/twitter:image for the post.
-		thumbnail: z.string().optional(),
+		// Pre-resolved Sanity CDN URL (1200x630) and alt text.
+		thumbnail: z.object({ url: z.string(), alt: z.string() }).optional(),
+		// Portable Text blocks, rendered to HTML at the page level via @portabletext/to-html.
+		body: z.array(z.any()).default([]),
 	}),
 });
 

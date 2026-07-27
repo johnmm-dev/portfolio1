@@ -4,8 +4,6 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
-import mdx from '@astrojs/mdx';
-
 import { writingNavItem } from './src/data/home.ts';
 
 // https://astro.build/config
@@ -22,7 +20,6 @@ export default defineConfig({
 				return pathname !== '/writing/' && !pathname.startsWith('/writing/');
 			},
 		}),
-		mdx(),
 	],
 	devToolbar: {
 		enabled: false,

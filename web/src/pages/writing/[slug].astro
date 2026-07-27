@@ -1,8 +1,9 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import { isPostVisible } from '@/content.config';
 import { tags } from '@/data/tags';
+import { renderPortableText } from '@/lib/portableText';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog', isPostVisible);
@@ -37,7 +38,7 @@ export async function getStaticPaths() {
 }
 
 const { post, prevPart, nextPart, relatedPosts } = Astro.props;
-const { Content } = await render(post);
+const bodyHtml = renderPortableText(post.data.body);
 const seriesName = post.data.seriesInfo?.name;
 const prevPartNumber = prevPart?.data.seriesInfo?.part;
 const nextPartNumber = nextPart?.data.seriesInfo?.part;
@@ -49,7 +50,7 @@ const postTags = post.data.tags.map((key) => tags[key]).filter((tag) => tag.acti
 <Layout
 	title={post.data.title}
 	description={post.data.description}
-	image={post.data.thumbnail ? `/blog/${post.data.thumbnail}` : undefined}
+	image={post.data.thumbnail?.url}
 	type="article"
 	pubDate={post.data.pubDate}>
 	<div class="mx-auto grid max-w-5xl gap-10 px-6 py-16 lg:grid-cols-[1fr_300px]">
@@ -59,15 +60,18 @@ const postTags = post.data.tags.map((key) => tags[key]).filter((tag) => tag.acti
 				<a href="/writing" class="card-meta font-semibold underline-offset-4 hover:underline">All posts</a>
 			</div>
 
-			<p class="card-meta mt-6 text-neutral-500 dark:text-neutral-400">
-				{
-					post.data.pubDate.toLocaleDateString('en-US', {
-						year: 'numeric',
-						month: 'long',
-						day: 'numeric',
-					})
-				}
-			</p>
+			<div class="mt-6 flex items-center gap-2">
+				<p class="card-meta text-neutral-500 dark:text-neutral-400">
+					{
+						post.data.pubDate.toLocaleDateString('en-US', {
+							year: 'numeric',
+							month: 'long',
+							day: 'numeric',
+						})
+					}
+				</p>
+				{post.data.draft && <span class="draft-badge">Draft</span>}
+			</div>
 			<h1 class="section-heading">{post.data.title}</h1>
 
 			{
@@ -86,9 +90,7 @@ const postTags = post.data.tags.map((key) => tags[key]).filter((tag) => tag.acti
 				)
 			}
 
-			<div class="post-content mt-8">
-				<Content />
-			</div>
+			<div class="post-content mt-8" set:html={bodyHtml} />
 		</article>
 
 		{

@@ -1,18 +1,18 @@
-import { toHTML } from '@portabletext/to-html';
+import { toHTML, escapeHTML } from '@portabletext/to-html';
 import type { TypedObject } from '@portabletext/types';
 import { urlForImage } from '@/lib/sanity';
 
 const components = {
 	marks: {
 		link: ({ value, children }: { value?: { href: string }; children: string }) =>
-			`<a href="${value?.href}">${children}</a>`,
+			`<a href="${escapeHTML(value?.href ?? '')}">${children}</a>`,
 	},
 	types: {
-		image: ({ value }: { value: unknown }) =>
+		image: ({ value }: { value: { alt: string } }) =>
 			`<img src="${urlForImage(value as Parameters<typeof urlForImage>[0])
 				.width(1000)
 				.auto('format')
-				.url()}" alt="" />`,
+				.url()}" alt="${escapeHTML(value.alt)}" />`,
 	},
 };
 

@@ -39,12 +39,13 @@ export const blogPost = defineType({
     },
   ],
   fields: [
-    defineField({ name: 'title', type: 'string', title: 'Title' }),
+    defineField({ name: 'title', type: 'string', title: 'Title', validation: (Rule) => Rule.required() }),
     defineField({
       name: 'slug',
       type: 'slug',
       title: 'Slug',
       options: { source: 'title', maxLength: 96 },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'description',
@@ -52,8 +53,14 @@ export const blogPost = defineType({
       rows: 3,
       title: 'Description',
       description: 'Used as the meta description and card summary. Keep it under ~160 characters.',
+      validation: (Rule) => Rule.required(),
     }),
-    defineField({ name: 'pubDate', type: 'datetime', title: 'Publish Date' }),
+    defineField({
+      name: 'pubDate',
+      type: 'datetime',
+      title: 'Publish Date',
+      validation: (Rule) => Rule.required(),
+    }),
     defineField({
       name: 'tags',
       type: 'array',
@@ -74,9 +81,14 @@ export const blogPost = defineType({
       title: 'Series Info',
       description: 'Optional multi-part post grouping.',
       fields: [
-        defineField({ name: 'slug', type: 'string', title: 'Series Slug' }),
-        defineField({ name: 'name', type: 'string', title: 'Series Name' }),
-        defineField({ name: 'part', type: 'number', title: 'Part Number' }),
+        defineField({ name: 'slug', type: 'string', title: 'Series Slug', validation: (Rule) => Rule.required() }),
+        defineField({ name: 'name', type: 'string', title: 'Series Name', validation: (Rule) => Rule.required() }),
+        defineField({
+          name: 'part',
+          type: 'number',
+          title: 'Part Number',
+          validation: (Rule) => Rule.required().integer().positive(),
+        }),
       ],
     }),
     defineField({
@@ -90,6 +102,7 @@ export const blogPost = defineType({
       name: 'body',
       type: 'array',
       title: 'Body',
+      validation: (Rule) => Rule.required().min(1),
       of: [
         defineArrayMember({
           type: 'block',
@@ -106,12 +119,33 @@ export const blogPost = defineType({
                 name: 'link',
                 type: 'object',
                 title: 'Link',
-                fields: [defineField({ name: 'href', type: 'url', title: 'URL' })],
+                fields: [
+                  defineField({
+                    name: 'href',
+                    type: 'url',
+                    title: 'URL',
+                    // Sanity's default url validation rejects relative paths,
+                    // which blocks internal links like /writing/other-post.
+                    validation: (Rule) => Rule.required().uri({ allowRelative: true, scheme: ['http', 'https'] }),
+                  }),
+                ],
               },
             ],
           },
         }),
-        defineArrayMember({ type: 'image', title: 'Image', options: { hotspot: true } }),
+        defineArrayMember({
+          type: 'image',
+          title: 'Image',
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: 'alt',
+              type: 'string',
+              title: 'Alt text',
+              validation: (Rule) => Rule.required(),
+            }),
+          ],
+        }),
       ],
     }),
   ],

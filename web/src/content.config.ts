@@ -6,7 +6,16 @@ import { sanityClient, urlForImage } from '@/lib/sanity';
 
 const tagKeys = Object.keys(tags) as [keyof typeof tags, ...(keyof typeof tags)[]];
 
-const BLOG_QUERY = `*[_type == "blogPost"]{
+// Backstop for the schema's required() rules - filters out anything
+// published before they existed or via a route that bypasses Studio.
+const BLOG_QUERY = `*[
+	_type == "blogPost" &&
+	defined(slug.current) &&
+	defined(title) &&
+	defined(description) &&
+	defined(pubDate) &&
+	count(body) > 0
+]{
 	title,
 	"slug": slug.current,
 	description,
@@ -24,28 +33,35 @@ function sanityBlogLoader(): Loader {
 		load: async ({ store, parseData, logger }) => {
 			const posts = await sanityClient.fetch(BLOG_QUERY);
 			store.clear();
+			let loaded = 0;
 			for (const post of posts) {
-				const data = await parseData({
-					id: post.slug,
-					data: {
-						title: post.title,
-						description: post.description,
-						pubDate: post.pubDate,
-						tags: post.tags ?? [],
-						draft: post.draft ?? false,
-						seriesInfo: post.seriesInfo ?? undefined,
-						thumbnail: post.thumbnail
-							? {
-									url: urlForImage(post.thumbnail.asset).width(1200).height(630).fit('crop').auto('format').url(),
-									alt: post.thumbnail.alt ?? '',
-								}
-							: undefined,
-						body: post.body ?? [],
-					},
-				});
-				store.set({ id: post.slug, data });
+				// A single malformed post shouldn't take down the whole build.
+				try {
+					const data = await parseData({
+						id: post.slug,
+						data: {
+							title: post.title,
+							description: post.description,
+							pubDate: post.pubDate,
+							tags: post.tags ?? [],
+							draft: post.draft ?? false,
+							seriesInfo: post.seriesInfo ?? undefined,
+							thumbnail: post.thumbnail
+								? {
+										url: urlForImage(post.thumbnail.asset).width(1200).height(630).fit('crop').auto('format').url(),
+										alt: post.thumbnail.alt ?? '',
+									}
+								: undefined,
+							body: post.body ?? [],
+						},
+					});
+					store.set({ id: post.slug, data });
+					loaded++;
+				} catch (error) {
+					logger.warn(`Skipping blogPost "${post.slug ?? post.title ?? 'unknown'}": ${error}`);
+				}
 			}
-			logger.info(`Loaded ${posts.length} post(s) from Sanity`);
+			logger.info(`Loaded ${loaded}/${posts.length} post(s) from Sanity`);
 		},
 	};
 }
@@ -71,7 +87,7 @@ const blog = defineCollection({
 		// Pre-resolved Sanity CDN URL (1200x630) and alt text.
 		thumbnail: z.object({ url: z.string(), alt: z.string() }).optional(),
 		// Portable Text blocks, rendered to HTML at the page level via @portabletext/to-html.
-		body: z.array(z.any()).default([]),
+		body: z.array(z.any()).min(1),
 	}),
 });
 

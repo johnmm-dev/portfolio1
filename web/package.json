@@ -27,6 +27,7 @@
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.9",
+		"@portabletext/types": "^4.0.2",
 		"eslint": "^10.6.0",
 		"eslint-plugin-astro": "^1.7.0",
 		"prettier": "^3.9.5",

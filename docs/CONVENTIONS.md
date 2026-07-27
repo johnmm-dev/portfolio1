@@ -199,3 +199,16 @@ added alongside, e.g. `class="card-body font-semibold"`.
 
 Contact's subtitle previously used a one-off arbitrary `text-[15px]`, not on
 Tailwind's scale at all — folded into `card-body` for consistency.
+
+## Page `<title>` format: brand suffix vs. bare title
+
+Fixed pages (home, `/writing` index) pass `title` to `Layout.astro` as
+`"<Page> — Adnan Sabbir"` — safe because their title strings are short and
+hand-written, so the suffix can't push the tag past ~70 characters.
+
+Blog post pages (`web/src/pages/writing/[slug].astro`) pass the bare
+`post.data.title` with no suffix, deliberately. Post titles are
+per-post content, not fixed strings — appending a suffix would risk
+pushing an otherwise-fine title over the ~70-character limit for OG/SERP
+titles unpredictably as new posts are added. Keep new post titles short on
+their own merits instead of relying on truncation.

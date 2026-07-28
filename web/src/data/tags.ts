@@ -18,4 +18,5 @@ export const tags = {
 	dubai: { label: 'Dubai', active: true },
 	hiking: { label: 'Hiking', active: true },
 	fishing: { label: 'Fishing', active: true },
+	aboutMe: { label: 'About Me', active: true },
 } satisfies Record<string, Tag>;

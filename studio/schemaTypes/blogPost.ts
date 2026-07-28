@@ -15,6 +15,7 @@ const TAG_OPTIONS = [
   { title: 'Dubai', value: 'dubai' },
   { title: 'Hiking', value: 'hiking' },
   { title: 'Fishing', value: 'fishing' },
+  { title: 'About Me', value: 'aboutMe' },
 ];
 
 export const blogPost = defineType({

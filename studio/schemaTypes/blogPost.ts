@@ -1,4 +1,4 @@
-import { defineType, defineField, defineArrayMember } from 'sanity';
+import { defineType, defineField, defineArrayMember, getPublishedId } from 'sanity';
 
 // Keep in sync with web/src/data/tags.ts until the Astro site reads tags
 // from Sanity directly.
@@ -40,11 +40,28 @@ export const blogPost = defineType({
     },
   ],
   fields: [
-    defineField({ name: 'title', type: 'string', title: 'Title', validation: (Rule) => Rule.required() }),
+    defineField({
+      name: 'title',
+      type: 'string',
+      title: 'Title',
+      validation: (Rule) =>
+        Rule.required().custom(async (title, context) => {
+          if (!title || !context.document?._id) return true;
+          const client = context.getClient({ apiVersion: '2025-02-19' });
+          const publishedId = getPublishedId(context.document._id);
+          const isUnique = await client.fetch(
+            `!defined(*[!sanity::versionOf($published) && _type == "blogPost" && title == $title][0]._id)`,
+            { published: publishedId, title },
+          );
+          return isUnique || 'Title already exists — choose a unique title';
+        }),
+    }),
     defineField({
       name: 'slug',
       type: 'slug',
       title: 'Slug',
+      // Sanity checks slug uniqueness automatically per document type +
+      // field path when `isUnique` is left unset.
       options: { source: 'title', maxLength: 96 },
       validation: (Rule) => Rule.required(),
     }),

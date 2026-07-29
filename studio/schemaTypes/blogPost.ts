@@ -70,8 +70,9 @@ export const blogPost = defineType({
       type: 'text',
       rows: 3,
       title: 'Description',
-      description: 'Used as the meta description and card summary. Keep it under ~160 characters.',
-      validation: (Rule) => Rule.required(),
+      description: 'Used as the meta description and card summary.',
+      validation: (Rule) =>
+        Rule.required().max(160).warning('Longer descriptions may get truncated in search results.'),
     }),
     defineField({
       name: 'pubDate',

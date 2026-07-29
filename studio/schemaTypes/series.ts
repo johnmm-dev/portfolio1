@@ -24,9 +24,9 @@ export const series = defineType({
       type: 'text',
       rows: 3,
       title: 'Description',
-      description:
-        'What this series covers. Used as the series page intro and meta description. Keep it under ~160 characters.',
-      validation: (Rule) => Rule.required(),
+      description: 'What this series covers. Used as the series page intro and meta description.',
+      validation: (Rule) =>
+        Rule.required().max(160).warning('Longer descriptions may get truncated in search results.'),
     }),
     defineField({
       name: 'status',

@@ -1,0 +1,82 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+import { isPostVisible } from '@/content.config';
+import { writingDefaultImage } from '@/data/writing';
+
+export async function getStaticPaths() {
+	const seriesList = await getCollection('series');
+	const posts = await getCollection('blog', isPostVisible);
+
+	return seriesList.map((item) => {
+		const parts = posts
+			.filter((post) => post.data.seriesInfo?.slug === item.id)
+			.sort((a, b) => a.data.seriesInfo!.part - b.data.seriesInfo!.part);
+
+		return {
+			params: { slug: item.id },
+			props: { series: item, parts },
+		};
+	});
+}
+
+const { series, parts } = Astro.props;
+---
+
+<Layout
+	title={`${series.data.name} — Adnan Sabbir`}
+	description={series.data.description}
+	image={series.data.image.url}>
+	<div class="mx-auto max-w-3xl px-6 py-16">
+		<div class="flex gap-4">
+			<a href="/" class="card-meta font-semibold underline-offset-4 hover:underline">← Home</a>
+			<a href="/writing/series" class="card-meta font-semibold underline-offset-4 hover:underline">All series</a>
+		</div>
+
+		<img
+			src={series.data.image.url}
+			alt={series.data.image.alt}
+			class="mt-6 aspect-[1200/630] w-full rounded-2xl object-cover"
+		/>
+
+		<div class="mt-6 flex items-center gap-2">
+			<span
+				class:list={[
+					'card-meta rounded-full border px-2.5 py-0.5 font-medium',
+					series.data.status === 'completed'
+						? 'border-emerald-200 text-emerald-700 dark:border-emerald-500/30 dark:text-emerald-300'
+						: 'border-neutral-200 text-neutral-600 dark:border-neutral-700 dark:text-neutral-300',
+				]}>
+				{series.data.status === 'completed' ? 'Completed' : 'In Progress'}
+			</span>
+		</div>
+		<h1 class="section-heading">{series.data.name}</h1>
+		<p class="card-body mt-4 text-neutral-600 dark:text-neutral-300">{series.data.description}</p>
+
+		<div class="mt-10 flex flex-col gap-4">
+			{
+				parts.length > 0 ? (
+					parts.map((post) => (
+						<a href={`/writing/${post.id}`} class="card-surface flex gap-4 rounded-2xl p-4 sm:p-6">
+							<img
+								src={post.data.thumbnail?.url ?? writingDefaultImage.url}
+								alt={post.data.thumbnail?.alt ?? writingDefaultImage.alt}
+								class="h-24 w-24 shrink-0 rounded-xl object-cover sm:h-28 sm:w-28"
+							/>
+							<div class="min-w-0">
+								<div class="flex items-center gap-2">
+									<p class="card-meta text-neutral-500 dark:text-neutral-400">Part {post.data.seriesInfo?.part}</p>
+									{post.data.draft && <span class="draft-badge">Draft</span>}
+								</div>
+								<p class="card-body mt-1 font-semibold">{post.data.title}</p>
+								<p class="card-meta mt-2 text-neutral-500 dark:text-neutral-400">{post.data.description}</p>
+							</div>
+						</a>
+					))
+				) : (
+					<p class="card-meta text-neutral-500 dark:text-neutral-400">No posts in this series yet.</p>
+				)
+			}
+		</div>
+	</div>
+</Layout>

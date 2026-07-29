@@ -99,13 +99,32 @@ export const blogPost = defineType({
       title: 'Series Info',
       description: 'Optional multi-part post grouping.',
       fields: [
-        defineField({ name: 'slug', type: 'string', title: 'Series Slug', validation: (Rule) => Rule.required() }),
-        defineField({ name: 'name', type: 'string', title: 'Series Name', validation: (Rule) => Rule.required() }),
+        defineField({
+          name: 'series',
+          type: 'reference',
+          title: 'Series',
+          to: [{ type: 'series' }],
+          validation: (Rule) => Rule.required(),
+        }),
         defineField({
           name: 'part',
           type: 'number',
           title: 'Part Number',
-          validation: (Rule) => Rule.required().integer().positive(),
+          validation: (Rule) =>
+            Rule.required()
+              .integer()
+              .positive()
+              .custom(async (part, context) => {
+                const seriesRef = (context.parent as { series?: { _ref?: string } } | undefined)?.series?._ref;
+                if (!part || !seriesRef || !context.document?._id) return true;
+                const client = context.getClient({ apiVersion: '2025-02-19' });
+                const publishedId = getPublishedId(context.document._id);
+                const isUnique = await client.fetch(
+                  `!defined(*[!sanity::versionOf($published) && _type == "blogPost" && seriesInfo.series._ref == $seriesRef && seriesInfo.part == $part][0]._id)`,
+                  { published: publishedId, seriesRef, part },
+                );
+                return isUnique || 'Another post already uses this part number in this series';
+              }),
         }),
       ],
     }),

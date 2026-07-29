@@ -22,10 +22,63 @@ const BLOG_QUERY = `*[
 	pubDate,
 	tags,
 	draft,
-	seriesInfo,
+	seriesInfo{ "slug": series->slug.current, "name": series->name, part },
 	thumbnail{ alt, "asset": asset-> },
 	body
 }`;
+
+// Locally, show every series (like draft posts); in production, only series with a visible post.
+const SERIES_HAS_VISIBLE_POST = import.meta.env.DEV
+	? 'true'
+	: 'count(*[_type == "blogPost" && seriesInfo.series._ref == ^._id && coalesce(draft, false) == false]) > 0';
+const SERIES_QUERY = `*[
+	_type == "series" &&
+	defined(slug.current) &&
+	defined(name) &&
+	defined(description) &&
+	defined(image.asset) &&
+	defined(image.alt) &&
+	${SERIES_HAS_VISIBLE_POST}
+]{
+	name,
+	"slug": slug.current,
+	description,
+	status,
+	image{ alt, "asset": asset-> }
+}`;
+
+function sanitySeriesLoader(): Loader {
+	return {
+		name: 'sanity-series',
+		load: async ({ store, parseData, logger }) => {
+			const series = await sanityClient.fetch(SERIES_QUERY);
+			store.clear();
+			let loaded = 0;
+			for (const item of series) {
+				// A single malformed series shouldn't take down the whole build.
+				try {
+					const data = await parseData({
+						id: item.slug,
+						data: {
+							name: item.name,
+							description: item.description,
+							status: item.status,
+							image: {
+								url: urlForImage(item.image.asset).width(1200).height(630).fit('crop').auto('format').url(),
+								alt: item.image.alt,
+							},
+						},
+					});
+					store.set({ id: item.slug, data });
+					loaded++;
+				} catch (error) {
+					logger.warn(`Skipping series "${item.slug ?? item.name ?? 'unknown'}": ${error}`);
+				}
+			}
+			logger.info(`Loaded ${loaded}/${series.length} series from Sanity`);
+		},
+	};
+}
 
 function sanityBlogLoader(): Loader {
 	return {
@@ -45,7 +98,12 @@ function sanityBlogLoader(): Loader {
 							pubDate: post.pubDate,
 							tags: post.tags ?? [],
 							draft: post.draft ?? false,
-							seriesInfo: post.seriesInfo ?? undefined,
+							// series-> only resolves if that series is published; treat an
+							// unresolved reference as "no series" rather than failing the post.
+							seriesInfo:
+								post.seriesInfo?.slug && post.seriesInfo?.name
+									? { slug: post.seriesInfo.slug, name: post.seriesInfo.name, part: post.seriesInfo.part }
+									: undefined,
 							thumbnail: post.thumbnail
 								? {
 										url: urlForImage(post.thumbnail.asset).width(1200).height(630).fit('crop').auto('format').url(),
@@ -91,7 +149,18 @@ const blog = defineCollection({
 	}),
 });
 
-export const collections = { blog };
+const series = defineCollection({
+	loader: sanitySeriesLoader(),
+	schema: z.object({
+		name: z.string(),
+		description: z.string(),
+		status: z.enum(['inProgress', 'completed']),
+		// Pre-resolved Sanity CDN URL (1200x630) and alt text.
+		image: z.object({ url: z.string(), alt: z.string() }),
+	}),
+});
+
+export const collections = { blog, series };
 
 // Draft posts still show up locally under `npm run dev` so they can be
 // previewed before flipping `draft` to false; the production build excludes

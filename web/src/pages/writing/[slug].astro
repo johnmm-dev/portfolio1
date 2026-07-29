@@ -15,10 +15,6 @@ export async function getStaticPaths() {
 					.filter((p) => p.data.seriesInfo?.slug === post.data.seriesInfo?.slug)
 					.sort((a, b) => a.data.seriesInfo!.part - b.data.seriesInfo!.part)
 			: [];
-		const currentIndex = seriesParts.findIndex((p) => p.id === post.id);
-		const prevPart = currentIndex > 0 ? seriesParts[currentIndex - 1] : null;
-		const nextPart = currentIndex >= 0 && currentIndex < seriesParts.length - 1 ? seriesParts[currentIndex + 1] : null;
-
 		const seriesIds = new Set(seriesParts.map((p) => p.id));
 		const relatedPosts = posts
 			.filter((p) => p.id !== post.id && !seriesIds.has(p.id))
@@ -33,17 +29,16 @@ export async function getStaticPaths() {
 
 		return {
 			params: { slug: post.id },
-			props: { post, prevPart, nextPart, relatedPosts },
+			props: { post, seriesParts, relatedPosts },
 		};
 	});
 }
 
-const { post, prevPart, nextPart, relatedPosts } = Astro.props;
+const { post, seriesParts, relatedPosts } = Astro.props;
 const bodyHtml = renderPortableText(post.data.body);
 const seriesName = post.data.seriesInfo?.name;
-const prevPartNumber = prevPart?.data.seriesInfo?.part;
-const nextPartNumber = nextPart?.data.seriesInfo?.part;
-const hasOtherParts = Boolean(seriesName) && (prevPartNumber !== undefined || nextPartNumber !== undefined);
+const seriesSlug = post.data.seriesInfo?.slug;
+const hasSeries = Boolean(post.data.seriesInfo);
 const hasRelated = relatedPosts.length > 0;
 const postTags = post.data.tags.map((key) => tags[key]).filter((tag) => tag.active);
 ---
@@ -95,25 +90,31 @@ const postTags = post.data.tags.map((key) => tags[key]).filter((tag) => tag.acti
 		</article>
 
 		{
-			(hasOtherParts || hasRelated) && (
+			(hasSeries || hasRelated) && (
 				<aside class="flex flex-col gap-6 lg:sticky lg:top-6 lg:self-start">
-					{hasOtherParts && (
+					{hasSeries && (
 						<div class="card-surface rounded-2xl p-6">
-							<p class="card-title font-semibold">Other Parts of {seriesName}</p>
-							<div class="mt-4 flex flex-col gap-4">
-								{prevPart && prevPartNumber !== undefined && (
-									<a href={`/writing/${prevPart.id}`} class="block">
-										<span class="card-meta block text-neutral-500 dark:text-neutral-400">← Part {prevPartNumber}</span>
-										<span class="card-body block font-medium hover:underline">{prevPart.data.title}</span>
-									</a>
+							<p class="card-meta text-neutral-500 dark:text-neutral-400">Series</p>
+							<a href={`/writing/series/${seriesSlug}`} class="card-title mt-1 block font-semibold hover:underline">
+								{seriesName}
+							</a>
+							<ol class="mt-4 flex flex-col gap-3">
+								{seriesParts.map((part) =>
+									part.id === post.id ? (
+										<li class="card-meta font-semibold text-neutral-800 dark:text-neutral-200">
+											{part.data.seriesInfo?.part}. {part.data.title}
+										</li>
+									) : (
+										<li>
+											<a
+												href={`/writing/${part.id}`}
+												class="card-meta block text-neutral-500 hover:underline dark:text-neutral-400">
+												{part.data.seriesInfo?.part}. {part.data.title}
+											</a>
+										</li>
+									),
 								)}
-								{nextPart && nextPartNumber !== undefined && (
-									<a href={`/writing/${nextPart.id}`} class="block">
-										<span class="card-meta block text-neutral-500 dark:text-neutral-400">Part {nextPartNumber} →</span>
-										<span class="card-body block font-medium hover:underline">{nextPart.data.title}</span>
-									</a>
-								)}
-							</div>
+							</ol>
 						</div>
 					)}
 
@@ -122,7 +123,9 @@ const postTags = post.data.tags.map((key) => tags[key]).filter((tag) => tag.acti
 							<p class="card-title font-semibold">Related Writings</p>
 							<div class="mt-4 flex flex-col gap-3">
 								{relatedPosts.map((related) => (
-									<a href={`/writing/${related.id}`} class="card-body block font-medium hover:underline">
+									<a
+										href={`/writing/${related.id}`}
+										class="card-meta block text-neutral-500 hover:underline dark:text-neutral-400">
 										{related.data.title}
 									</a>
 								))}

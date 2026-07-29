@@ -29,7 +29,7 @@ export const writingNavItem: NavItem = {
 
 export const hero = {
 	greeting: "Hey, I'm Adnan 👋",
-	role: 'Software Engineer',
+	role: 'Senior Software Engineer',
 	subtitle: 'Backend and product engineer at Odoo R&D',
 	navItems: [
 		{ label: 'Me', href: '#me', icon: 'user', color: '#2563EB', active: true },

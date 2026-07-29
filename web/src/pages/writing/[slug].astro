@@ -159,6 +159,7 @@ const postTags = post.data.tags.map((key) => tags[key]).filter((tag) => tag.acti
 		line-height: 1.75;
 	}
 	.post-content :global(h2) {
+		@apply border-l-[3px] border-sky-500 pl-3;
 		margin-top: 2em;
 		font-size: 1.5rem;
 		font-weight: 700;
@@ -177,10 +178,10 @@ const postTags = post.data.tags.map((key) => tags[key]).filter((tag) => tag.acti
 		margin-top: 0.5em;
 	}
 	.post-content :global(a) {
-		@apply text-neutral-500 italic underline underline-offset-2 dark:text-neutral-400;
+		@apply text-sky-600 underline underline-offset-2 dark:text-sky-400;
 	}
 	.post-content :global(a:hover) {
-		@apply text-neutral-900 dark:text-neutral-100;
+		@apply text-sky-700 dark:text-sky-300;
 	}
 	.post-content :global(code) {
 		@apply rounded bg-neutral-100 px-1.5 py-0.5 text-[0.9em] dark:bg-neutral-800;

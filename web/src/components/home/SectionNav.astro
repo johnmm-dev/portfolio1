@@ -20,35 +20,68 @@ const icons = {
 const activeItems = hero.navItems.filter(isNavItemVisible);
 
 const linkClass =
-	'section-nav-link flex flex-col items-center gap-0.5 rounded-full px-3 py-1.5 text-[10px] font-medium text-neutral-500 transition active:scale-95 md:px-4 md:py-2 md:text-xs dark:text-neutral-400';
+	'section-nav-link flex shrink-0 flex-col items-center gap-0.5 rounded-full px-3 py-1.5 text-[10px] font-medium text-neutral-500 transition active:scale-95 md:px-4 md:py-2 md:text-xs dark:text-neutral-400';
 ---
 
 <nav
 	id="section-nav"
 	aria-label="Quick navigation"
 	data-visible="false"
-	class="card-surface fixed inset-x-0 bottom-4 z-40 mx-auto flex w-fit gap-1 rounded-full px-2 py-2 md:bottom-6 md:gap-2 md:px-3">
-	<a href="#hero" data-section-link="hero" class={linkClass}>
-		<HomeIcon color="#0EA5E9" />
-		<span>Home</span>
-	</a>
-	{
-		activeItems.map((item) => {
-			const Icon = icons[item.icon];
-			return (
-				<a href={item.href} data-section-link={item.href.replace('#', '')} class={linkClass}>
-					<Icon color={item.color} />
-					<span>{item.label}</span>
-				</a>
-			);
-		})
-	}
+	class="card-surface fixed inset-x-0 bottom-4 z-40 mx-auto w-fit max-w-[92vw] rounded-full px-2 py-2 md:bottom-6 md:px-3">
+	<div id="section-nav-track" class="flex gap-1 overflow-x-auto md:gap-2">
+		<a href="#hero" data-section-link="hero" class={linkClass}>
+			<HomeIcon color="#0EA5E9" />
+			<span>Home</span>
+		</a>
+		{
+			activeItems.map((item) => {
+				const Icon = icons[item.icon];
+				return (
+					<a href={item.href} data-section-link={item.href.replace('#', '')} class={linkClass}>
+						<Icon color={item.color} />
+						<span>{item.label}</span>
+					</a>
+				);
+			})
+		}
+	</div>
 </nav>
 
 <style>
 	#section-nav {
 		transform: translateY(200%);
 		transition: transform 0.3s ease;
+	}
+	#section-nav-track {
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+	}
+	#section-nav-track::-webkit-scrollbar {
+		display: none;
+	}
+	/* Hints that more nav items sit off-screen on mobile, where the track
+	   scrolls horizontally - not needed once desktop spacing fits everything.
+	   Lives on the outer, non-scrolling nav so it stays pinned to the true
+	   right edge instead of scrolling along with the track's content. */
+	@media (max-width: 767px) {
+		#section-nav::after {
+			content: '';
+			position: absolute;
+			inset: 0;
+			border-radius: inherit;
+			box-shadow: inset -10px 0 14px -6px #0ea5e9;
+			pointer-events: none;
+			animation: nav-scroll-hint 1.6s ease-in-out infinite;
+		}
+	}
+	@keyframes nav-scroll-hint {
+		0%,
+		100% {
+			opacity: 0.25;
+		}
+		50% {
+			opacity: 1;
+		}
 	}
 	#section-nav[data-visible='true'] {
 		transform: translateY(0);

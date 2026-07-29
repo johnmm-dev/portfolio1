@@ -31,8 +31,10 @@ Homepage is done: Hero, Me, Selected Work, Skills, Fun, and Contact are all buil
 polished, and live at adnansabbir.com (GitHub Pages). The Writing/blog section is
 also live — nav link, homepage teaser, `/writing` index, and per-post pages are
 all built and switched on, with content fetched from Sanity Studio (`studio/`)
-at build time (see `docs/CONVENTIONS.md`'s "Blog content (Sanity)" section) —
-see "First milestones" below for what's next.
+at build time (see `docs/CONVENTIONS.md`'s "Blog content (Sanity)" section).
+Multi-part series support is also live — a dedicated `series` document type,
+`/writing/series` index, and per-series pages (see `docs/CONVENTIONS.md`'s
+"Blog content (Sanity)" section) — see "First milestones" below for what's next.
 
 ## Site structure
 Single-page homepage: every section (Me, Selected Work, Skills, Fun, Contact) is a
@@ -86,8 +88,10 @@ else should still default to minimal/static):
    `Article` JSON-LD are also live on `/writing/[slug]` (falls back to the
    generic site `og-image.jpg`/`Person` schema only when a post has no
    thumbnail).
-10. Add RSS feed. ← next up — everything else in `docs/CONTENT_STRATEGY.md`'s
+10. Add multi-part series support — `series` document type, `/writing/series`
+    index and per-series pages, series navigation on post pages. ✅
+11. Add RSS feed. ← next up — everything else in `docs/CONTENT_STRATEGY.md`'s
     "SEO goals" (sitemap, Person schema, canonical URLs, per-page basics) is
     already done/baked in per step.
-11. Add Production Contributions section (own page, linked from Selected Work) —
+12. Add Production Contributions section (own page, linked from Selected Work) —
     deferred behind the blog for now.

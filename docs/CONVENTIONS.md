@@ -101,6 +101,23 @@ Astro Content Collection, so page code still uses `getCollection`/
   as file-based content) hides in production and shows under `npm run dev`.
   This was a deliberate choice (no token in a public repo), not an
   oversight — a real unpublished Sanity draft can't be previewed this way.
+- **Series**: a separate `series` document type (`name`, `slug`,
+  `description`, `status`, `image`), fetched into its own `series` Content
+  Collection alongside `blog`. `blogPost.seriesInfo` holds a `series`
+  reference plus a `part` number, not a duplicated slug/name string — the
+  GROQ query dereferences `series->slug`/`series->name` at fetch time, and
+  an unresolved reference (e.g. an unpublished series) is treated as "no
+  series" rather than failing the post. A custom async Studio validation
+  enforces unique `part` numbers per series (mirrors the existing
+  title-uniqueness check). Series visibility mirrors the draft-post
+  pattern: production only shows a series with at least one non-draft
+  post; `npm run dev` shows every series regardless, so an empty or
+  all-draft series can still be previewed. Routes: `/writing/series`
+  (index) and `/writing/series/[slug]` (one series' parts, ordered).
+- **Description length**: both `blogPost.description` and
+  `series.description` use `Rule.max(160).warning(...)` (non-blocking) so
+  an overly long meta description doesn't get truncated in search results,
+  rather than relying on hint text alone.
 
 ## Icon pattern
 

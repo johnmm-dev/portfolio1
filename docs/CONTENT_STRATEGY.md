@@ -126,4 +126,4 @@ site-wide). Only revisit `robots.txt` if the new page shouldn't be indexed (e.g.
 draft). Blog posts (`/writing/[slug]`) already get `Article` schema and a
 per-post `og:image` automatically — see `docs/PROJECT_PLAN.md` milestone 9.
 
-**Still deferred:** RSS feed (milestone 10, see `docs/PROJECT_PLAN.md`).
+**Still deferred:** RSS feed (milestone 11, see `docs/PROJECT_PLAN.md`).

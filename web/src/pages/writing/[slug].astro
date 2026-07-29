@@ -136,6 +136,8 @@ const postTags = post.data.tags.map((key) => tags[key]).filter((tag) => tag.acti
 </Layout>
 
 <style>
+	@reference '@/styles/global.css';
+
 	.post-content :global(p) {
 		margin-top: 1.25em;
 		line-height: 1.75;
@@ -157,5 +159,14 @@ const postTags = post.data.tags.map((key) => tags[key]).filter((tag) => tag.acti
 	}
 	.post-content :global(li) {
 		margin-top: 0.5em;
+	}
+	.post-content :global(a) {
+		@apply text-neutral-500 italic underline underline-offset-2 dark:text-neutral-400;
+	}
+	.post-content :global(a:hover) {
+		@apply text-neutral-900 dark:text-neutral-100;
+	}
+	.post-content :global(code) {
+		@apply rounded bg-neutral-100 px-1.5 py-0.5 text-[0.9em] dark:bg-neutral-800;
 	}
 </style>

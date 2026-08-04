@@ -22,30 +22,36 @@
 
 	const getTheme = () => (document.documentElement.classList.contains('dark') ? fluidThemes.dark : fluidThemes.light);
 
+	// Defer fetching and starting the WebGL library until the main thread
+	// is idle, so it doesn't compete with the hero text for first paint.
+	const runWhenIdle = window.requestIdleCallback ?? ((cb: IdleRequestCallback) => setTimeout(cb, 1));
+
 	if (!prefersReducedMotion && supportsWebGL) {
 		const container = document.getElementById('fluid-container') as HTMLElement;
 
-		import('webgl-fluid-enhanced').then(({ default: WebGLFluidEnhanced }) => {
-			const theme = getTheme();
-
-			const fluid = new WebGLFluidEnhanced(container);
-			fluid.setConfig({
-				transparent: true,
-				shading: false,
-				bloom: false,
-				sunrays: false,
-				splatForce: 2000,
-				curl: 8,
-				velocityDissipation: 0.15,
-				densityDissipation: 0.8,
-				brightness: theme.brightness,
-				colorPalette: theme.palette,
-			});
-			fluid.start();
-
-			window.addEventListener('theme-change', () => {
+		runWhenIdle(() => {
+			import('webgl-fluid-enhanced').then(({ default: WebGLFluidEnhanced }) => {
 				const theme = getTheme();
-				fluid.setConfig({ colorPalette: theme.palette, brightness: theme.brightness });
+
+				const fluid = new WebGLFluidEnhanced(container);
+				fluid.setConfig({
+					transparent: true,
+					shading: false,
+					bloom: false,
+					sunrays: false,
+					splatForce: 2000,
+					curl: 8,
+					velocityDissipation: 0.15,
+					densityDissipation: 0.8,
+					brightness: theme.brightness,
+					colorPalette: theme.palette,
+				});
+				fluid.start();
+
+				window.addEventListener('theme-change', () => {
+					const theme = getTheme();
+					fluid.setConfig({ colorPalette: theme.palette, brightness: theme.brightness });
+				});
 			});
 		});
 	}

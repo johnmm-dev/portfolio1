@@ -186,4 +186,12 @@ const postTags = post.data.tags.map((key) => tags[key]).filter((tag) => tag.acti
 	.post-content :global(code) {
 		@apply rounded bg-neutral-100 px-1.5 py-0.5 text-[0.9em] dark:bg-neutral-800;
 	}
+	.post-content :global(figure) {
+		margin-top: 1.25em;
+	}
+	.post-content :global(figcaption) {
+		@apply text-sm text-neutral-500 dark:text-neutral-400;
+		margin-top: 0.5em;
+		text-align: center;
+	}
 </style>

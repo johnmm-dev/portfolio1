@@ -8,11 +8,14 @@ const components = {
 			`<a href="${escapeHTML(value?.href ?? '')}">${children}</a>`,
 	},
 	types: {
-		image: ({ value }: { value: { alt: string } }) =>
-			`<img src="${urlForImage(value as Parameters<typeof urlForImage>[0])
+		image: ({ value }: { value: { alt: string; description?: string } }) => {
+			const img = `<img src="${urlForImage(value as Parameters<typeof urlForImage>[0])
 				.width(1000)
 				.auto('format')
-				.url()}" alt="${escapeHTML(value.alt)}" />`,
+				.url()}" alt="${escapeHTML(value.alt)}" />`;
+			if (!value.description) return `<figure>${img}</figure>`;
+			return `<figure>${img}<figcaption>${escapeHTML(value.description)}</figcaption></figure>`;
+		},
 	},
 };
 

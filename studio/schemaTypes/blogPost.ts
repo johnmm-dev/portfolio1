@@ -182,6 +182,12 @@ export const blogPost = defineType({
               title: 'Alt text',
               validation: (Rule) => Rule.required(),
             }),
+            defineField({
+              name: 'description',
+              type: 'string',
+              title: 'Description',
+              description: 'Optional caption shown under the image.',
+            }),
           ],
         }),
       ],

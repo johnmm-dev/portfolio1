@@ -25,6 +25,8 @@ const seriesList = (await getCollection('series')).sort((a, b) => a.data.name.lo
 								src={item.data.image.url}
 								alt={item.data.image.alt}
 								class="h-24 w-24 shrink-0 rounded-xl object-cover sm:h-28 sm:w-28"
+								loading="lazy"
+								decoding="async"
 							/>
 							<div class="min-w-0">
 								<div class="flex items-center gap-2">

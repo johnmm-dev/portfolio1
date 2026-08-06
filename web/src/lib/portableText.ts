@@ -12,7 +12,7 @@ const components = {
 			const img = `<img src="${urlForImage(value as Parameters<typeof urlForImage>[0])
 				.width(1000)
 				.auto('format')
-				.url()}" alt="${escapeHTML(value.alt)}" />`;
+				.url()}" alt="${escapeHTML(value.alt)}" loading="lazy" decoding="async" />`;
 			if (!value.description) return `<figure>${img}</figure>`;
 			return `<figure>${img}<figcaption>${escapeHTML(value.description)}</figcaption></figure>`;
 		},

@@ -1,8 +1,8 @@
 export const writingTeaser = {
 	label: 'Writing',
-	heading: 'Software engineering, system design, ERP, and things I do.',
+	heading: 'From robotics club to software engineer — told in series.',
 	description:
-		'Writing on software engineering, system design, and ERP, plus life outside of it: Dubai, hiking, fishing, and other things I get up to.',
+		'Serialized stories about building robots at BRAC University, becoming a software engineer, and building this very portfolio — one story at a time.',
 };
 
 // Used as the /writing index page's og:image, and as the fallback thumbnail/

@@ -190,6 +190,28 @@ export const blogPost = defineType({
             }),
           ],
         }),
+        defineArrayMember({
+          type: 'object',
+          name: 'youtube',
+          title: 'YouTube Video',
+          fields: [
+            defineField({
+              name: 'url',
+              type: 'url',
+              title: 'YouTube URL',
+              validation: (Rule) =>
+                Rule.required().custom((url) => {
+                  if (!url) return true;
+                  const isYouTubeUrl = /^https?:\/\/(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)/.test(url);
+                  return isYouTubeUrl || 'Must be a youtube.com or youtu.be URL';
+                }),
+            }),
+          ],
+          preview: {
+            select: { url: 'url' },
+            prepare: ({ url }) => ({ title: 'YouTube Video', subtitle: url }),
+          },
+        }),
       ],
     }),
   ],

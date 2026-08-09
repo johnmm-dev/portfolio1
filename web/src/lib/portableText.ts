@@ -2,6 +2,9 @@ import { toHTML, escapeHTML } from '@portabletext/to-html';
 import type { TypedObject } from '@portabletext/types';
 import { urlForImage } from '@/lib/sanity';
 
+const extractYouTubeId = (url: string) =>
+	url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1];
+
 const components = {
 	marks: {
 		link: ({ value, children }: { value?: { href: string }; children: string }) =>
@@ -15,6 +18,11 @@ const components = {
 				.url()}" alt="${escapeHTML(value.alt)}" loading="lazy" decoding="async" />`;
 			if (!value.description) return `<figure>${img}</figure>`;
 			return `<figure>${img}<figcaption>${escapeHTML(value.description)}</figcaption></figure>`;
+		},
+		youtube: ({ value }: { value: { url: string } }) => {
+			const id = extractYouTubeId(value.url);
+			if (!id) return '';
+			return `<div class="youtube-embed"><iframe src="https://www.youtube-nocookie.com/embed/${id}" title="YouTube video player" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>`;
 		},
 	},
 };

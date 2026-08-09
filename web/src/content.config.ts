@@ -22,7 +22,7 @@ const BLOG_QUERY = `*[
 	pubDate,
 	tags,
 	draft,
-	seriesInfo{ "slug": series->slug.current, "name": series->name, part },
+	seriesInfo{ "slug": series->slug.current, "name": series->name, "status": series->status, part },
 	thumbnail{ alt, "asset": asset-> },
 	body
 }`;
@@ -102,7 +102,12 @@ function sanityBlogLoader(): Loader {
 							// unresolved reference as "no series" rather than failing the post.
 							seriesInfo:
 								post.seriesInfo?.slug && post.seriesInfo?.name
-									? { slug: post.seriesInfo.slug, name: post.seriesInfo.name, part: post.seriesInfo.part }
+									? {
+											slug: post.seriesInfo.slug,
+											name: post.seriesInfo.name,
+											status: post.seriesInfo.status,
+											part: post.seriesInfo.part,
+										}
 									: undefined,
 							thumbnail: post.thumbnail
 								? {
@@ -139,6 +144,7 @@ const blog = defineCollection({
 			.object({
 				slug: z.string(),
 				name: z.string(),
+				status: z.enum(['inProgress', 'completed']),
 				part: z.number().int().positive(),
 			})
 			.optional(),

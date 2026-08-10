@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
+import ShareButtons from '@/components/common/ShareButtons.astro';
 import { writingTeaser, writingDefaultImage } from '@/data/writing';
 import { isPostVisible } from '@/content.config';
 
@@ -15,6 +16,10 @@ const posts = (await getCollection('blog', isPostVisible)).sort(
 
 		<span class="section-label mt-6 block">{writingTeaser.label}</span>
 		<h1 class="section-heading">{writingTeaser.heading}</h1>
+
+		<div class="mt-4">
+			<ShareButtons title={writingTeaser.heading} />
+		</div>
 
 		<a href="/writing/series" class="card-meta mt-4 inline-block font-semibold underline-offset-4 hover:underline">
 			Browse by series →

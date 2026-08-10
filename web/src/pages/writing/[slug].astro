@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
+import ShareButtons from '@/components/common/ShareButtons.astro';
 import { isPostVisible } from '@/content.config';
 import { tags } from '@/data/tags';
 import { writingDefaultImage } from '@/data/writing';
@@ -70,6 +71,10 @@ const postTags = post.data.tags.map((key) => tags[key]).filter((tag) => tag.acti
 				{post.data.draft && <span class="draft-badge">Draft</span>}
 			</div>
 			<h1 class="section-heading">{post.data.title}</h1>
+
+			<div class="mt-4">
+				<ShareButtons title={post.data.title} />
+			</div>
 
 			{
 				postTags.length > 0 && (

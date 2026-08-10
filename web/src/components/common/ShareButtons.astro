@@ -1,0 +1,55 @@
+---
+import FacebookIcon from '@/components/common/icons/FacebookIcon.astro';
+import TwitterIcon from '@/components/common/icons/TwitterIcon.astro';
+import LinkedinIcon from '@/components/common/icons/LinkedinIcon.astro';
+import WhatsappIcon from '@/components/common/icons/WhatsappIcon.astro';
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+
+const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const encodedUrl = encodeURIComponent(pageUrl);
+const encodedTitle = encodeURIComponent(title);
+
+const shareLinks = [
+	{
+		label: 'Share on Facebook',
+		href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+		Icon: FacebookIcon,
+	},
+	{
+		label: 'Share on Twitter',
+		href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+		Icon: TwitterIcon,
+	},
+	{
+		label: 'Share on LinkedIn',
+		href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+		Icon: LinkedinIcon,
+	},
+	{
+		label: 'Share on WhatsApp',
+		href: `https://wa.me/?text=${encodeURIComponent(`${title} ${pageUrl}`)}`,
+		Icon: WhatsappIcon,
+	},
+];
+---
+
+<div class="flex items-center gap-2">
+	<p class="card-meta text-neutral-500 dark:text-neutral-400">Share:</p>
+	{
+		shareLinks.map(({ label, href, Icon }) => (
+			<a
+				href={href}
+				target="_blank"
+				rel="noopener noreferrer"
+				aria-label={label}
+				class="card-surface flex h-9 w-9 items-center justify-center rounded-full transition active:scale-95">
+				<Icon />
+			</a>
+		))
+	}
+</div>

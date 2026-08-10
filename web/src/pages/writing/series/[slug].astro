@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
+import ShareButtons from '@/components/common/ShareButtons.astro';
 import { isPostVisible } from '@/content.config';
 import { writingDefaultImage } from '@/data/writing';
 
@@ -51,6 +52,11 @@ const { series, parts } = Astro.props;
 			</span>
 		</div>
 		<h1 class="section-heading">{series.data.name}</h1>
+
+		<div class="mt-4">
+			<ShareButtons title={series.data.name} />
+		</div>
+
 		<p class="card-body mt-4 text-neutral-600 dark:text-neutral-300">{series.data.description}</p>
 
 		<div class="mt-10 flex flex-col gap-4">

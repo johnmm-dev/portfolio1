@@ -58,8 +58,8 @@ const articleSchema =
 			// means the default (denied) is correct; only "granted" ever upgrades it, and
 			// analytics.ts's getStoredConsent() is the one place that actually expires it.
 			window.dataLayer = window.dataLayer || [];
-			function gtag(...args) {
-				window.dataLayer.push(args);
+			function gtag() {
+				window.dataLayer.push(arguments);
 			}
 			window.gtag = gtag;
 			gtag('consent', 'default', {

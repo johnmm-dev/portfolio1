@@ -80,6 +80,8 @@ import { socialLinks } from '@/data/social';
 				class="flex items-center gap-2 rounded-full border border-neutral-200 py-1.5 pr-1.5 pl-4 dark:border-neutral-700">
 				<a
 					href={`mailto:${contact.email}`}
+					data-ga-event="contact_click"
+					data-ga-params={JSON.stringify({ contact_method: 'email_link' })}
 					class="font-mono text-sm text-neutral-700 hover:underline sm:text-base dark:text-neutral-200">
 					{contact.email}
 				</a>
@@ -87,6 +89,8 @@ import { socialLinks } from '@/data/social';
 					id="copy-email-button"
 					type="button"
 					data-email={contact.email}
+					data-ga-event="contact_click"
+					data-ga-params={JSON.stringify({ contact_method: 'email_copy' })}
 					aria-label="Copy email address"
 					class:list={[
 						'flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-neutral-200 text-neutral-500 transition active:scale-95',
@@ -105,6 +109,8 @@ import { socialLinks } from '@/data/social';
 					target="_blank"
 					rel="noopener noreferrer"
 					aria-label={socialLinks.github.label}
+					data-ga-event="contact_click"
+					data-ga-params={JSON.stringify({ contact_method: 'github' })}
 					class:list={[
 						'flex h-11 w-11 items-center justify-center rounded-full border border-neutral-200 text-neutral-600 transition hover:border-neutral-400 active:scale-95',
 						'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900',
@@ -117,6 +123,8 @@ import { socialLinks } from '@/data/social';
 					target="_blank"
 					rel="noopener noreferrer"
 					aria-label={socialLinks.linkedin.label}
+					data-ga-event="contact_click"
+					data-ga-params={JSON.stringify({ contact_method: 'linkedin' })}
 					class:list={[
 						'flex h-11 w-11 items-center justify-center rounded-full border border-neutral-200 text-neutral-600 transition hover:border-neutral-400 active:scale-95',
 						'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900',

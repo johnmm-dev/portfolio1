@@ -63,6 +63,8 @@ const activeItems = selectedWorkTeaser.items.filter((item) => item.active).sort(
 								href={item.href}
 								target={item.href.startsWith('http') ? '_blank' : undefined}
 								rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+								data-ga-event="project_click"
+								data-ga-params={JSON.stringify({ project_name: item.title, destination: item.href })}
 								class="card-meta mt-4 font-semibold underline-offset-4 hover:underline">
 								{item.linkLabel ?? 'Learn more'} →
 							</a>

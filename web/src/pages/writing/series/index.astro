@@ -20,7 +20,11 @@ const seriesList = (await getCollection('series')).sort((a, b) => a.data.name.lo
 			{
 				seriesList.length > 0 ? (
 					seriesList.map((item) => (
-						<a href={`/writing/series/${item.id}`} class="card-surface flex gap-4 rounded-2xl p-4 sm:p-6">
+						<a
+							href={`/writing/series/${item.id}`}
+							data-ga-event="series_click"
+							data-ga-params={JSON.stringify({ series_name: item.data.name, source_page: 'series_index' })}
+							class="card-surface flex gap-4 rounded-2xl p-4 sm:p-6">
 							<img
 								src={item.data.image.url}
 								alt={item.data.image.alt}

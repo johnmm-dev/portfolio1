@@ -10,7 +10,10 @@ const posts = (await getCollection('blog', isPostVisible)).sort(
 );
 ---
 
-<Layout title="Robotics to Software — Adnan Sabbir" description={writingTeaser.description} image={writingDefaultImage.url}>
+<Layout
+	title="Robotics to Software — Adnan Sabbir"
+	description={writingTeaser.description}
+	image={writingDefaultImage.url}>
 	<section class="mx-auto max-w-3xl px-6 py-16">
 		<a href="/" class="card-meta font-semibold underline-offset-4 hover:underline">← Back to home</a>
 
@@ -18,7 +21,7 @@ const posts = (await getCollection('blog', isPostVisible)).sort(
 		<h1 class="section-heading">{writingTeaser.heading}</h1>
 
 		<div class="mt-4">
-			<ShareButtons title={writingTeaser.heading} />
+			<ShareButtons title={writingTeaser.heading} contentType="index" />
 		</div>
 
 		<a href="/writing/series" class="card-meta mt-4 inline-block font-semibold underline-offset-4 hover:underline">
@@ -28,8 +31,17 @@ const posts = (await getCollection('blog', isPostVisible)).sort(
 		<div class="mt-10 flex flex-col gap-4">
 			{
 				posts.length > 0 ? (
-					posts.map((post) => (
-						<a href={`/writing/${post.id}`} class="card-surface flex gap-4 rounded-2xl p-4 sm:p-6">
+					posts.map((post, index) => (
+						<a
+							href={`/writing/${post.id}`}
+							data-ga-event="article_click"
+							data-ga-params={JSON.stringify({
+								article_title: post.data.title,
+								article_slug: post.id,
+								article_position: index,
+								source_page: 'writing_index',
+							})}
+							class="card-surface flex gap-4 rounded-2xl p-4 sm:p-6">
 							<img
 								src={post.data.thumbnail?.url ?? writingDefaultImage.url}
 								alt={post.data.thumbnail?.alt ?? writingDefaultImage.alt}

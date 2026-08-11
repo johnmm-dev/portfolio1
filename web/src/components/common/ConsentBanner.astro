@@ -1,0 +1,77 @@
+---
+
+---
+
+<div
+	id="consent-banner"
+	data-visible="false"
+	role="region"
+	aria-label="Cookie consent"
+	aria-hidden="true"
+	inert
+	class:list={[
+		'card-surface fixed inset-x-0 top-0 z-50 flex flex-col items-center justify-between gap-3 rounded-none border-x-0 border-t-0 px-4 py-3',
+		'sm:flex-row sm:px-6',
+	]}>
+	<div class="text-center sm:text-left">
+		<p class="card-body font-semibold">Analytics preferences</p>
+		<p class="card-meta mt-0.5 text-neutral-600 dark:text-neutral-300">
+			I use anonymous analytics to understand site usage. Allowing analytics enables cookies for more accurate visit and
+			session measurement.
+		</p>
+	</div>
+	<div class="flex shrink-0 gap-2">
+		<button
+			id="consent-decline"
+			type="button"
+			class:list={[
+				'card-meta rounded-full border border-neutral-300 px-4 py-1.5 font-semibold text-neutral-600 transition active:scale-95',
+				'dark:border-neutral-600 dark:text-neutral-300',
+			]}>
+			No thanks
+		</button>
+		<button
+			id="consent-accept"
+			type="button"
+			class="card-meta rounded-full bg-sky-600 px-4 py-1.5 font-semibold text-white transition active:scale-95">
+			Allow analytics
+		</button>
+	</div>
+</div>
+
+<style>
+	#consent-banner {
+		transform: translateY(-100%);
+		transition: transform 0.3s ease;
+	}
+	#consent-banner[data-visible='true'] {
+		transform: translateY(0);
+	}
+</style>
+
+<script>
+	import { getStoredConsent, setStoredConsent } from '@/lib/analytics';
+
+	const banner = document.getElementById('consent-banner');
+
+	function setBannerVisible(visible: boolean) {
+		if (!banner) return;
+		banner.dataset.visible = String(visible);
+		banner.setAttribute('aria-hidden', String(!visible));
+		banner.inert = !visible;
+	}
+
+	if (getStoredConsent() === null) {
+		setBannerVisible(true);
+	}
+
+	document.getElementById('consent-accept')?.addEventListener('click', () => {
+		setStoredConsent('granted');
+		setBannerVisible(false);
+	});
+
+	document.getElementById('consent-decline')?.addEventListener('click', () => {
+		setStoredConsent('denied');
+		setBannerVisible(false);
+	});
+</script>

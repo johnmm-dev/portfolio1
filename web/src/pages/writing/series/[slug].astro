@@ -54,7 +54,7 @@ const { series, parts } = Astro.props;
 		<h1 class="section-heading">{series.data.name}</h1>
 
 		<div class="mt-4">
-			<ShareButtons title={series.data.name} />
+			<ShareButtons title={series.data.name} contentType="series" />
 		</div>
 
 		<p class="card-body mt-4 text-neutral-600 dark:text-neutral-300">{series.data.description}</p>
@@ -63,7 +63,15 @@ const { series, parts } = Astro.props;
 			{
 				parts.length > 0 ? (
 					parts.map((post) => (
-						<a href={`/writing/${post.id}`} class="card-surface flex gap-4 rounded-2xl p-4 sm:p-6">
+						<a
+							href={`/writing/${post.id}`}
+							data-ga-event="series_article_click"
+							data-ga-params={JSON.stringify({
+								series_name: series.data.name,
+								article_title: post.data.title,
+								part_number: post.data.seriesInfo?.part,
+							})}
+							class="card-surface flex gap-4 rounded-2xl p-4 sm:p-6">
 							<img
 								src={post.data.thumbnail?.url ?? writingDefaultImage.url}
 								alt={post.data.thumbnail?.alt ?? writingDefaultImage.alt}

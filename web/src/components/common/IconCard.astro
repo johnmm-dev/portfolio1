@@ -16,14 +16,19 @@ const icons = {
 	pen: PenIcon,
 };
 
-type Props = Omit<NavItem, 'active'>;
+interface Props extends Omit<NavItem, 'active'> {
+	'data-ga-event'?: string;
+	'data-ga-params'?: string;
+}
 
-const { label, href, icon, color } = Astro.props;
+const { label, href, icon, color, 'data-ga-event': gaEvent, 'data-ga-params': gaParams } = Astro.props;
 const Icon = icons[icon];
 ---
 
 <a
 	href={href}
+	data-ga-event={gaEvent}
+	data-ga-params={gaParams}
 	class:list={[
 		'card-surface flex w-full items-center gap-3 rounded-2xl px-4 py-4 transition active:scale-95',
 		'sm:aspect-square sm:w-20 sm:flex-col sm:justify-center sm:gap-1 sm:px-0 sm:py-6 md:w-24 lg:w-28',

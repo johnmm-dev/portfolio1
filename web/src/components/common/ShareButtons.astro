@@ -6,9 +6,10 @@ import WhatsappIcon from '@/components/common/icons/WhatsappIcon.astro';
 
 interface Props {
 	title: string;
+	contentType: 'article' | 'series' | 'index';
 }
 
-const { title } = Astro.props;
+const { title, contentType } = Astro.props;
 
 const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const encodedUrl = encodeURIComponent(pageUrl);
@@ -19,21 +20,25 @@ const shareLinks = [
 		label: 'Share on Facebook',
 		href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
 		Icon: FacebookIcon,
+		platform: 'facebook',
 	},
 	{
 		label: 'Share on Twitter',
 		href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
 		Icon: TwitterIcon,
+		platform: 'twitter',
 	},
 	{
 		label: 'Share on LinkedIn',
 		href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
 		Icon: LinkedinIcon,
+		platform: 'linkedin',
 	},
 	{
 		label: 'Share on WhatsApp',
 		href: `https://wa.me/?text=${encodeURIComponent(`${title} ${pageUrl}`)}`,
 		Icon: WhatsappIcon,
+		platform: 'whatsapp',
 	},
 ];
 ---
@@ -41,12 +46,14 @@ const shareLinks = [
 <div class="flex items-center gap-2">
 	<p class="card-meta text-neutral-500 dark:text-neutral-400">Share:</p>
 	{
-		shareLinks.map(({ label, href, Icon }) => (
+		shareLinks.map(({ label, href, Icon, platform }) => (
 			<a
 				href={href}
 				target="_blank"
 				rel="noopener noreferrer"
 				aria-label={label}
+				data-ga-event="share_click"
+				data-ga-params={JSON.stringify({ platform, content_title: title, content_type: contentType })}
 				class="card-surface flex h-9 w-9 items-center justify-center rounded-full transition active:scale-95">
 				<Icon />
 			</a>

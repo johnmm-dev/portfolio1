@@ -172,6 +172,24 @@ page's dark/light background automatically instead of duplicating theme
 logic. No auto-splats (`INITIAL: false`, `SPLAT_KEY: ''`) — reacts to real
 mouse movement only, never fires on its own.
 
+## Analytics (GA4)
+
+GA4 is fully wired up: `web/src/lib/analytics.ts` + `Layout.astro` handle
+Consent Mode v2 (all denied by default, `analytics_storage` granted only
+after the visitor accepts `ConsentBanner.astro`; ad-related consent and
+Google Signals stay permanently denied), gtag.js deferred to window `load`,
+and every custom event auto-tagged with `analytics_consent_state`. Configured
+via the `PUBLIC_GA_MEASUREMENT_ID` env var — unset locally, the whole loader
+tree-shakes out of the build.
+
+When adding a new UI element to track, don't write a one-off tracking
+script — tag the element itself with `data-ga-event="event_name"` and
+`data-ga-params={JSON.stringify({...})}`. One delegated click listener
+(`initClickTracking()`) picks up every such element site-wide. For
+visibility-based events (e.g. `section_view`), call `trackEvent()` directly
+from an `IntersectionObserver`, following `SectionNav.astro`'s pattern,
+rather than the data-attribute route.
+
 ## TypeScript
 
 - Astro's `astro/tsconfigs/strict` preset is used as-is.

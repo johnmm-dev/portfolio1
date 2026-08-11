@@ -22,8 +22,17 @@ const posts = isActive
 
 				<div class="mt-10 flex flex-col gap-4">
 					{posts.length > 0 ? (
-						posts.map((post) => (
-							<a href={`/writing/${post.id}`} class="card-surface flex gap-4 rounded-2xl p-4 sm:p-6">
+						posts.map((post, index) => (
+							<a
+								href={`/writing/${post.id}`}
+								data-ga-event="article_click"
+								data-ga-params={JSON.stringify({
+									article_title: post.data.title,
+									article_slug: post.id,
+									article_position: index,
+									source_page: 'home',
+								})}
+								class="card-surface flex gap-4 rounded-2xl p-4 sm:p-6">
 								<img
 									src={post.data.thumbnail?.url ?? writingDefaultImage.url}
 									alt={post.data.thumbnail?.alt ?? writingDefaultImage.alt}

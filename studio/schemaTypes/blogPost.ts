@@ -212,6 +212,28 @@ export const blogPost = defineType({
             prepare: ({ url }) => ({ title: 'YouTube Video', subtitle: url }),
           },
         }),
+        defineArrayMember({
+          type: 'object',
+          name: 'facebook',
+          title: 'Facebook Video',
+          fields: [
+            defineField({
+              name: 'url',
+              type: 'url',
+              title: 'Facebook Video URL',
+              validation: (Rule) =>
+                Rule.required().custom((url) => {
+                  if (!url) return true;
+                  const isFacebookUrl = /^https?:\/\/(www\.)?facebook\.com\//.test(url);
+                  return isFacebookUrl || 'Must be a facebook.com URL';
+                }),
+            }),
+          ],
+          preview: {
+            select: { url: 'url' },
+            prepare: ({ url }) => ({ title: 'Facebook Video', subtitle: url }),
+          },
+        }),
       ],
     }),
   ],

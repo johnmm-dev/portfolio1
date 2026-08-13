@@ -24,6 +24,10 @@ const components = {
 			if (!id) return '';
 			return `<div class="youtube-embed"><iframe src="https://www.youtube-nocookie.com/embed/${id}" title="YouTube video player" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>`;
 		},
+		facebook: ({ value }: { value: { url: string } }) => {
+			const src = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(value.url)}&show_text=false`;
+			return `<div class="facebook-video-embed"><iframe src="${src}" title="Facebook video player" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe></div>`;
+		},
 	},
 };
 

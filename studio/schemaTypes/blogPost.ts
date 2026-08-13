@@ -214,19 +214,27 @@ export const blogPost = defineType({
         }),
         defineArrayMember({
           type: 'object',
-          name: 'facebook',
+          name: 'facebookVideo',
           title: 'Facebook Video',
           fields: [
             defineField({
               name: 'url',
               type: 'url',
               title: 'Facebook Video URL',
+              description:
+                'Use the canonical facebook.com/<page>/videos/<id>/ URL from the video\'s "Embed" dialog — a facebook.com/share/... link will not embed.',
               validation: (Rule) =>
                 Rule.required().custom((url) => {
                   if (!url) return true;
                   const isFacebookUrl = /^https?:\/\/(www\.)?facebook\.com\//.test(url);
                   return isFacebookUrl || 'Must be a facebook.com URL';
                 }),
+            }),
+            defineField({
+              name: 'caption',
+              type: 'string',
+              title: 'Caption',
+              description: 'Optional caption shown under the video.',
             }),
           ],
           preview: {

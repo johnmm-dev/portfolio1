@@ -8,7 +8,7 @@ const extractYouTubeId = (url: string) =>
 const components = {
 	marks: {
 		link: ({ value, children }: { value?: { href: string }; children: string }) =>
-			`<a href="${escapeHTML(value?.href ?? '')}">${children}</a>`,
+			`<a href="${escapeHTML(value?.href ?? '')}" target="_blank" rel="noopener noreferrer">${children}</a>`,
 	},
 	types: {
 		image: ({ value }: { value: { alt: string; description?: string } }) => {

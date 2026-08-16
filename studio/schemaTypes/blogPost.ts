@@ -95,6 +95,14 @@ export const blogPost = defineType({
       initialValue: true,
     }),
     defineField({
+      name: 'reviewReady',
+      type: 'boolean',
+      title: 'Review Ready',
+      description:
+        'For draft posts only. When on, the post is reachable at /writing/review/<slug> for proofreading, without appearing in the Writing index, series pages, or sitemap. Has no effect once Draft is off.',
+      initialValue: false,
+    }),
+    defineField({
       name: 'seriesInfo',
       type: 'object',
       title: 'Series Info',

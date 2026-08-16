@@ -22,6 +22,7 @@ const BLOG_QUERY = `*[
 	pubDate,
 	tags,
 	draft,
+	reviewReady,
 	seriesInfo{ "slug": series->slug.current, "name": series->name, "status": series->status, part },
 	thumbnail{ alt, "asset": asset-> },
 	body
@@ -98,6 +99,7 @@ function sanityBlogLoader(): Loader {
 							pubDate: post.pubDate,
 							tags: post.tags ?? [],
 							draft: post.draft ?? false,
+							reviewReady: post.reviewReady ?? false,
 							// series-> only resolves if that series is published; treat an
 							// unresolved reference as "no series" rather than failing the post.
 							seriesInfo:
@@ -139,6 +141,7 @@ const blog = defineCollection({
 		// About/Skills tags use, so blog and homepage tags stay one vocabulary.
 		tags: z.array(z.enum(tagKeys)).default([]),
 		draft: z.boolean().default(false),
+		reviewReady: z.boolean().default(false),
 		// Optional multi-part post grouping, keyed by `slug`; `name` is the display title.
 		seriesInfo: z
 			.object({

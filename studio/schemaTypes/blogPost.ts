@@ -214,6 +214,12 @@ export const blogPost = defineType({
                   return isYouTubeUrl || 'Must be a youtube.com or youtu.be URL';
                 }),
             }),
+            defineField({
+              name: 'caption',
+              type: 'string',
+              title: 'Caption',
+              description: 'Optional caption shown under the video.',
+            }),
           ],
           preview: {
             select: { url: 'url' },

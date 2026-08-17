@@ -19,10 +19,12 @@ const components = {
 			if (!value.description) return `<figure>${img}</figure>`;
 			return `<figure>${img}<figcaption>${escapeHTML(value.description)}</figcaption></figure>`;
 		},
-		youtube: ({ value }: { value: { url: string } }) => {
+		youtube: ({ value }: { value: { url: string; caption?: string } }) => {
 			const id = extractYouTubeId(value.url);
 			if (!id) return '';
-			return `<div class="youtube-embed"><iframe src="https://www.youtube-nocookie.com/embed/${id}" title="YouTube video player" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>`;
+			const embed = `<div class="youtube-embed"><iframe src="https://www.youtube-nocookie.com/embed/${id}" title="YouTube video player" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>`;
+			if (!value.caption) return `<figure>${embed}</figure>`;
+			return `<figure>${embed}<figcaption>${escapeHTML(value.caption)}</figcaption></figure>`;
 		},
 		facebookVideo: ({ value }: { value: { url: string; caption?: string } }) => {
 			const src = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(value.url)}&show_text=false`;

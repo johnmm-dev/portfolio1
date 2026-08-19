@@ -15,6 +15,7 @@ export const tags = {
 	// Blog-only topics, added when the Writing section's scope expanded to
 	// cover life outside work, not just professional skills.
 	career: { label: 'Career', active: true },
+	philosophy: { label: 'Philosophy', active: true },
 	dubai: { label: 'Dubai', active: true },
 	hiking: { label: 'Hiking', active: true },
 	fishing: { label: 'Fishing', active: true },

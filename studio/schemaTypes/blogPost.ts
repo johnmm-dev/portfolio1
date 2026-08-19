@@ -12,6 +12,7 @@ const TAG_OPTIONS = [
   { title: 'Logistics', value: 'logistics' },
   { title: 'EdTech', value: 'edtech' },
   { title: 'Career', value: 'career' },
+  { title: 'Philosophy', value: 'philosophy' },
   { title: 'Dubai', value: 'dubai' },
   { title: 'Hiking', value: 'hiking' },
   { title: 'Fishing', value: 'fishing' },

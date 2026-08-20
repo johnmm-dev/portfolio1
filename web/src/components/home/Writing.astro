@@ -6,11 +6,23 @@ import { isPostVisible } from '@/content.config';
 
 const isActive = isNavItemVisible(writingNavItem);
 
-const posts = isActive
-	? (await getCollection('blog', isPostVisible))
-			.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-			.slice(0, 3)
+const allPosts = isActive
+	? (await getCollection('blog', isPostVisible)).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 	: [];
+
+const posts = [];
+const seenSeries = new Set();
+for (const post of allPosts) {
+	const seriesSlug = post.data.seriesInfo?.slug;
+	if (seriesSlug) {
+		if (seenSeries.has(seriesSlug)) continue;
+		seenSeries.add(seriesSlug);
+	}
+	posts.push(post);
+	if (posts.length === 3) break;
+}
+
+const totalCount = allPosts.length;
 ---
 
 {
@@ -18,7 +30,7 @@ const posts = isActive
 		<section id="writing" class="flex min-h-screen flex-col justify-center px-6 py-16">
 			<div class="relative z-10 mx-auto max-w-6xl">
 				<span class="section-label">{writingTeaser.label}</span>
-				<h2 class="section-heading">{writingTeaser.heading}</h2>
+				<h2 class="section-heading">{writingTeaser.homeHeading}</h2>
 
 				<div class="mt-10 flex flex-col gap-4">
 					{posts.length > 0 ? (
@@ -42,15 +54,14 @@ const posts = isActive
 								/>
 								<div class="min-w-0">
 									<div class="flex items-center gap-2">
-										{
-											/* <p class="card-meta text-neutral-500 dark:text-neutral-400">
+										{/* <p class="card-meta text-neutral-500 dark:text-neutral-400">
 											{post.data.pubDate.toLocaleDateString('en-US', {
 												year: 'numeric',
 												month: 'long',
 												day: 'numeric',
 											})}
-										</p> */
-										}
+										</p> */}
+										{post.data.seriesInfo && <span class="series-badge">Series</span>}
 										{post.data.draft && <span class="draft-badge">Draft</span>}
 									</div>
 									<p class="card-body mt-1 font-semibold">{post.data.title}</p>
@@ -65,9 +76,18 @@ const posts = isActive
 					)}
 				</div>
 
-				<a href="/writing" class="card-meta mt-6 inline-block font-semibold underline-offset-4 hover:underline">
-					See all posts →
-				</a>
+				<div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+					<a
+						href="/writing"
+						class="w-full rounded-full bg-neutral-900 px-5 py-2.5 text-center text-sm font-semibold text-white transition active:scale-95 sm:w-auto dark:bg-white dark:text-neutral-900">
+						See all {totalCount} posts →
+					</a>
+					<a
+						href="/writing/series"
+						class="w-full rounded-full border border-neutral-300 px-5 py-2.5 text-center text-sm font-semibold transition active:scale-95 sm:w-auto dark:border-neutral-700">
+						Browse by series →
+					</a>
+				</div>
 			</div>
 		</section>
 	)

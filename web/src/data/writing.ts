@@ -1,6 +1,7 @@
 export const writingTeaser = {
 	label: 'Writing',
 	heading: 'From robotics club to software engineer — told in series.',
+	homeHeading: 'These are my latest writings.',
 	description:
 		'Serialized stories about building robots at BRAC University, becoming a software engineer, and building this very portfolio — one story at a time.',
 };

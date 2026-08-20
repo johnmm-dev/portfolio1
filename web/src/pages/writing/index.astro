@@ -4,6 +4,7 @@ import Layout from '@/layouts/Layout.astro';
 import ShareButtons from '@/components/common/ShareButtons.astro';
 import { writingTeaser, writingDefaultImage } from '@/data/writing';
 import { isPostVisible } from '@/content.config';
+import { tags } from '@/data/tags';
 
 const posts = (await getCollection('blog', isPostVisible)).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -24,24 +25,29 @@ const posts = (await getCollection('blog', isPostVisible)).sort(
 			<ShareButtons title={writingTeaser.heading} contentType="index" />
 		</div>
 
-		<a href="/writing/series" class="card-meta mt-4 inline-block font-semibold underline-offset-4 hover:underline">
-			Browse by series →
+		<a
+			href="/writing/series"
+			class="mt-4 inline-block rounded-full border border-neutral-300 px-5 py-2.5 text-sm font-semibold transition active:scale-95 dark:border-neutral-700">
+			Explore writing by series →
 		</a>
 
 		<div class="mt-10 flex flex-col gap-4">
 			{
 				posts.length > 0 ? (
 					posts.map((post, index) => (
-						<a
-							href={`/writing/${post.id}`}
-							data-ga-event="article_click"
-							data-ga-params={JSON.stringify({
-								article_title: post.data.title,
-								article_slug: post.id,
-								article_position: index,
-								source_page: 'writing_index',
-							})}
-							class="card-surface flex gap-4 rounded-2xl p-4 sm:p-6">
+						<div class="card-surface relative flex gap-4 rounded-2xl p-4 sm:p-6">
+							<a
+								href={`/writing/${post.id}`}
+								aria-label={post.data.title}
+								data-ga-event="article_click"
+								data-ga-params={JSON.stringify({
+									article_title: post.data.title,
+									article_slug: post.id,
+									article_position: index,
+									source_page: 'writing_index',
+								})}
+								class="absolute inset-0 rounded-2xl"
+							/>
 							<img
 								src={post.data.thumbnail?.url ?? writingDefaultImage.url}
 								alt={post.data.thumbnail?.alt ?? writingDefaultImage.alt}
@@ -50,7 +56,7 @@ const posts = (await getCollection('blog', isPostVisible)).sort(
 								decoding="async"
 							/>
 							<div class="min-w-0">
-								<div class="flex items-center gap-2">
+								<div class="flex flex-wrap items-center gap-2">
 									{
 										/* <p class="card-meta text-neutral-500 dark:text-neutral-400">
 										{post.data.pubDate.toLocaleDateString('en-US', {
@@ -61,11 +67,37 @@ const posts = (await getCollection('blog', isPostVisible)).sort(
 									</p> */
 									}
 									{post.data.draft && <span class="draft-badge">Draft</span>}
+									{post.data.seriesInfo && (
+										<a
+											href={`/writing/series/${post.data.seriesInfo.slug}`}
+											data-ga-event="series_click"
+											data-ga-params={JSON.stringify({
+												series_name: post.data.seriesInfo.name,
+												source_page: 'writing_index',
+											})}
+											class="card-meta relative z-10 font-semibold text-sky-600 hover:underline dark:text-sky-400">
+											Part {post.data.seriesInfo.part} of {post.data.seriesInfo.name} →
+										</a>
+									)}
 								</div>
-								<p class="card-body mt-1 font-semibold">{post.data.title}</p>
+								<p class="card-body mt-2 font-semibold">{post.data.title}</p>
 								<p class="card-meta mt-2 text-neutral-500 dark:text-neutral-400">{post.data.description}</p>
+								{
+									post.data.tags.length > 0 && (
+										<div class="mt-3 flex flex-wrap gap-1.5">
+											{post.data.tags
+												.map((key) => tags[key])
+												.filter((tag) => tag.active)
+												.map((tag) => (
+													<span class="rounded-full border border-neutral-200 px-2 py-0.5 text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:text-neutral-300">
+														{tag.label}
+													</span>
+												))}
+										</div>
+									)
+								}
 							</div>
-						</a>
+						</div>
 					))
 				) : (
 					<p class="card-meta text-neutral-500 dark:text-neutral-400">

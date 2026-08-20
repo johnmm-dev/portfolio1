@@ -54,4 +54,9 @@
 		@apply rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold tracking-wide text-amber-800 uppercase;
 		@apply dark:bg-amber-500/15 dark:text-amber-300;
 	}
+
+	.series-badge {
+		@apply rounded-full bg-sky-100 px-2.5 py-0.5 text-xs font-semibold tracking-wide text-sky-700 uppercase;
+		@apply dark:bg-sky-500/15 dark:text-sky-300;
+	}
 }

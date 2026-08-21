@@ -17,7 +17,7 @@ export interface Stat {
 }
 
 export const meTeaser = {
-	label: 'About',
+	label: 'About Me',
 	heading: "Software engineer with a builder's background.",
 	paragraphs: [
 		'I design and build backend systems, product workflows, and developer tools. I like understanding how systems fit together, from business rules and data models to the small tools that make daily engineering faster.',

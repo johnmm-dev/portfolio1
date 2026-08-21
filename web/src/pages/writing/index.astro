@@ -16,7 +16,10 @@ const posts = (await getCollection('blog', isPostVisible)).sort(
 	description={writingTeaser.description}
 	image={writingDefaultImage.url}>
 	<section class="mx-auto max-w-3xl px-6 py-16">
-		<a href="/" class="card-meta font-semibold underline-offset-4 hover:underline">← Back to home</a>
+		<div class="flex gap-4">
+			<a href="/" class="card-meta font-semibold underline-offset-4 hover:underline">← Home</a>
+			<a href="/writing/series" class="card-meta font-semibold underline-offset-4 hover:underline">All series</a>
+		</div>
 
 		<span class="section-label mt-6 block">{writingTeaser.label}</span>
 		<h1 class="section-heading">{writingTeaser.heading}</h1>

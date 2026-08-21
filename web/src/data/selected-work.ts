@@ -17,7 +17,7 @@ export interface WorkItem {
 }
 
 export const selectedWorkTeaser = {
-	label: 'Selected Work',
+	label: 'Projects',
 	heading: 'A few things I’ve built and led.',
 	items: [
 		{

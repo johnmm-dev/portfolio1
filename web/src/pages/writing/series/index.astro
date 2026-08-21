@@ -11,7 +11,10 @@ const seriesList = (await getCollection('series')).sort((a, b) => a.data.name.lo
 	description="Multi-part writing series, grouped by topic."
 	image={writingDefaultImage.url}>
 	<section class="mx-auto max-w-3xl px-6 py-16">
-		<a href="/writing" class="card-meta font-semibold underline-offset-4 hover:underline">← All posts</a>
+		<div class="flex gap-4">
+			<a href="/" class="card-meta font-semibold underline-offset-4 hover:underline">← Home</a>
+			<a href="/writing" class="card-meta font-semibold underline-offset-4 hover:underline">All posts</a>
+		</div>
 
 		<span class="section-label mt-6 block">Series</span>
 		<h1 class="section-heading">Multi-part writing, grouped by topic.</h1>

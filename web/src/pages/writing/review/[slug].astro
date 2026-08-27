@@ -22,7 +22,8 @@ const bodyHtml = renderPortableText(post.data.body);
 	description={post.data.description}
 	image={post.data.thumbnail?.url ?? writingDefaultImage.url}
 	type="article"
-	pubDate={post.data.pubDate}>
+	pubDate={post.data.pubDate}
+	noindex>
 	<div class="mx-auto max-w-3xl px-6 py-16">
 		<article>
 			<div

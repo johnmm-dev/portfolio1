@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import ShareButtons from '@/components/common/ShareButtons.astro';
+import PostContent from '@/components/writing/PostContent.astro';
 import { isPostVisible } from '@/content.config';
 import { tags } from '@/data/tags';
 import { writingDefaultImage } from '@/data/writing';
@@ -114,7 +115,7 @@ const postTags = post.data.tags.map((key) => tags[key]).filter((tag) => tag.acti
 				)
 			}
 
-			<div class="post-content mt-8" set:html={bodyHtml} />
+			<PostContent bodyHtml={bodyHtml} />
 		</article>
 
 		{
@@ -182,77 +183,6 @@ const postTags = post.data.tags.map((key) => tags[key]).filter((tag) => tag.acti
 		}
 	</div>
 </Layout>
-
-<style>
-	@reference '@/styles/global.css';
-
-	.post-content :global(p) {
-		margin-top: 1.25em;
-		line-height: 1.75;
-	}
-	.post-content :global(h2) {
-		@apply border-l-[3px] border-sky-500 pl-3;
-		margin-top: 2em;
-		font-size: 1.5rem;
-		font-weight: 700;
-	}
-	.post-content :global(ul) {
-		margin-top: 1.25em;
-		padding-left: 1.5em;
-		list-style: disc;
-	}
-	.post-content :global(ol) {
-		margin-top: 1.25em;
-		padding-left: 1.5em;
-		list-style: decimal;
-	}
-	.post-content :global(li) {
-		margin-top: 0.5em;
-	}
-	.post-content :global(a) {
-		@apply text-sky-600 underline underline-offset-2 dark:text-sky-400;
-	}
-	.post-content :global(a:hover) {
-		@apply text-sky-700 dark:text-sky-300;
-	}
-	.post-content :global(code) {
-		@apply rounded bg-neutral-100 px-1.5 py-0.5 text-[0.9em] dark:bg-neutral-800;
-	}
-	.post-content :global(figure) {
-		margin-top: 1.25em;
-	}
-	.post-content :global(figcaption) {
-		@apply text-sm text-neutral-500 dark:text-neutral-400;
-		margin-top: 0.5em;
-		text-align: center;
-	}
-	.post-content :global(.youtube-embed) {
-		position: relative;
-		height: 0;
-		padding-bottom: 56.25%;
-	}
-	.post-content :global(.youtube-embed iframe) {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		border: 0;
-	}
-	.post-content :global(.facebook-video-embed) {
-		position: relative;
-		height: 0;
-		padding-bottom: 56.25%;
-	}
-	.post-content :global(.facebook-video-embed iframe) {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		border: 0;
-	}
-</style>
 
 <script>
 	import { trackEvent } from '@/lib/analytics';

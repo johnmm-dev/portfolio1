@@ -2,8 +2,30 @@ import { toHTML, escapeHTML } from '@portabletext/to-html';
 import type { TypedObject } from '@portabletext/types';
 import { urlForImage } from '@/lib/sanity';
 
-const extractYouTubeId = (url: string) =>
-	url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1];
+const extractYouTubeId = (url: string) => url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1];
+
+// Keep in sync with the aspectRatio field's `initialValue` in
+// studio/schemaTypes/blogPost.ts (the two projects can't share a constant).
+const DEFAULT_GALLERY_ASPECT_RATIO = '4 / 3';
+
+type SanityImageRef = Parameters<typeof urlForImage>[0];
+
+type FigureImage = { alt: string; description?: string };
+
+type GalleryValue = {
+	columns: number;
+	aspectRatio?: string;
+	images: FigureImage[];
+};
+
+const renderFigure = (image: FigureImage, source: SanityImageRef, width: number) => {
+	const img = `<img src="${urlForImage(source)
+		.width(width)
+		.auto('format')
+		.url()}" alt="${escapeHTML(image.alt)}" loading="lazy" decoding="async" />`;
+	if (!image.description) return `<figure>${img}</figure>`;
+	return `<figure>${img}<figcaption>${escapeHTML(image.description)}</figcaption></figure>`;
+};
 
 const components = {
 	marks: {
@@ -11,13 +33,12 @@ const components = {
 			`<a href="${escapeHTML(value?.href ?? '')}" target="_blank" rel="noopener noreferrer">${children}</a>`,
 	},
 	types: {
-		image: ({ value }: { value: { alt: string; description?: string } }) => {
-			const img = `<img src="${urlForImage(value as Parameters<typeof urlForImage>[0])
-				.width(1000)
-				.auto('format')
-				.url()}" alt="${escapeHTML(value.alt)}" loading="lazy" decoding="async" />`;
-			if (!value.description) return `<figure>${img}</figure>`;
-			return `<figure>${img}<figcaption>${escapeHTML(value.description)}</figcaption></figure>`;
+		image: ({ value }: { value: FigureImage }) => renderFigure(value, value as SanityImageRef, 1000),
+		gallery: ({ value }: { value: GalleryValue }) => {
+			const figures = (value.images ?? []).map((image) => renderFigure(image, image as SanityImageRef, 800)).join('');
+			const columns = Number(value.columns) || 2;
+			const aspectRatio = escapeHTML(value.aspectRatio ?? DEFAULT_GALLERY_ASPECT_RATIO);
+			return `<div class="gallery" style="--gallery-columns: ${columns}; --gallery-aspect-ratio: ${aspectRatio}">${figures}</div>`;
 		},
 		youtube: ({ value }: { value: { url: string; caption?: string } }) => {
 			const id = extractYouTubeId(value.url);

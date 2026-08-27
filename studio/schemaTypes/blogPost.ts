@@ -19,6 +19,17 @@ const TAG_OPTIONS = [
   { title: 'About Me', value: 'aboutMe' },
 ];
 
+// Values are valid CSS aspect-ratio syntax so the renderer can pass them
+// straight through as a CSS custom property.
+const GALLERY_ASPECT_RATIO_OPTIONS = [
+  { title: 'Square (1:1)', value: '1 / 1' },
+  { title: 'Landscape (4:3)', value: '4 / 3' },
+  { title: 'Classic Photo (3:2)', value: '3 / 2' },
+  { title: 'Wide (16:9)', value: '16 / 9' },
+  { title: 'Portrait (3:4)', value: '3 / 4' },
+  { title: 'Tall Portrait (2:3)', value: '2 / 3' },
+];
+
 export const blogPost = defineType({
   name: 'blogPost',
   type: 'document',
@@ -198,6 +209,67 @@ export const blogPost = defineType({
               description: 'Optional caption shown under the image.',
             }),
           ],
+        }),
+        defineArrayMember({
+          type: 'object',
+          name: 'gallery',
+          title: 'Image Gallery',
+          fields: [
+            defineField({
+              name: 'columns',
+              type: 'number',
+              title: 'Columns',
+              description: 'How many images per row on wider screens (stacks to 1 column on mobile).',
+              options: { list: [2, 3, 4] },
+              initialValue: 2,
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'aspectRatio',
+              type: 'string',
+              title: 'Image Aspect Ratio',
+              description:
+                'Crops every image in this gallery to the same shape so the grid stays even. Pick a portrait ratio for vertical photos.',
+              options: { list: GALLERY_ASPECT_RATIO_OPTIONS },
+              // Keep in sync with DEFAULT_GALLERY_ASPECT_RATIO in web/src/lib/portableText.ts.
+              initialValue: '4 / 3',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'images',
+              type: 'array',
+              title: 'Images',
+              validation: (Rule) => Rule.required().min(2),
+              of: [
+                defineArrayMember({
+                  type: 'image',
+                  name: 'galleryImage',
+                  options: { hotspot: true },
+                  fields: [
+                    defineField({
+                      name: 'alt',
+                      type: 'string',
+                      title: 'Alt text',
+                      validation: (Rule) => Rule.required(),
+                    }),
+                    defineField({
+                      name: 'description',
+                      type: 'string',
+                      title: 'Description',
+                      description: 'Optional caption shown under this image.',
+                    }),
+                  ],
+                }),
+              ],
+            }),
+          ],
+          preview: {
+            select: { images: 'images' },
+            prepare: ({ images }: { images?: unknown[] }) => ({
+              title: 'Image Gallery',
+              subtitle: `${images?.length ?? 0} image(s)`,
+            }),
+          },
         }),
         defineArrayMember({
           type: 'object',

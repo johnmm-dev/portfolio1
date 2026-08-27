@@ -60,15 +60,13 @@ const posts = (await getCollection('blog', isPostVisible)).sort(
 							/>
 							<div class="min-w-0">
 								<div class="flex flex-wrap items-center gap-2">
-									{
-										/* <p class="card-meta text-neutral-500 dark:text-neutral-400">
+									{/* <p class="card-meta text-neutral-500 dark:text-neutral-400">
 										{post.data.pubDate.toLocaleDateString('en-US', {
 											year: 'numeric',
 											month: 'long',
 											day: 'numeric',
 										})}
-									</p> */
-									}
+									</p> */}
 									{post.data.draft && <span class="draft-badge">Draft</span>}
 									{post.data.seriesInfo && (
 										<a
@@ -85,20 +83,18 @@ const posts = (await getCollection('blog', isPostVisible)).sort(
 								</div>
 								<p class="card-body mt-2 font-semibold">{post.data.title}</p>
 								<p class="card-meta mt-2 text-neutral-500 dark:text-neutral-400">{post.data.description}</p>
-								{
-									post.data.tags.length > 0 && (
-										<div class="mt-3 flex flex-wrap gap-1.5">
-											{post.data.tags
-												.map((key) => tags[key])
-												.filter((tag) => tag.active)
-												.map((tag) => (
-													<span class="rounded-full border border-neutral-200 px-2 py-0.5 text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:text-neutral-300">
-														{tag.label}
-													</span>
-												))}
-										</div>
-									)
-								}
+								{post.data.tags.length > 0 && (
+									<div class="mt-3 flex flex-wrap gap-1.5">
+										{post.data.tags
+											.map((key) => tags[key])
+											.filter((tag) => tag.active)
+											.map((tag) => (
+												<span class="rounded-full border border-neutral-200 px-2 py-0.5 text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:text-neutral-300">
+													{tag.label}
+												</span>
+											))}
+									</div>
+								)}
 							</div>
 						</div>
 					))

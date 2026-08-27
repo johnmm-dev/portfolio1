@@ -1,0 +1,104 @@
+---
+interface Props {
+	bodyHtml: string;
+}
+
+const { bodyHtml } = Astro.props;
+---
+
+<div class="post-content mt-8" set:html={bodyHtml} />
+
+<style>
+	@reference '@/styles/global.css';
+
+	.post-content :global(p) {
+		margin-top: 1.25em;
+		line-height: 1.75;
+	}
+	.post-content :global(h2) {
+		@apply border-l-[3px] border-sky-500 pl-3;
+		margin-top: 2em;
+		font-size: 1.5rem;
+		font-weight: 700;
+	}
+	.post-content :global(ul) {
+		margin-top: 1.25em;
+		padding-left: 1.5em;
+		list-style: disc;
+	}
+	.post-content :global(ol) {
+		margin-top: 1.25em;
+		padding-left: 1.5em;
+		list-style: decimal;
+	}
+	.post-content :global(li) {
+		margin-top: 0.5em;
+	}
+	.post-content :global(a) {
+		@apply text-sky-600 underline underline-offset-2 dark:text-sky-400;
+	}
+	.post-content :global(a:hover) {
+		@apply text-sky-700 dark:text-sky-300;
+	}
+	.post-content :global(code) {
+		@apply rounded bg-neutral-100 px-1.5 py-0.5 text-[0.9em] dark:bg-neutral-800;
+	}
+	.post-content :global(figure) {
+		margin-top: 1.25em;
+	}
+	.post-content :global(figcaption) {
+		@apply text-sm text-neutral-500 dark:text-neutral-400;
+		margin-top: 0.5em;
+		text-align: center;
+	}
+	.post-content :global(.youtube-embed) {
+		position: relative;
+		height: 0;
+		padding-bottom: 56.25%;
+	}
+	.post-content :global(.youtube-embed iframe) {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		border: 0;
+	}
+	.post-content :global(.facebook-video-embed) {
+		position: relative;
+		height: 0;
+		padding-bottom: 56.25%;
+	}
+	.post-content :global(.facebook-video-embed iframe) {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		border: 0;
+	}
+	.post-content :global(.gallery) {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1rem;
+		margin-top: 1.25em;
+		margin-bottom: 1.25em;
+	}
+	.post-content :global(.gallery figure) {
+		margin-top: 0;
+	}
+	.post-content :global(.gallery img) {
+		/* Always set inline by the gallery renderer in portableText.ts, so no CSS-level fallback is needed here. */
+		aspect-ratio: var(--gallery-aspect-ratio);
+		width: 100%;
+		height: 100%;
+		display: block;
+		object-fit: cover;
+		object-position: center;
+	}
+	@media (min-width: 640px) {
+		.post-content :global(.gallery) {
+			grid-template-columns: repeat(var(--gallery-columns), 1fr);
+		}
+	}
+</style>

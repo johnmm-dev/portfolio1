@@ -190,6 +190,32 @@ visibility-based events (e.g. `section_view`), call `trackEvent()` directly
 from an `IntersectionObserver`, following `SectionNav.astro`'s pattern,
 rather than the data-attribute route.
 
+### Unlisted pages: `noindex` / `noAnalytics`
+
+`Layout.astro` takes two independent opt-in booleans for pages that aren't
+part of the public site (currently only `/writing/review/<slug>`, the
+draft-sharing route):
+
+- `noindex` — renders `<meta name="robots" content="noindex, nofollow">`.
+- `noAnalytics` — keeps the page out of GA4 entirely: `ConsentBanner` isn't
+  rendered, the Consent Mode default script no-ops, and gtag.js is never
+  loaded, so no `gtag` stub exists and `trackEvent()` calls fall through
+  their `typeof window.gtag !== 'function'` guard.
+
+They're deliberately separate — a page can warrant `noindex` while its
+traffic is still worth measuring.
+
+`noAnalytics` works by setting `data-analytics="off"` on `<html>`; both the
+`is:inline` consent script and the bundled loader script check that
+attribute, since neither can read Astro props (an `is:inline` script isn't
+bundled, and a bundled script has no access to component scope). Don't wrap
+either script in a `{cond && <script>}` expression instead — Prettier can't
+parse an `is:inline` script nested in a JSX expression, and Astro's script
+hoisting makes conditional bundled scripts unreliable.
+
+Routes like this also need excluding from the sitemap via the `filter` in
+`astro.config.mjs`.
+
 ## TypeScript
 
 - Astro's `astro/tsconfigs/strict` preset is used as-is.

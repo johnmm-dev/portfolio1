@@ -11,9 +11,18 @@ interface Props {
 	type?: 'website' | 'article';
 	pubDate?: Date;
 	noindex?: boolean;
+	noAnalytics?: boolean;
 }
 
-const { title, description, image = 'og-image.jpg', type = 'website', pubDate, noindex = false } = Astro.props;
+const {
+	title,
+	description,
+	image = 'og-image.jpg',
+	type = 'website',
+	pubDate,
+	noindex = false,
+	noAnalytics = false,
+} = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(image, Astro.site);
@@ -45,7 +54,7 @@ const articleSchema =
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-analytics={noAnalytics ? 'off' : undefined}>
 	<head>
 		<script is:inline>
 			const stored = localStorage.getItem('theme');
@@ -58,19 +67,26 @@ const articleSchema =
 			// A stored "denied" doesn't need an age check here - expired or not, it still
 			// means the default (denied) is correct; only "granted" ever upgrades it, and
 			// analytics.ts's getStoredConsent() is the one place that actually expires it.
-			window.dataLayer = window.dataLayer || [];
-			function gtag() {
-				window.dataLayer.push(arguments);
-			}
-			window.gtag = gtag;
-			gtag('consent', 'default', {
-				ad_storage: 'denied',
-				ad_user_data: 'denied',
-				ad_personalization: 'denied',
-				analytics_storage: 'denied',
-			});
-			if (localStorage.getItem('ga-consent') === 'granted') {
-				gtag('consent', 'update', { analytics_storage: 'granted' });
+			// Skipped entirely on data-analytics="off" pages (see the noAnalytics prop), so
+			// no gtag stub exists there and trackEvent() calls become no-ops.
+			if (document.documentElement.dataset.analytics !== 'off') {
+				window.dataLayer = window.dataLayer || [];
+				// arguments (not rest params) is Google's canonical gtag snippet - kept
+				// byte-for-byte so gtag.js receives exactly the shape it documents.
+				function gtag() {
+					// eslint-disable-next-line prefer-rest-params
+					window.dataLayer.push(arguments);
+				}
+				window.gtag = gtag;
+				gtag('consent', 'default', {
+					ad_storage: 'denied',
+					ad_user_data: 'denied',
+					ad_personalization: 'denied',
+					analytics_storage: 'denied',
+				});
+				if (localStorage.getItem('ga-consent') === 'granted') {
+					gtag('consent', 'update', { analytics_storage: 'granted' });
+				}
 			}
 		</script>
 		<meta charset="utf-8" />
@@ -115,7 +131,7 @@ const articleSchema =
 			Skip to content
 		</a>
 		<ThemeToggle />
-		<ConsentBanner />
+		{!noAnalytics && <ConsentBanner />}
 		<main id="main-content">
 			<slot />
 		</main>
@@ -123,7 +139,7 @@ const articleSchema =
 			import { initGtagConfig, loadGtagScript, initClickTracking } from '@/lib/analytics';
 
 			const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
-			if (gaMeasurementId) {
+			if (gaMeasurementId && document.documentElement.dataset.analytics !== 'off') {
 				initGtagConfig(gaMeasurementId);
 				initClickTracking();
 				window.addEventListener('load', () => loadGtagScript(gaMeasurementId));

@@ -79,7 +79,7 @@ const postTags = post.data.tags.map((key) => tags[key]).filter((tag) => tag.acti
 			<h1 class="section-heading">{post.data.title}</h1>
 
 			<div class="mt-4">
-				<ShareButtons title={post.data.title} contentType="article" />
+				<ShareButtons title={post.data.title} contentType="article" campaignDefault={seriesSlug} />
 			</div>
 
 			{

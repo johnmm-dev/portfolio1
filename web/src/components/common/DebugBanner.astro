@@ -1,0 +1,43 @@
+---
+import { DEBUG_PARAM } from '@/lib/debug';
+---
+
+{/* Revealed by data-debug="on"; fixed so it can't shift the layout I'm inspecting. */}
+<div
+	id="debug-banner"
+	role="region"
+	aria-label="Debug mode"
+	class:list={[
+		'fixed inset-x-0 top-0 z-50 items-center justify-between gap-3 border-b border-violet-300 bg-violet-50 px-4 py-1.5 pr-20',
+		'dark:border-violet-500/30 dark:bg-violet-500/10',
+	]}>
+	<p class="card-meta font-semibold text-violet-800 dark:text-violet-300">
+		Debug mode on — analytics disabled. Add <code>?{DEBUG_PARAM}=off</code> to any URL to turn it off.
+	</p>
+	<button
+		id="debug-banner-dismiss"
+		type="button"
+		aria-label="Hide debug banner"
+		class="card-meta shrink-0 rounded-full px-2 leading-none font-bold text-violet-800 transition active:scale-95 dark:text-violet-300"
+		>&times;</button
+	>
+</div>
+
+<style>
+	#debug-banner {
+		display: none;
+	}
+	:global(html[data-debug='on']) #debug-banner {
+		display: flex;
+	}
+</style>
+
+<script>
+	// Visitors get no listener - the banner is CSS-hidden for them.
+	if (document.documentElement.dataset.debug === 'on') {
+		// Dismissal isn't persisted: it returns every load so debug mode can't be forgotten.
+		document.getElementById('debug-banner-dismiss')?.addEventListener('click', () => {
+			document.getElementById('debug-banner')?.remove();
+		});
+	}
+</script>

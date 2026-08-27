@@ -190,6 +190,21 @@ visibility-based events (e.g. `section_view`), call `trackEvent()` directly
 from an `IntersectionObserver`, following `SectionNav.astro`'s pattern,
 rather than the data-attribute route.
 
+### Share links carry UTM params
+
+`ShareButtons.astro` hands each platform a UTM-tagged variant of the page URL
+(`utm_source=<platform>`, `utm_medium=social`, `utm_campaign=organic_share`)
+so GA4 can attribute inbound social traffic. Only the URL passed to the share
+target is tagged — the canonical URL in `Layout.astro` stays clean, since a
+tagged canonical would split the page's search signals.
+
+Share targets live in `web/src/lib/share.ts`, not in the component: each
+entry's `source` names both the `utm_source` and the `share_click` GA4 event
+param, and `buildTrackedUrl()` is the only place the params are assembled.
+`ShareButtons.astro`'s per-platform `HREF_BUILDERS` entry receives the
+already-tagged URL, so a new platform can't be added with the tagging
+forgotten.
+
 ### Unlisted pages: `noindex` / `noAnalytics`
 
 `Layout.astro` takes two independent opt-in booleans for pages that aren't
@@ -215,6 +230,56 @@ hoisting makes conditional bundled scripts unreliable.
 
 Routes like this also need excluding from the sitemap via the `filter` in
 `astro.config.mjs`.
+
+### My own tracked share links
+
+`AdminShareTools.astro` sits under the reader share row and is revealed only
+by `data-debug="on"`, so visitors never see it (its script doesn't even attach
+listeners for them). It copies a tracked URL per platform to the clipboard, so
+I never hand-edit query params:
+
+- `utm_source` / `utm_medium` come from the same `SHARE_PLATFORMS` registry the
+  reader buttons use. `medium` is per-platform, not global: Daily.dev is
+  `referral`, the social networks are `social`.
+- `utm_campaign` is the editable field, defaulting to the post's series slug
+  (passed as `campaignDefault`) or its own slug. Reader buttons ignore it and
+  always send `ORGANIC_CAMPAIGN`.
+- Daily.dev is in `ADMIN_PLATFORMS` only — a reader can't submit on my behalf,
+  so there's no reader-facing button for it.
+
+The page URL is passed in from `Astro.site` rather than read from
+`window.location`, so links I copy point at the live domain even when I
+generate them from a local preview.
+
+### Personal debug mode
+
+`?<DEBUG_PARAM>=on` (see `web/src/lib/debug.ts` for the current word) on any
+URL sets a `debug-mode` localStorage flag for me and nothing else; `=off`
+clears it. It is not a secret — the toggle runs client-side, so the param name
+is in every page's source — so never gate anything sensitive or unpublished
+on it.
+
+The `is:inline` script in `Layout.astro` handles it, and:
+
+- strips the param from the URL with `history.replaceState`. It runs ahead of
+  the gtag `config` push, so the param never reaches GA4's `page_location`
+  (which would publish the name into the analytics reports) and can't ride
+  along in a copied link.
+- mirrors the flag onto `<html>` as `data-debug="on"`, so scripts and CSS
+  branch on an attribute instead of each re-reading localStorage.
+- sets `data-analytics="off"` too, reusing the `noAnalytics` switch so my own
+  visits stay out of GA4. `ConsentBanner` checks the same attribute, since
+  asking for analytics consent while analytics are off promises something the
+  site doesn't do.
+
+Its literals reach the inline script via `define:vars`, so they stay
+single-sourced in `debug.ts` (unlike `CONSENT_STORAGE_KEY`, which predates
+that and is kept in sync by hand).
+
+Debug-only UI follows `DebugBanner.astro`: render it for everyone, hidden by
+CSS, and reveal it with `html[data-debug='on']`. The attribute is set in
+`<head>`, so it's already correct at first paint. It can't be conditionally
+rendered in frontmatter — a static build has no idea who the visitor is.
 
 ## TypeScript
 

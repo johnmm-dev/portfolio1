@@ -1,0 +1,124 @@
+---
+import { SHARE_PLATFORMS, ADMIN_PLATFORMS } from '@/lib/share';
+
+interface Props {
+	// Not window.location, so copied URLs use the live domain even from a local preview.
+	pageUrl: string;
+	campaignDefault?: string;
+}
+
+const { pageUrl, campaignDefault } = Astro.props;
+
+// A post in a series gets its series slug passed in; anything else uses its own slug.
+const lastSegment = new URL(pageUrl).pathname.split('/').filter(Boolean).pop();
+const campaign = campaignDefault || lastSegment || 'site';
+---
+
+<div
+	data-admin-share
+	data-share-base={pageUrl}
+	class:list={[
+		'admin-share mt-3 flex-col gap-2 rounded-lg border border-violet-300 bg-violet-50 px-3 py-2',
+		'dark:border-violet-500/30 dark:bg-violet-500/10',
+	]}>
+	<div class="flex flex-wrap items-center gap-2">
+		<p class="card-meta font-semibold text-violet-800 dark:text-violet-300">My tracked links</p>
+		<label class="card-meta flex items-center gap-1.5 text-violet-800 dark:text-violet-300">
+			campaign
+			<input
+				type="text"
+				data-admin-campaign
+				value={campaign}
+				spellcheck="false"
+				class:list={[
+					'card-meta w-56 rounded border border-violet-300 bg-white px-2 py-0.5 text-neutral-900',
+					'dark:border-violet-500/40 dark:bg-neutral-900 dark:text-neutral-100',
+				]}
+			/>
+		</label>
+	</div>
+
+	<div class="flex flex-wrap gap-1.5">
+		{
+			ADMIN_PLATFORMS.map((key) => (
+				<button
+					type="button"
+					data-admin-platform={key}
+					class:list={[
+						'card-meta rounded-full border border-violet-300 px-2.5 py-0.5 font-semibold text-violet-800 transition active:scale-95',
+						'dark:border-violet-500/40 dark:text-violet-300',
+					]}>
+					{SHARE_PLATFORMS[key].label}
+				</button>
+			))
+		}
+	</div>
+
+	{/* Also the fallback when the clipboard is unavailable (needs a secure context). */}
+	<input
+		type="text"
+		readonly
+		data-admin-output
+		aria-label="Generated tracked URL"
+		class:list={[
+			'card-meta w-full rounded border border-violet-300 bg-white px-2 py-0.5 text-neutral-700',
+			'dark:border-violet-500/40 dark:bg-neutral-900 dark:text-neutral-300',
+		]}
+	/>
+	<p data-admin-status role="status" aria-live="polite" class="card-meta text-violet-800 dark:text-violet-300"></p>
+</div>
+
+<style>
+	.admin-share {
+		display: none;
+	}
+	:global(html[data-debug='on']) .admin-share {
+		display: flex;
+	}
+</style>
+
+<script>
+	import { SHARE_PLATFORMS, buildTrackedUrl } from '@/lib/share';
+
+	// Visitors get no listeners at all - the panel is CSS-hidden for them.
+	if (document.documentElement.dataset.debug === 'on') {
+		document.querySelectorAll<HTMLElement>('[data-admin-share]').forEach((root) => {
+			const base = root.dataset.shareBase;
+			const campaignInput = root.querySelector<HTMLInputElement>('[data-admin-campaign]');
+			const output = root.querySelector<HTMLInputElement>('[data-admin-output]');
+			const status = root.querySelector<HTMLElement>('[data-admin-status]');
+			let resetTimeout: ReturnType<typeof setTimeout> | undefined;
+
+			root.querySelectorAll<HTMLButtonElement>('[data-admin-platform]').forEach((button) => {
+				button.addEventListener('click', async () => {
+					const key = button.dataset.adminPlatform as keyof typeof SHARE_PLATFORMS;
+					const platform = SHARE_PLATFORMS[key];
+					if (!base || !platform) return;
+
+					// Fall back rather than emit a blank utm_campaign.
+					const campaign = campaignInput?.value.trim() || campaignInput?.defaultValue.trim() || 'site';
+					const url = buildTrackedUrl(base, platform, campaign);
+					if (output) output.value = url;
+
+					let copied = true;
+					try {
+						await navigator.clipboard.writeText(url);
+					} catch {
+						copied = false;
+						output?.select();
+					}
+					if (status) {
+						status.textContent = copied
+							? `Copied ${platform.label} link (utm_medium=${platform.medium})`
+							: 'Clipboard blocked - the URL above is selected, copy it manually';
+					}
+
+					clearTimeout(resetTimeout);
+					resetTimeout = setTimeout(() => {
+						if (status) status.textContent = '';
+					}, 2500);
+				});
+			});
+		});
+	}
+</script>

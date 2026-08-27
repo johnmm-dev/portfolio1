@@ -2,7 +2,9 @@
 import '@/styles/global.css';
 import ThemeToggle from '@/components/common/ThemeToggle.astro';
 import ConsentBanner from '@/components/common/ConsentBanner.astro';
+import DebugBanner from '@/components/common/DebugBanner.astro';
 import { socialLinks } from '@/data/social';
+import { DEBUG_PARAM, DEBUG_STORAGE_KEY, DEBUG_ON_VALUES } from '@/lib/debug';
 
 interface Props {
 	title: string;
@@ -62,17 +64,45 @@ const articleSchema =
 			const isDark = stored ? stored === 'dark' : prefersDark;
 			document.documentElement.classList.toggle('dark', isDark);
 		</script>
+		<script is:inline define:vars={{ DEBUG_PARAM, DEBUG_STORAGE_KEY, DEBUG_ON_VALUES }}>
+			const params = new URLSearchParams(window.location.search);
+			if (params.has(DEBUG_PARAM)) {
+				const value = (params.get(DEBUG_PARAM) || '').toLowerCase();
+				// Strip before touching storage: if storage throws (blocked cookies) the param
+				// must still not reach GA4's page_location or a copied link.
+				params.delete(DEBUG_PARAM);
+				const query = params.toString();
+				history.replaceState(null, '', window.location.pathname + (query ? '?' + query : '') + window.location.hash);
+				try {
+					if (DEBUG_ON_VALUES.includes(value)) {
+						localStorage.setItem(DEBUG_STORAGE_KEY, 'true');
+					} else {
+						localStorage.removeItem(DEBUG_STORAGE_KEY);
+					}
+				} catch {
+					// Storage blocked - debug mode just stays off.
+				}
+			}
+			// On <html> so scripts and CSS can branch without re-reading localStorage.
+			try {
+				if (localStorage.getItem(DEBUG_STORAGE_KEY) === 'true') {
+					document.documentElement.dataset.debug = 'on';
+					// My own visits stay out of GA4, via the same switch noAnalytics sets.
+					document.documentElement.dataset.analytics = 'off';
+				}
+			} catch {
+				// Storage blocked - treat as not in debug mode.
+			}
+		</script>
 		<script is:inline>
 			// Consent Mode default, set before gtag.js loads. ad_* stays denied permanently.
 			// A stored "denied" doesn't need an age check here - expired or not, it still
 			// means the default (denied) is correct; only "granted" ever upgrades it, and
 			// analytics.ts's getStoredConsent() is the one place that actually expires it.
-			// Skipped entirely on data-analytics="off" pages (see the noAnalytics prop), so
-			// no gtag stub exists there and trackEvent() calls become no-ops.
+			// Skipped on data-analytics="off" pages, so no gtag stub exists and trackEvent no-ops.
 			if (document.documentElement.dataset.analytics !== 'off') {
 				window.dataLayer = window.dataLayer || [];
-				// arguments (not rest params) is Google's canonical gtag snippet - kept
-				// byte-for-byte so gtag.js receives exactly the shape it documents.
+				// arguments, not rest params: Google's canonical snippet, kept as documented.
 				function gtag() {
 					// eslint-disable-next-line prefer-rest-params
 					window.dataLayer.push(arguments);
@@ -132,6 +162,7 @@ const articleSchema =
 		</a>
 		<ThemeToggle />
 		{!noAnalytics && <ConsentBanner />}
+		<DebugBanner />
 		<main id="main-content">
 			<slot />
 		</main>

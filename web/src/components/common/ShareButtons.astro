@@ -3,60 +3,70 @@ import FacebookIcon from '@/components/common/icons/FacebookIcon.astro';
 import TwitterIcon from '@/components/common/icons/TwitterIcon.astro';
 import LinkedinIcon from '@/components/common/icons/LinkedinIcon.astro';
 import WhatsappIcon from '@/components/common/icons/WhatsappIcon.astro';
+import AdminShareTools from '@/components/common/AdminShareTools.astro';
+import {
+	SHARE_PLATFORMS,
+	READER_PLATFORMS,
+	ORGANIC_CAMPAIGN,
+	buildTrackedUrl,
+	type ReaderPlatformKey,
+} from '@/lib/share';
 
 interface Props {
 	title: string;
 	contentType: 'article' | 'series' | 'index';
+	// Admin panel only - reader buttons always use ORGANIC_CAMPAIGN.
+	campaignDefault?: string;
 }
 
-const { title, contentType } = Astro.props;
+const { title, contentType, campaignDefault } = Astro.props;
 
 const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
-const encodedUrl = encodeURIComponent(pageUrl);
 const encodedTitle = encodeURIComponent(title);
 
-const shareLinks = [
-	{
-		label: 'Share on Facebook',
-		href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-		Icon: FacebookIcon,
-		platform: 'facebook',
-	},
-	{
-		label: 'Share on Twitter',
-		href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
-		Icon: TwitterIcon,
-		platform: 'twitter',
-	},
-	{
-		label: 'Share on LinkedIn',
-		href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
-		Icon: LinkedinIcon,
-		platform: 'linkedin',
-	},
-	{
-		label: 'Share on WhatsApp',
-		href: `https://wa.me/?text=${encodeURIComponent(`${title} ${pageUrl}`)}`,
-		Icon: WhatsappIcon,
-		platform: 'whatsapp',
-	},
-];
+const ICONS: Record<ReaderPlatformKey, typeof FacebookIcon> = {
+	facebook: FacebookIcon,
+	twitter: TwitterIcon,
+	linkedin: LinkedinIcon,
+	whatsapp: WhatsappIcon,
+};
+
+// Builders receive the already-tagged URL, so tagging can't be forgotten.
+const HREF_BUILDERS: Record<ReaderPlatformKey, (url: string) => string> = {
+	facebook: (url) => `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+	twitter: (url) => `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodedTitle}`,
+	linkedin: (url) => `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+	whatsapp: (url) => `https://wa.me/?text=${encodeURIComponent(`${title} ${url}`)}`,
+};
+
+const shareLinks = READER_PLATFORMS.map((key) => {
+	const platform = SHARE_PLATFORMS[key];
+	return {
+		label: `Share on ${platform.label}`,
+		platform: platform.source,
+		Icon: ICONS[key],
+		href: HREF_BUILDERS[key](buildTrackedUrl(pageUrl, platform, ORGANIC_CAMPAIGN)),
+	};
+});
 ---
 
-<div class="flex items-center gap-2">
-	<p class="card-meta text-neutral-500 dark:text-neutral-400">Share:</p>
-	{
-		shareLinks.map(({ label, href, Icon, platform }) => (
-			<a
-				href={href}
-				target="_blank"
-				rel="noopener noreferrer"
-				aria-label={label}
-				data-ga-event="share_click"
-				data-ga-params={JSON.stringify({ platform, content_title: title, content_type: contentType })}
-				class="card-surface flex h-9 w-9 items-center justify-center rounded-full transition active:scale-95">
-				<Icon />
-			</a>
-		))
-	}
+<div>
+	<div class="flex items-center gap-2">
+		<p class="card-meta text-neutral-500 dark:text-neutral-400">Share:</p>
+		{
+			shareLinks.map(({ label, href, Icon, platform }) => (
+				<a
+					href={href}
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label={label}
+					data-ga-event="share_click"
+					data-ga-params={JSON.stringify({ platform, content_title: title, content_type: contentType })}
+					class="card-surface flex h-9 w-9 items-center justify-center rounded-full transition active:scale-95">
+					<Icon />
+				</a>
+			))
+		}
+	</div>
+	<AdminShareTools pageUrl={pageUrl} campaignDefault={campaignDefault} />
 </div>

@@ -61,7 +61,8 @@
 		banner.inert = !visible;
 	}
 
-	if (getStoredConsent() === null) {
+	// Don't ask for consent we won't act on: debug mode disables analytics at runtime.
+	if (document.documentElement.dataset.analytics !== 'off' && getStoredConsent() === null) {
 		setBannerVisible(true);
 	}
 

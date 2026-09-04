@@ -86,15 +86,21 @@ const { bodyHtml } = Astro.props;
 	}
 	.post-content :global(.gallery figure) {
 		margin-top: 0;
+		display: flex;
+		flex-direction: column;
 	}
 	.post-content :global(.gallery img) {
 		/* Always set inline by the gallery renderer in portableText.ts, so no CSS-level fallback is needed here. */
 		aspect-ratio: var(--gallery-aspect-ratio);
 		width: 100%;
-		height: 100%;
+		flex: 1 1 auto;
+		min-height: 0;
 		display: block;
 		object-fit: cover;
 		object-position: center;
+	}
+	.post-content :global(.gallery figcaption) {
+		flex: 0 0 auto;
 	}
 	@media (min-width: 640px) {
 		.post-content :global(.gallery) {

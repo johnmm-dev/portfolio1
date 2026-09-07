@@ -27,8 +27,9 @@ Avoid unnecessary animations, heavy JavaScript, or complex backend features
 unless explicitly requested. Do not over-engineer.
 
 ## Status
-Homepage is done: Hero, Me, Selected Work, Skills, Fun, and Contact are all built,
-polished, and live at adnansabbir.com (GitHub Pages). The Writing/blog section is
+Homepage is done: Hero, Work (consolidating the original Me/Selected Work/Skills
+sections into one), Fun, and Contact are all built, polished, and live at
+adnansabbir.com (GitHub Pages). The Writing/blog section is
 also live — nav link, homepage teaser, `/writing` index, and per-post pages are
 all built and switched on, with content fetched from Sanity Studio (`studio/`)
 at build time (see `docs/CONVENTIONS.md`'s "Blog content (Sanity)" section).
@@ -37,23 +38,23 @@ Multi-part series support is also live — a dedicated `series` document type,
 "Blog content (Sanity)" section) — see "First milestones" below for what's next.
 
 ## Site structure
-Single-page homepage: every section (Me, Selected Work, Skills, Fun, Contact) is a
-scroll section only. No dedicated per-section pages, no "See more" links — this was
-the original plan but is no longer intended.
+Single-page homepage: every section (Work, Fun, Contact) is a scroll section
+only. No dedicated per-section pages, no "See more" links — this was the
+original plan but is no longer intended.
 
 - Home (scroll sections, each short with big fonts/key stats):
   - Hero — avatar/memoji + name + role, matches a toukoum.fr-style layout (kept
     deliberately — personality signal, not scope creep)
-  - Me
-  - Projects / Selected Work (Production Contributions still gets its own
+  - Work — intro/resume/social links, an Experience timeline, and a "Beyond
+    full-time roles" grid, replacing the original separate Me/Selected
+    Work/Skills sections (Production Contributions still gets its own
     dedicated page, linked directly from this section)
-  - Skills
   - Fun
   - Writing — teaser section listing the latest posts, linking out to `/writing`
-    for the full list (same pattern as Selected Work → Production Contributions)
+    for the full list (same pattern as Work → Production Contributions)
   - Contact — home section only, no dedicated page (it's already the terminal
     action, and all the relevant info already lives on that one card)
-- Production Contributions (own page, linked from the Selected Work section)
+- Production Contributions (own page, linked from the Work section)
 - Writing / Blog (own pages per post, required for content collections; the
   homepage Writing section is just a teaser, not a substitute)
 
@@ -93,5 +94,5 @@ else should still default to minimal/static):
 11. Add RSS feed. ← next up — everything else in `docs/CONTENT_STRATEGY.md`'s
     "SEO goals" (sitemap, Person schema, canonical URLs, per-page basics) is
     already done/baked in per step.
-12. Add Production Contributions section (own page, linked from Selected Work) —
+12. Add Production Contributions section (own page, linked from Work) —
     deferred behind the blog for now.

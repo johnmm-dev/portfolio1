@@ -1,11 +1,26 @@
 ---
 import GithubIcon from '@/components/common/icons/GithubIcon.astro';
 import LinkedinIcon from '@/components/common/icons/LinkedinIcon.astro';
+import FacebookIcon from '@/components/common/icons/FacebookIcon.astro';
+import InstagramIcon from '@/components/common/icons/InstagramIcon.astro';
+import YoutubeIcon from '@/components/common/icons/YoutubeIcon.astro';
 import CopyIcon from '@/components/common/icons/CopyIcon.astro';
 import CheckIcon from '@/components/common/icons/CheckIcon.astro';
 import MapPinIcon from '@/components/common/icons/MapPinIcon.astro';
 import { contact } from '@/data/contact';
 import { socialLinks } from '@/data/social';
+
+const socialIcons = {
+	github: GithubIcon,
+	linkedin: LinkedinIcon,
+	facebook: FacebookIcon,
+	instagram: InstagramIcon,
+	youtube: YoutubeIcon,
+};
+
+const activeSocialLinks = Object.values(socialLinks)
+	.filter((link) => link.active)
+	.sort((a, b) => a.order - b.order);
 ---
 
 <section id="contact" class="flex min-h-screen flex-col justify-center px-6 py-16">
@@ -103,35 +118,28 @@ import { socialLinks } from '@/data/social';
 				<span id="copy-status" class="sr-only" role="status"></span>
 			</div>
 
-			<div class="flex gap-3">
-				<a
-					href={socialLinks.github.href}
-					target="_blank"
-					rel="noopener noreferrer"
-					aria-label={socialLinks.github.label}
-					data-ga-event="contact_click"
-					data-ga-params={JSON.stringify({ contact_method: 'github' })}
-					class:list={[
-						'flex h-11 w-11 items-center justify-center rounded-full border border-neutral-200 text-neutral-600 transition hover:border-neutral-400 active:scale-95',
-						'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900',
-						'dark:border-neutral-700 dark:text-neutral-300 dark:focus-visible:outline-white',
-					]}>
-					<GithubIcon />
-				</a>
-				<a
-					href={socialLinks.linkedin.href}
-					target="_blank"
-					rel="noopener noreferrer"
-					aria-label={socialLinks.linkedin.label}
-					data-ga-event="contact_click"
-					data-ga-params={JSON.stringify({ contact_method: 'linkedin' })}
-					class:list={[
-						'flex h-11 w-11 items-center justify-center rounded-full border border-neutral-200 text-neutral-600 transition hover:border-neutral-400 active:scale-95',
-						'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900',
-						'dark:border-neutral-700 dark:text-neutral-300 dark:focus-visible:outline-white',
-					]}>
-					<LinkedinIcon />
-				</a>
+			<div class="flex flex-wrap gap-3">
+				{
+					activeSocialLinks.map((link) => {
+						const Icon = socialIcons[link.icon];
+						return (
+							<a
+								href={link.href}
+								target="_blank"
+								rel="noopener noreferrer"
+								aria-label={link.label}
+								data-ga-event="contact_click"
+								data-ga-params={JSON.stringify({ contact_method: link.icon })}
+								class:list={[
+									'flex h-11 w-11 items-center justify-center rounded-full border border-neutral-200 text-neutral-600 transition hover:border-neutral-400 active:scale-95',
+									'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900',
+									'dark:border-neutral-700 dark:text-neutral-300 dark:focus-visible:outline-white',
+								]}>
+								<Icon />
+							</a>
+						);
+					})
+				}
 			</div>
 		</div>
 	</div>

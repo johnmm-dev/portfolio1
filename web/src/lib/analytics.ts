@@ -5,12 +5,10 @@ declare global {
 	}
 }
 
-// Maps internal DOM section ids (e.g. "me") to the event vocabulary (e.g. "about").
+// Maps internal DOM section ids (e.g. "work") to the event vocabulary (e.g. "work").
 export const SECTION_EVENT_NAMES: Record<string, string> = {
 	hero: 'hero',
-	me: 'about',
-	projects: 'projects',
-	skills: 'skills',
+	work: 'work',
 	fun: 'fun',
 	writing: 'writing',
 	contact: 'contact',

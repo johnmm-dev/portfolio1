@@ -4,6 +4,9 @@ export const structure: StructureResolver = (S) =>
   S.list()
     .title('Content')
     .items([
+      S.listItem()
+        .title('Resume')
+        .child(S.document().schemaType('resume').documentId('resume')),
       S.documentTypeListItem('blogPost')
         .title('Blog Posts')
         .child(S.documentTypeList('blogPost').defaultOrdering([{ field: 'pubDate', direction: 'desc' }])),

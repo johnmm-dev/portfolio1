@@ -1,4 +1,8 @@
-export type IconName = 'user' | 'folder' | 'terminal' | 'star' | 'send' | 'pen';
+// Relative import, not the `@/` alias: astro.config.mjs imports writingNavItem
+// from this file directly outside the app's Vite alias-resolution context.
+import { getExperienceYears } from '../lib/experience';
+
+export type IconName = 'folder' | 'star' | 'send' | 'pen';
 
 export interface NavItem {
 	label: string;
@@ -27,16 +31,25 @@ export const writingNavItem: NavItem = {
 	active: true,
 };
 
+export interface ProofPoint {
+	value: string;
+	label: string;
+	mobileLabel: string;
+}
+
 export const hero = {
 	greeting: "Hey, I'm Adnan 👋",
-	role: 'Senior Software Engineer',
-	subtitle: 'Backend and product engineer at Odoo R&D',
+	role: 'Software Engineer',
+	subtitle: 'Building full-stack products across EdTech, logistics, auditing, and ERP',
+	proofPoints: [
+		{ value: `${getExperienceYears()}+ years`, label: 'Production engineering', mobileLabel: 'Experience' },
+		{ value: 'Odoo R&D', label: 'Standard & Enterprise contributor', mobileLabel: 'Current team' },
+		{ value: 'Full-stack', label: 'Backend, frontend & DevOps', mobileLabel: 'BE + FE + DevOps' },
+	] satisfies ProofPoint[],
 	navItems: [
-		{ label: 'Me', href: '#me', icon: 'user', color: '#2563EB', active: true },
-		{ label: 'Projects', href: '#projects', icon: 'folder', color: '#059669', active: true },
-		{ label: 'Skills', href: '#skills', icon: 'terminal', color: '#7C3AED', active: true },
-		{ label: 'Fun', href: '#fun', icon: 'star', color: '#DB2777', active: true },
+		{ label: 'Work', href: '#work', icon: 'folder', color: '#2563EB', active: true },
 		writingNavItem,
+		{ label: 'Fun', href: '#fun', icon: 'star', color: '#DB2777', active: true },
 		{ label: 'Contact', href: '#contact', icon: 'send', color: '#D97706', active: true },
 	] satisfies NavItem[],
 };

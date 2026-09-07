@@ -137,8 +137,8 @@ const blog = defineCollection({
 		title: z.string(),
 		description: z.string(),
 		pubDate: z.coerce.date(),
-		// Must be keys from data/tags.ts, the same registry the homepage's
-		// About/Skills tags use, so blog and homepage tags stay one vocabulary.
+		// Must be keys from data/tags.ts, the shared tag vocabulary also used
+		// by the writing index/detail pages for filtering.
 		tags: z.array(z.enum(tagKeys)).default([]),
 		draft: z.boolean().default(false),
 		reviewReady: z.boolean().default(false),

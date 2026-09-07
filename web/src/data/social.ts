@@ -8,10 +8,6 @@ export interface SocialLink {
 	order: number;
 }
 
-export const connect = {
-	heading: "Let's connect",
-};
-
 export const socialLinks = {
 	github: { label: 'GitHub', href: 'https://github.com/adnansabbir', icon: 'github', active: true, order: 1 },
 	linkedin: {

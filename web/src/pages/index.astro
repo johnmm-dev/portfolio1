@@ -1,26 +1,23 @@
 ---
 import Hero from '@/components/home/Hero.astro';
-import Me from '@/components/home/Me.astro';
-import SelectedWork from '@/components/home/SelectedWork.astro';
-import Skills from '@/components/home/Skills.astro';
-import Fun from '@/components/home/Fun.astro';
+import Work from '@/components/home/Work.astro';
 import Writing from '@/components/home/Writing.astro';
+import Fun from '@/components/home/Fun.astro';
 import Contact from '@/components/home/Contact.astro';
 import FluidBackground from '@/components/home/FluidBackground.astro';
 import SectionNav from '@/components/home/SectionNav.astro';
 import Layout from '@/layouts/Layout.astro';
+import { getExperienceYears } from '@/lib/experience';
 ---
 
 <Layout
-	title="Adnan Sabbir — Senior Software Engineer"
-	description="Senior Software Engineer focused on backend and product engineering, currently on the R&D team at Odoo.">
+	title="Adnan Sabbir — Software Engineer"
+	description={`Portfolio of Adnan Sabbir, a Dubai-based full-stack software engineer with ${getExperienceYears()}+ years across EdTech, logistics, auditing, and ERP. Currently at Odoo R&D.`}>
 	<FluidBackground />
 	<SectionNav />
 	<Hero />
-	<Me />
-	<SelectedWork />
-	<Skills />
-	<Fun />
+	<Work />
 	<Writing />
+	<Fun />
 	<Contact />
 </Layout>

@@ -11,11 +11,10 @@ web/src/
 │   ├── common/          shared, feature-agnostic components (like an Angular
 │   │   │                SharedModule) — usable from any page
 │   │   ├── icons/        one .astro component per icon
-│   │   ├── IconCard.astro
 │   │   └── ThemeToggle.astro
 │   └── home/             components only the homepage uses
 │       ├── Hero.astro
-│       ├── Me.astro
+│       ├── Work.astro
 │       └── FluidBackground.astro
 ├── data/                 typed .ts files holding page content/config (see below)
 ├── lib/                   thin wrappers around external services (Sanity client,
@@ -126,10 +125,10 @@ can't be recolored via CSS/props, which breaks the multi-colored icon design.
 
 - `components/common/icons/IconBase.astro` holds the shared `<svg>` wrapper
   (size, stroke attributes) and exposes a `<slot />` for the inner path markup.
-- Each icon (`UserIcon.astro`, `FolderIcon.astro`, etc.) wraps `IconBase` and
-  supplies only its own path/shape.
-- Consumers (e.g. `IconCard.astro`) resolve an icon from a string key (e.g.
-  `icon: 'user'`) via a local lookup object, keeping `data/` files as pure
+- Each icon (`FolderIcon.astro`, `DownloadIcon.astro`, etc.) wraps `IconBase`
+  and supplies only its own path/shape.
+- Consumers (e.g. `SectionNav.astro`) resolve an icon from a string key (e.g.
+  `icon: 'folder'`) via a local lookup object, keeping `data/` files as pure
   content with no component imports.
 
 ## Mobile-first responsive rule
@@ -138,9 +137,9 @@ Unprefixed Tailwind utility classes are the mobile/base style; `sm:`, `md:`,
 `lg:` progressively layer on larger-screen overrides — never the reverse
 (never write desktop-first and retrofit down).
 
-Example: `IconCard` renders as a horizontal row (icon left, label right, full
-width) on mobile, and switches to a square tile (icon top, label below) inside
-a grid at `sm:` and up.
+Example: `Hero`'s proof strip is a bare row with subtle dividers and short
+labels on mobile, and gains a bordered/backgrounded card treatment plus
+longer labels at `sm:` and up.
 
 ## Dark/light theme
 
@@ -330,8 +329,8 @@ practice is what caught the mistake in the first place.
 `global.css` defines `.card-surface` in `@layer components` — the border,
 translucent background, backdrop blur, and full dark-mode trio (border color,
 gradient background, inset+drop shadow) shared identically across
-`IconCard`, `Fun`'s gallery cards, `Me`'s social icons and stat cards,
-`SelectedWork`, `Skills`, `Contact`'s outer card, and `SectionNav`'s floating
+`Fun`'s gallery cards, `Work`'s experience/beyond-roles cards, `Contact`'s
+outer card, the writing pages' post/series cards, and `SectionNav`'s floating
 bar. It deliberately excludes radius, padding, and interactivity classes
 (`rounded-*`, `p-*`, `transition active:scale-95`) — those still vary per
 usage and are added alongside `card-surface` on each element, e.g.
@@ -342,18 +341,12 @@ usage and are added alongside `card-surface` on each element, e.g.
 `global.css` also defines `.section-label` (the small eyebrow text above a
 heading) and `.section-heading` (the `<h2>` itself, including its `mt-2`
 spacing from the label) in `@layer components`. Used identically across
-every homepage section — `Me`, `SelectedWork`, `Skills`, `Fun` (both its
-visible and `aria-hidden` desktop copy), `Contact` — plus the two other
-eyebrow-style labels on the page (`Me`'s "Let's connect", `Hero`'s
-"ENCRYPTED TRANSMISSION" easter-egg panel).
-
-`Skills` used to hardcode its label/heading text directly instead of reading
-from `data/skills.ts` (unlike every other section) — fixed by adding a
-`skillsTeaser` export there, matching `about.ts`/`selected-work.ts`/`fun.ts`/
-`contact.ts`'s pattern.
+every homepage section — `Work`, `Fun` (both its visible and `aria-hidden`
+desktop copy), `Contact`, `Writing` — plus the other eyebrow-style label on
+the page (`Hero`'s "ENCRYPTED TRANSMISSION" easter-egg panel).
 
 If a section's label+heading sit inside a flex container that has its own
-`gap-*` (e.g. `Me`'s `flex flex-col gap-6`), wrap the label+heading pair in
+`gap-*` (e.g. `Work`'s `flex flex-col gap-6`), wrap the label+heading pair in
 their own child `<div>` — otherwise the flex gap adds on top of
 `.section-heading`'s own `mt-2`, since gap and margin don't collapse in
 flexbox.
@@ -362,12 +355,12 @@ flexbox.
 
 `global.css` defines `.card-title` (`text-lg`, 18px), `.card-body`
 (`text-base`, 16px), and `.card-meta` (`text-sm`, 14px) — the only 3 font
-sizes used for text inside cards (`Skills`, `Selected Work`, `Me`'s stat
-cards, `Contact`). `card-title` is the largest. These classes are named by
+sizes used for text inside cards (`Contact`, `Writing`, the writing
+post/series pages). `card-title` is the largest. These classes are named by
 size tier, not literal role — e.g. `card-body` is also used for actual
-titles (skill name, item title, category heading, location name), and
-`card-meta` covers both descriptions and small secondary bits (tags, links,
-stat label, coordinates). They're size-only, deliberately excluding weight
+titles (post title, location name), and `card-meta` covers both
+descriptions and small secondary bits (tags, links, coordinates). They're
+size-only, deliberately excluding weight
 and color — those still vary by the text's role even within one size tier
 (e.g. `card-meta` covers plain descriptions, medium-weight tags, and a
 semibold link, all at the same size), so `font-*`/color utilities are still

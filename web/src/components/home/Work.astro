@@ -1,0 +1,284 @@
+---
+import DownloadIcon from '@/components/common/icons/DownloadIcon.astro';
+import GithubIcon from '@/components/common/icons/GithubIcon.astro';
+import LinkedinIcon from '@/components/common/icons/LinkedinIcon.astro';
+import ChevronDownIcon from '@/components/common/icons/ChevronDownIcon.astro';
+import WavesIcon from '@/components/common/icons/WavesIcon.astro';
+import PlayIcon from '@/components/common/icons/PlayIcon.astro';
+import TerminalIcon from '@/components/common/icons/TerminalIcon.astro';
+import { workTeaser, beyondRolesTeaser, beyondRoles } from '@/data/work';
+import { socialLinks } from '@/data/social';
+import { experienceTeaser, experienceEntries } from '@/data/experience';
+import { getResumeVariants, resumeHref } from '@/lib/resume';
+
+const resumeVariants = await getResumeVariants();
+
+const sortedExperience = experienceEntries.filter((entry) => entry.active).sort((a, b) => a.order - b.order);
+const sortedBeyondRoles = beyondRoles.filter((item) => item.active).sort((a, b) => a.order - b.order);
+
+const beyondRoleIcons = { waves: WavesIcon, play: PlayIcon, terminal: TerminalIcon };
+
+const pillClass =
+	'inline-flex flex-1 items-center justify-center gap-1.5 rounded-full border px-3 py-2.5 text-xs font-semibold transition active:scale-95 sm:px-4 sm:text-sm lg:w-56 lg:flex-none lg:gap-2.5 lg:px-6 lg:py-3';
+// The wrapping <details> for the resume dropdown isn't itself styled as a
+// pill (that's <summary>'s job) - it just needs to take the same slot in
+// the parent flex row that a lone pill <a> would.
+const pillSlotClass = 'relative flex-1 lg:flex-none lg:w-56';
+const accentPillClass =
+	'border-cyan-600/40 bg-cyan-500/5 text-cyan-600 hover:border-cyan-600/70 dark:border-cyan-400/40 dark:bg-cyan-400/5 dark:text-cyan-400 dark:hover:border-cyan-400/70';
+const neutralPillClass =
+	'border-neutral-300 bg-neutral-50/50 text-neutral-800 hover:border-neutral-400 dark:border-white/15 dark:bg-white/[0.03] dark:text-neutral-200 dark:hover:border-white/25';
+const tagPillClass =
+	'rounded-full border border-neutral-200 px-3 py-1 text-xs font-medium text-neutral-600 dark:border-white/10 dark:text-neutral-300';
+---
+
+<section id="work" class="flex min-h-screen flex-col justify-center px-6 py-16">
+	<div class="relative z-10 mx-auto w-full max-w-6xl">
+		<div class="grid gap-10 lg:grid-cols-[70fr_30fr] lg:items-end lg:gap-16">
+			<div class="flex flex-col gap-6">
+				<div>
+					<span class="section-label">{workTeaser.label}</span>
+					<h2 class="section-heading">{workTeaser.heading}</h2>
+				</div>
+
+				<div class="flex flex-col gap-4 text-neutral-600 dark:text-neutral-300">
+					{workTeaser.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+				</div>
+			</div>
+
+			<div class="flex flex-row gap-2 sm:gap-3 lg:flex-col lg:items-end">
+				{
+					resumeVariants.length === 1 && (
+						<a
+							href={resumeHref(resumeVariants[0])}
+							download={resumeVariants[0].downloadName}
+							class:list={[pillClass, accentPillClass]}>
+							<DownloadIcon />
+							<span class="sm:hidden">Resume</span>
+							<span class="hidden sm:inline">Download résumé</span>
+						</a>
+					)
+				}
+				{
+					resumeVariants.length > 1 && (
+						<details class:list={['group', pillSlotClass]}>
+							<summary
+								class:list={[
+									pillClass,
+									accentPillClass,
+									'cursor-pointer list-none [&::-webkit-details-marker]:hidden',
+								]}>
+								<DownloadIcon />
+								<span class="sm:hidden">Resume</span>
+								<span class="hidden sm:inline">Download résumé</span>
+							</summary>
+							<div
+								class:list={[
+									'card-surface absolute top-full left-0 z-20 mt-2 flex w-full min-w-max flex-col gap-1 rounded-xl p-1.5',
+								]}>
+								{resumeVariants.map((variant) => (
+									<a
+										href={resumeHref(variant)}
+										download={variant.downloadName}
+										class="rounded-lg px-3 py-2 text-sm font-medium whitespace-nowrap text-neutral-700 transition hover:bg-neutral-100 active:scale-95 dark:text-neutral-200 dark:hover:bg-white/5">
+										{variant.buttonName}
+									</a>
+								))}
+							</div>
+						</details>
+					)
+				}
+				<a
+					href={socialLinks.linkedin.href}
+					target="_blank"
+					rel="noopener noreferrer"
+					class:list={[pillClass, neutralPillClass]}>
+					<LinkedinIcon />
+					LinkedIn
+				</a>
+				<a
+					href={socialLinks.github.href}
+					target="_blank"
+					rel="noopener noreferrer"
+					class:list={[pillClass, neutralPillClass]}>
+					<GithubIcon />
+					GitHub
+				</a>
+			</div>
+		</div>
+
+		<div class="mt-20 border-t border-neutral-200 pt-12 sm:mt-24 sm:pt-16 dark:border-white/10">
+			<div
+				class="flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-x-6 sm:gap-y-2">
+				<h3 class="text-2xl font-bold tracking-tight sm:text-3xl">{experienceTeaser.heading}</h3>
+				<p class="text-sm text-neutral-500 dark:text-neutral-400">{experienceTeaser.eyebrow}</p>
+			</div>
+
+			<div class="relative mt-10 sm:mt-12">
+				<div class="absolute top-5 bottom-5 left-3 w-px bg-neutral-200 dark:bg-white/10" aria-hidden="true"></div>
+
+				<div class="flex flex-col gap-10">
+					{
+						sortedExperience.map((entry, index) => (
+							<div class="relative flex gap-4 sm:gap-6">
+								<div class="flex w-6 flex-none justify-center">
+									{entry.isCurrent ? (
+										<span class="relative z-10 mt-4 flex h-2.5 w-2.5">
+											<span
+												class:list={[
+													'absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-500 opacity-75 dark:bg-cyan-400',
+													'motion-reduce:animate-none',
+												]}
+											/>
+											<span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-cyan-600 dark:bg-cyan-400" />
+										</span>
+									) : (
+										<span class="relative z-10 mt-4 h-2.5 w-2.5 rounded-full bg-neutral-400 dark:bg-neutral-600" />
+									)}
+								</div>
+
+								<div class="grid flex-1 gap-4 sm:grid-cols-[200px_1fr] sm:gap-6">
+									<div class="flex flex-col gap-2">
+										{entry.logoImage ? (
+											<img
+												src={entry.logoImage}
+												width={entry.logoWidth}
+												height={entry.logoHeight}
+												alt={`${entry.company} logo`}
+												loading="lazy"
+												decoding="async"
+												class:list={[
+													'w-auto flex-none object-contain object-left',
+													entry.isCurrent ? 'h-9 sm:h-14' : 'h-4 sm:h-6',
+												]}
+											/>
+										) : (
+											<div
+												class:list={[
+													'card-surface flex flex-none items-center justify-center rounded-xl font-semibold',
+													entry.isCurrent
+														? 'h-9 w-9 text-sm sm:h-14 sm:w-14 sm:text-lg'
+														: 'h-4 w-4 text-[8px] sm:h-6 sm:w-6 sm:text-xs',
+												]}>
+												{entry.company.charAt(0)}
+											</div>
+										)}
+										<div>
+											<p class="font-bold tracking-tight">{entry.company}</p>
+											<p class="text-sm text-neutral-500 dark:text-neutral-400">{entry.role}</p>
+											<p class="text-xs text-neutral-400 dark:text-neutral-500">{entry.period}</p>
+										</div>
+									</div>
+
+									<div class="card-surface rounded-2xl">
+										<details class="experience-accordion group" name="experience-accordion" open={index === 0}>
+											<summary class="flex cursor-pointer list-none flex-col gap-4 p-6 [&::-webkit-details-marker]:hidden">
+												<span class="flex items-start justify-between gap-4">
+													<span class="text-neutral-700 dark:text-neutral-200">{entry.description}</span>
+													<ChevronDownIcon
+														color="currentColor"
+														class="mt-0.5 h-7 w-7 flex-none text-cyan-600 transition-transform duration-200 group-open:rotate-180 motion-reduce:transition-none sm:h-6 sm:w-6 dark:text-cyan-400"
+													/>
+												</span>
+												<span class="hidden flex-wrap gap-2 lg:flex">
+													{entry.tags.map((tag) => (
+														<span class:list={[tagPillClass]}>{tag}</span>
+													))}
+												</span>
+											</summary>
+
+											<div class="experience-accordion-content overflow-hidden px-6">
+												<ul class="flex flex-col gap-2 pb-4">
+													{entry.highlights.map((highlight) => (
+														<li class="flex gap-2.5 text-sm text-neutral-600 dark:text-neutral-300">
+															<span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-cyan-600 dark:bg-cyan-400" />
+															<span>{highlight}</span>
+														</li>
+													))}
+												</ul>
+
+												<div class="flex flex-wrap gap-2 pb-4 lg:hidden">
+													{entry.tags.map((tag) => (
+														<span class:list={[tagPillClass]}>{tag}</span>
+													))}
+												</div>
+											</div>
+										</details>
+									</div>
+								</div>
+							</div>
+						))
+					}
+				</div>
+			</div>
+		</div>
+
+		<div class="mt-20 border-t border-neutral-200 pt-12 sm:mt-24 sm:pt-16 dark:border-white/10">
+			<div
+				class="flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-x-6 sm:gap-y-2">
+				<h3 class="text-2xl font-bold tracking-tight sm:text-3xl">{beyondRolesTeaser.heading}</h3>
+				<p class="text-sm text-neutral-500 dark:text-neutral-400">{beyondRolesTeaser.eyebrow}</p>
+			</div>
+
+			<div class="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-2 sm:gap-6">
+				{
+					sortedBeyondRoles.map((item) => {
+						const Icon = beyondRoleIcons[item.icon];
+						return (
+							<div class="card-surface flex flex-col gap-4 rounded-2xl p-6">
+								<div class="flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-500/10 text-cyan-600 dark:bg-cyan-400/10 dark:text-cyan-400">
+									<Icon />
+								</div>
+
+								<div>
+									<p class="text-lg font-bold tracking-tight">{item.title}</p>
+									<p class="mt-2 text-neutral-600 dark:text-neutral-300">{item.description}</p>
+								</div>
+
+								{item.links && item.links.length > 0 && (
+									<div class="flex flex-wrap gap-x-5 gap-y-2">
+										{item.links.map((link) => (
+											<a
+												href={link.href}
+												target={link.href.startsWith('http') ? '_blank' : undefined}
+												rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+												class="inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-600 hover:underline dark:text-cyan-400">
+												{link.label}
+												<span aria-hidden="true">→</span>
+											</a>
+										))}
+									</div>
+								)}
+							</div>
+						);
+					})
+				}
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	/* Progressive enhancement only: animates the accordion's height via the
+	   native ::details-content box (Chrome 131+). Browsers without support
+	   just fall back to the instant native open/close - no JS needed either
+	   way. */
+	.experience-accordion {
+		interpolate-size: allow-keywords;
+	}
+	.experience-accordion::details-content {
+		height: 0;
+		overflow: hidden;
+		transition:
+			height 0.3s ease,
+			content-visibility 0.3s ease allow-discrete;
+	}
+	.experience-accordion[open]::details-content {
+		height: auto;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.experience-accordion::details-content {
+			transition: none;
+		}
+	}
+</style>

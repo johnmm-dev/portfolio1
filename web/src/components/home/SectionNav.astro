@@ -1,8 +1,6 @@
 ---
 import HomeIcon from '@/components/common/icons/HomeIcon.astro';
-import UserIcon from '@/components/common/icons/UserIcon.astro';
 import FolderIcon from '@/components/common/icons/FolderIcon.astro';
-import TerminalIcon from '@/components/common/icons/TerminalIcon.astro';
 import StarIcon from '@/components/common/icons/StarIcon.astro';
 import SendIcon from '@/components/common/icons/SendIcon.astro';
 import PenIcon from '@/components/common/icons/PenIcon.astro';
@@ -10,9 +8,7 @@ import { hero, isNavItemVisible } from '@/data/home';
 import { SECTION_EVENT_NAMES } from '@/lib/analytics';
 
 const icons = {
-	user: UserIcon,
 	folder: FolderIcon,
-	terminal: TerminalIcon,
 	star: StarIcon,
 	send: SendIcon,
 	pen: PenIcon,
@@ -27,8 +23,7 @@ const linkClass =
 <nav
 	id="section-nav"
 	aria-label="Quick navigation"
-	data-visible="false"
-	class="card-surface fixed inset-x-0 bottom-4 z-40 mx-auto w-fit max-w-[92vw] rounded-full px-2 py-2 md:bottom-6 md:px-3">
+	class="card-surface fixed inset-x-0 z-40 mx-auto w-fit max-w-[92vw] rounded-full px-2 py-2 md:px-3">
 	<div id="section-nav-track" class="flex gap-1 overflow-x-auto md:gap-2">
 		<a
 			href="#hero"
@@ -61,8 +56,12 @@ const linkClass =
 
 <style>
 	#section-nav {
-		transform: translateY(200%);
-		transition: transform 0.3s ease;
+		bottom: calc(1rem + env(safe-area-inset-bottom));
+	}
+	@media (min-width: 768px) {
+		#section-nav {
+			bottom: calc(1.5rem + env(safe-area-inset-bottom));
+		}
 	}
 	#section-nav-track {
 		scrollbar-width: none;
@@ -70,33 +69,6 @@ const linkClass =
 	}
 	#section-nav-track::-webkit-scrollbar {
 		display: none;
-	}
-	/* Hints that more nav items sit off-screen on mobile, where the track
-	   scrolls horizontally - not needed once desktop spacing fits everything.
-	   Lives on the outer, non-scrolling nav so it stays pinned to the true
-	   right edge instead of scrolling along with the track's content. */
-	@media (max-width: 767px) {
-		#section-nav::after {
-			content: '';
-			position: absolute;
-			inset: 0;
-			border-radius: inherit;
-			box-shadow: inset -10px 0 14px -6px #0ea5e9;
-			pointer-events: none;
-			animation: nav-scroll-hint 1.6s ease-in-out infinite;
-		}
-	}
-	@keyframes nav-scroll-hint {
-		0%,
-		100% {
-			opacity: 0.25;
-		}
-		50% {
-			opacity: 1;
-		}
-	}
-	#section-nav[data-visible='true'] {
-		transform: translateY(0);
 	}
 	.section-nav-link.is-active {
 		color: #171717;
@@ -109,19 +81,7 @@ const linkClass =
 </style>
 
 <script>
-	const nav = document.getElementById('section-nav');
-	const heroSection = document.getElementById('hero');
 	const links = document.querySelectorAll('.section-nav-link');
-
-	if (nav && heroSection) {
-		const heroObserver = new IntersectionObserver(
-			([entry]) => {
-				nav.dataset.visible = entry.isIntersecting ? 'false' : 'true';
-			},
-			{ rootMargin: '-50% 0px -50% 0px' },
-		);
-		heroObserver.observe(heroSection);
-	}
 
 	const sections = Array.from(links)
 		.map((link) => {

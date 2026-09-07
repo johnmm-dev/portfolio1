@@ -2,9 +2,10 @@
 interface Props {
 	color?: string;
 	size?: number;
+	class?: string;
 }
 
-const { color = 'currentColor', size = 22 } = Astro.props;
+const { color = 'currentColor', size = 22, class: className } = Astro.props;
 ---
 
 <svg
@@ -16,6 +17,7 @@ const { color = 'currentColor', size = 22 } = Astro.props;
 	stroke={color}
 	stroke-width="2"
 	stroke-linecap="round"
-	stroke-linejoin="round">
+	stroke-linejoin="round"
+	class={className}>
 	<slot />
 </svg>

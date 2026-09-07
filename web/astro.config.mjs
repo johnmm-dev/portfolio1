@@ -27,6 +27,11 @@ export default defineConfig({
 	devToolbar: {
 		enabled: false,
 	},
+	server: {
+		// Lets the preview/dev server accept requests tunneled through ngrok
+		// (e.g. for testing on a phone that can't reach the LAN IP).
+		allowedHosts: ['.ngrok-free.app'],
+	},
 	vite: {
 		plugins: [tailwindcss()],
 	},

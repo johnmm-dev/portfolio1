@@ -4,8 +4,9 @@ import FolderIcon from '@/components/common/icons/FolderIcon.astro';
 import StarIcon from '@/components/common/icons/StarIcon.astro';
 import SendIcon from '@/components/common/icons/SendIcon.astro';
 import PenIcon from '@/components/common/icons/PenIcon.astro';
-import { hero, isNavItemVisible } from '@/data/home';
+import { hero, isNavItemVisible, writingNavItem } from '@/data/home';
 import { SECTION_EVENT_NAMES } from '@/lib/analytics';
+import { isSanityConfigured } from '@/lib/sanity';
 
 const icons = {
 	folder: FolderIcon,
@@ -14,7 +15,9 @@ const icons = {
 	pen: PenIcon,
 };
 
-const activeItems = hero.navItems.filter(isNavItemVisible);
+const activeItems = hero.navItems.filter(
+	(item) => isNavItemVisible(item) && (item !== writingNavItem || isSanityConfigured),
+);
 
 const linkClass =
 	'section-nav-link flex shrink-0 flex-col items-center gap-0.5 rounded-full px-3 py-1.5 text-[10px] font-medium text-neutral-500 transition active:scale-95 md:px-4 md:py-2 md:text-xs dark:text-neutral-400';

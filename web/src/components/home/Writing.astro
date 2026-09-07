@@ -3,8 +3,9 @@ import { getCollection } from 'astro:content';
 import { writingTeaser, writingDefaultImage } from '@/data/writing';
 import { writingNavItem, isNavItemVisible } from '@/data/home';
 import { isPostVisible } from '@/content.config';
+import { isSanityConfigured } from '@/lib/sanity';
 
-const isActive = isNavItemVisible(writingNavItem);
+const isActive = isSanityConfigured && isNavItemVisible(writingNavItem);
 
 const allPosts = isActive
 	? (await getCollection('blog', isPostVisible)).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())

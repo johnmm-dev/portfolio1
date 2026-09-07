@@ -45,6 +45,6 @@ See `CLAUDE.md` for full repo orientation and commands.
 
 ## Status
 
-Homepage is complete and live: Hero, Me, Selected Work, Skills, Fun, and Contact.
-The Writing section is also live, backed by Sanity for content. A dedicated
-Production Contributions page is still in progress.
+Homepage is complete and live: Hero, Work, Writing, Fun, and Contact. The Writing
+section is live too, backed by Sanity for content, including multi-part series.
+A dedicated Production Contributions page is still to come.

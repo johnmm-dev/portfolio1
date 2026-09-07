@@ -3,6 +3,8 @@ import { getExperienceYears } from '@/lib/experience';
 export interface BeyondRoleLink {
 	label: string;
 	href: string;
+	// Points at a Sanity-backed page, so it 404s when Sanity isn't configured.
+	needsSanity?: boolean;
 }
 
 export interface BeyondRoleEntry {
@@ -27,7 +29,7 @@ export const beyondRoles: BeyondRoleEntry[] = [
 			'Founded and led Bangladesh’s first university team to compete internationally with an autonomous underwater robot.',
 		links: [
 			{ label: 'Explore the project', href: 'https://bracuduburi.com/' },
-			{ label: 'Read the story', href: '/writing/series/the-years-i-built-robots' },
+			{ label: 'Read the story', href: '/writing/series/the-years-i-built-robots', needsSanity: true },
 		],
 		active: true,
 		order: 1,

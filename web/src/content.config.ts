@@ -52,6 +52,11 @@ function sanitySeriesLoader(): Loader {
 	return {
 		name: 'sanity-series',
 		load: async ({ store, parseData, logger }) => {
+			if (!sanityClient) {
+				store.clear();
+				logger.warn('No Sanity configuration, skipping series (see .env.example)');
+				return;
+			}
 			const series = await sanityClient.fetch(SERIES_QUERY);
 			store.clear();
 			let loaded = 0;
@@ -85,6 +90,11 @@ function sanityBlogLoader(): Loader {
 	return {
 		name: 'sanity-blog',
 		load: async ({ store, parseData, logger }) => {
+			if (!sanityClient) {
+				store.clear();
+				logger.warn('No Sanity configuration, skipping blog posts (see .env.example)');
+				return;
+			}
 			const posts = await sanityClient.fetch(BLOG_QUERY);
 			store.clear();
 			let loaded = 0;

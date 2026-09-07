@@ -9,6 +9,8 @@ export interface ResumeVariant {
 }
 
 export async function getResumeVariants(): Promise<ResumeVariant[]> {
+	if (!sanityClient) return [];
+
 	const doc = await sanityClient.fetch<{ variants: ResumeVariant[] } | null>(
 		`*[_type == "resume" && _id == "resume"][0]{
 			variants[]{ "key": _key, buttonName, downloadName, "extension": file.asset->extension, "url": file.asset->url }

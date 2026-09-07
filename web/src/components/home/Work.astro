@@ -10,11 +10,18 @@ import { workTeaser, beyondRolesTeaser, beyondRoles } from '@/data/work';
 import { socialLinks } from '@/data/social';
 import { experienceTeaser, experienceEntries } from '@/data/experience';
 import { getResumeVariants, resumeHref } from '@/lib/resume';
+import { isSanityConfigured } from '@/lib/sanity';
 
 const resumeVariants = await getResumeVariants();
 
 const sortedExperience = experienceEntries.filter((entry) => entry.active).sort((a, b) => a.order - b.order);
-const sortedBeyondRoles = beyondRoles.filter((item) => item.active).sort((a, b) => a.order - b.order);
+const sortedBeyondRoles = beyondRoles
+	.filter((item) => item.active)
+	.sort((a, b) => a.order - b.order)
+	.map((item) => ({
+		...item,
+		links: item.links?.filter((link) => !link.needsSanity || isSanityConfigured),
+	}));
 
 const beyondRoleIcons = { waves: WavesIcon, play: PlayIcon, terminal: TerminalIcon };
 

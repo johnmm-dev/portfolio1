@@ -4,6 +4,7 @@ import Layout from '@/layouts/Layout.astro';
 import ShareButtons from '@/components/common/ShareButtons.astro';
 import { isPostVisible } from '@/content.config';
 import { writingDefaultImage } from '@/data/writing';
+import { withBrand } from '@/data/site';
 
 export async function getStaticPaths() {
 	const seriesList = await getCollection('series');
@@ -24,10 +25,7 @@ export async function getStaticPaths() {
 const { series, parts } = Astro.props;
 ---
 
-<Layout
-	title={`${series.data.name} — Adnan Sabbir`}
-	description={series.data.description}
-	image={series.data.image.url}>
+<Layout title={withBrand(series.data.name)} description={series.data.description} image={series.data.image.url}>
 	<div class="mx-auto max-w-3xl px-6 py-16">
 		<div class="flex gap-4">
 			<a href="/" class="card-meta font-semibold underline-offset-4 hover:underline">← Home</a>

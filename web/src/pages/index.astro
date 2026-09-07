@@ -7,12 +7,10 @@ import Contact from '@/components/home/Contact.astro';
 import FluidBackground from '@/components/home/FluidBackground.astro';
 import SectionNav from '@/components/home/SectionNav.astro';
 import Layout from '@/layouts/Layout.astro';
-import { getExperienceYears } from '@/lib/experience';
+import { pageTitles, homeDescription } from '@/data/site';
 ---
 
-<Layout
-	title="Adnan Sabbir — Software Engineer"
-	description={`Portfolio of Adnan Sabbir, a Dubai-based full-stack software engineer with ${getExperienceYears()}+ years across EdTech, logistics, auditing, and ERP. Currently at Odoo R&D.`}>
+<Layout title={pageTitles.home} description={homeDescription}>
 	<FluidBackground />
 	<SectionNav />
 	<Hero />

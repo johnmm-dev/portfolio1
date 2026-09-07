@@ -15,6 +15,9 @@ else lives in `docs/` — **read the relevant file before starting related work:
   Read this before writing code.
 - `docs/COMMIT_CONVENTIONS.md` — commit message format and workflow. Read this
   before running `git commit`.
+- `docs/FORKING.md` — what a fork has to change to become someone else's site
+  (identity strings, domain, deployment target, branding assets, Sanity IDs).
+  Not needed for work on this repo; read it when helping someone set up a fork.
 
 If a decision made while coding isn't captured in the relevant doc yet, add it once
 it's confirmed working — these docs exist so patterns aren't relearned or reinvented

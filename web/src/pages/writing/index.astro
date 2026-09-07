@@ -3,6 +3,8 @@ import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import ShareButtons from '@/components/common/ShareButtons.astro';
 import { writingTeaser, writingDefaultImage } from '@/data/writing';
+import { pageTitles } from '@/data/site';
+import { isSanityConfigured } from '@/lib/sanity';
 import { isPostVisible } from '@/content.config';
 import { tags } from '@/data/tags';
 
@@ -12,9 +14,10 @@ const posts = (await getCollection('blog', isPostVisible)).sort(
 ---
 
 <Layout
-	title="Robotics to Software — Adnan Sabbir"
+	title={pageTitles.writing}
 	description={writingTeaser.description}
-	image={writingDefaultImage.url}>
+	image={writingDefaultImage.url}
+	noindex={!isSanityConfigured}>
 	<section class="mx-auto max-w-3xl px-6 py-16">
 		<div class="flex gap-4">
 			<a href="/" class="card-meta font-semibold underline-offset-4 hover:underline">← Home</a>

@@ -1,0 +1,39 @@
+MIT License
+
+Copyright (c) 2026 Adnan Sabbir
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR OTHER DEALINGS IN THE SOFTWARE.
+
+---
+
+SCOPE
+
+The MIT grant above applies to the source code in this repository. It does
+not grant any rights in the following, which are all rights reserved by their
+respective owners:
+
+  * Written content — the posts and series published under Writing, and the
+    site copy.
+  * Images and video — the personal photographs and clips in
+    web/public/gallery_images/, and web/public/og-image.jpg.
+  * Third-party marks — the employer and project logos in web/public/work/,
+    which belong to their respective owners and are reproduced here to
+    illustrate work history, not sublicensed.
+
+If you fork this repository, replace all three. docs/FORKING.md says where
+they live.

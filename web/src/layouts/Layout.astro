@@ -4,6 +4,7 @@ import ThemeToggle from '@/components/common/ThemeToggle.astro';
 import ConsentBanner from '@/components/common/ConsentBanner.astro';
 import DebugBanner from '@/components/common/DebugBanner.astro';
 import { socialLinks } from '@/data/social';
+import { owner } from '@/data/site';
 import { DEBUG_PARAM, DEBUG_STORAGE_KEY, DEBUG_ON_VALUES } from '@/lib/debug';
 
 interface Props {
@@ -32,9 +33,9 @@ const ogImageURL = new URL(image, Astro.site);
 const personSchema = {
 	'@context': 'https://schema.org',
 	'@type': 'Person',
-	name: 'Adnan Sabbir',
-	jobTitle: 'Software Engineer',
-	worksFor: { '@type': 'Organization', name: 'Odoo' },
+	name: owner.name,
+	jobTitle: owner.jobTitle,
+	worksFor: { '@type': 'Organization', name: owner.employer },
 	url: Astro.site,
 	sameAs: Object.values(socialLinks)
 		.filter((link) => link.active)
@@ -50,7 +51,7 @@ const articleSchema =
 				description,
 				image: ogImageURL,
 				datePublished: pubDate.toISOString(),
-				author: { '@type': 'Person', name: 'Adnan Sabbir', url: Astro.site },
+				author: { '@type': 'Person', name: owner.name, url: Astro.site },
 			}
 		: null;
 ---
@@ -131,7 +132,7 @@ const articleSchema =
 		<link rel="canonical" href={canonicalURL} />
 
 		<meta property="og:type" content={type} />
-		<meta property="og:site_name" content="Adnan Sabbir" />
+		<meta property="og:site_name" content={owner.name} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonicalURL} />

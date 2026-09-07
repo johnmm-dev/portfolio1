@@ -37,6 +37,12 @@ palettes) live in typed `.ts` files under `web/src/data/`, imported into
 `.astro` components — never hardcoded directly in a component's template. One
 place to edit text without touching component code.
 
+`web/src/data/site.ts` is the site-wide case of the same rule: the owner's
+name, job title, and employer, plus the page `<title>` strings and the
+homepage meta description that embed them. Anything that names who the site
+belongs to goes here, so changing the owner never means editing a component —
+which is what makes `docs/FORKING.md` a config change rather than a refactor.
+
 ## Content visibility (`active` flag)
 
 List-based content items (nav cards, CTAs, tags, stats, etc.) carry an
@@ -69,7 +75,8 @@ Astro Content Collection, so page code still uses `getCollection`/
   step — running `schema deploy` alone updates the data other tools read,
   but the Studio *app* itself embeds the schema at build time and won't
   show the change until redeployed). Hosted at
-  https://adnansabbir-blog.sanity.studio/.
+  https://adnansabbir-blog.sanity.studio/ (a fork deploys its own — see
+  docs/FORKING.md).
 - **Project ID / dataset**: read from `SANITY_PROJECT_ID`/`SANITY_DATASET`
   env vars (`web/.env` locally, GitHub repository variables in CI) rather
   than hardcoded — see `web/.env.example`. Not actually secret (the dataset
@@ -372,8 +379,13 @@ Tailwind's scale at all — folded into `card-body` for consistency.
 ## Page `<title>` format: brand suffix vs. bare title
 
 Fixed pages (home, `/writing` index) pass `title` to `Layout.astro` as
-`"<Page> — Adnan Sabbir"` — safe because their title strings are short and
-hand-written, so the suffix can't push the tag past ~70 characters.
+`"<Page> — <owner name>"`, built by `withBrand()` in `web/src/data/site.ts` —
+safe because their title strings are short and hand-written, so the suffix
+can't push the tag past ~70 characters. The homepage is the one exception that
+leads with the name instead (`pageTitles.home`).
+
+Series pages pass `withBrand(series.data.name)`: series names are curated and
+short, unlike post titles.
 
 Blog post pages (`web/src/pages/writing/[slug].astro`) pass the bare
 `post.data.title` with no suffix, deliberately. Post titles are

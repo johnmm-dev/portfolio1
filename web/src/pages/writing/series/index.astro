@@ -2,14 +2,17 @@
 import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import { writingDefaultImage } from '@/data/writing';
+import { pageTitles } from '@/data/site';
+import { isSanityConfigured } from '@/lib/sanity';
 
 const seriesList = (await getCollection('series')).sort((a, b) => a.data.name.localeCompare(b.data.name));
 ---
 
 <Layout
-	title="Series — Adnan Sabbir"
+	title={pageTitles.series}
 	description="Multi-part writing series, grouped by topic."
-	image={writingDefaultImage.url}>
+	image={writingDefaultImage.url}
+	noindex={!isSanityConfigured}>
 	<section class="mx-auto max-w-3xl px-6 py-16">
 		<div class="flex gap-4">
 			<a href="/" class="card-meta font-semibold underline-offset-4 hover:underline">← Home</a>

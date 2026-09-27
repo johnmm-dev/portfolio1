@@ -1,0 +1,106 @@
+---
+import TechIcon from '@/components/common/TechIcon.astro';
+import { skillsTeaser, skillGroups } from '@/data/skills';
+
+const groups = skillGroups.filter((group) => group.active).sort((a, b) => a.order - b.order);
+const selectedIndex = Math.max(
+	groups.findIndex((group) => group.defaultSelected),
+	0,
+);
+const slug = (label: string) => label.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+const tabId = (label: string) => `skills-tab-${slug(label)}`;
+const panelId = (label: string) => `skills-panel-${slug(label)}`;
+---
+
+<div class="mt-20 border-t border-neutral-200 pt-12 sm:mt-24 sm:pt-16 dark:border-white/10">
+	<div class="flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-x-6 sm:gap-y-2">
+		<h3 class="text-2xl font-bold tracking-tight sm:text-3xl">{skillsTeaser.heading}</h3>
+		<p class="text-sm text-neutral-500 dark:text-neutral-400">{skillsTeaser.eyebrow}</p>
+	</div>
+
+	{/* Scrolls sideways on narrow screens instead of wrapping the tab row. */}
+	<div class="-mx-6 mt-10 overflow-x-auto px-6 sm:mx-0 sm:mt-12 sm:px-0">
+		<div
+			id="skills-tablist"
+			role="tablist"
+			aria-label="Tech stack categories"
+			class="card-surface inline-flex gap-1 rounded-full p-1">
+			{
+				groups.map((group, index) => (
+					<button
+						type="button"
+						role="tab"
+						id={tabId(group.label)}
+						aria-controls={panelId(group.label)}
+						aria-selected={index === selectedIndex ? 'true' : 'false'}
+						tabindex={index === selectedIndex ? 0 : -1}
+						class:list={[
+							'rounded-full px-3 py-2 text-xs font-semibold whitespace-nowrap text-neutral-600 transition sm:px-4 sm:text-sm dark:text-neutral-300',
+							'hover:text-neutral-900 dark:hover:text-white',
+							'aria-selected:bg-cyan-600 aria-selected:text-white dark:aria-selected:bg-cyan-500 dark:aria-selected:text-neutral-950',
+						]}>
+						{group.label}
+					</button>
+				))
+			}
+		</div>
+	</div>
+
+	{
+		groups.map((group, index) => (
+			<div
+				role="tabpanel"
+				id={panelId(group.label)}
+				aria-labelledby={tabId(group.label)}
+				tabindex="0"
+				hidden={index !== selectedIndex}
+				class="mt-6 rounded-2xl">
+				<ul class="grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-10">
+					{group.items.map((skill) => (
+						<li class="card-surface flex flex-col items-center justify-center gap-2.5 rounded-2xl px-1.5 py-4 text-center sm:py-5">
+							{skill.icon && <TechIcon name={skill.icon} size={32} />}
+							<span class="text-xs leading-tight font-semibold text-neutral-700 sm:text-[13px] dark:text-neutral-200">
+								{skill.label}
+							</span>
+						</li>
+					))}
+				</ul>
+			</div>
+		))
+	}
+</div>
+
+<script>
+	// WAI-ARIA tabs: click or arrow keys switch panels; only the selected tab
+	// is in the Tab order (roving tabindex).
+	const tablist = document.getElementById('skills-tablist');
+	const tabs = Array.from(tablist?.querySelectorAll<HTMLButtonElement>('[role="tab"]') ?? []);
+
+	function select(tab: HTMLButtonElement, focus: boolean) {
+		for (const other of tabs) {
+			const isSelected = other === tab;
+			other.setAttribute('aria-selected', String(isSelected));
+			other.tabIndex = isSelected ? 0 : -1;
+			const panel = document.getElementById(other.getAttribute('aria-controls') ?? '');
+			if (panel) panel.hidden = !isSelected;
+		}
+		if (focus) tab.focus();
+		tab.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+	}
+
+	for (const tab of tabs) {
+		tab.addEventListener('click', () => select(tab, false));
+		tab.addEventListener('keydown', (event) => {
+			const index = tabs.indexOf(tab);
+			const next = {
+				ArrowRight: tabs[(index + 1) % tabs.length],
+				ArrowLeft: tabs[(index - 1 + tabs.length) % tabs.length],
+				Home: tabs[0],
+				End: tabs[tabs.length - 1],
+			}[event.key];
+			if (!next) return;
+			event.preventDefault();
+			select(next, true);
+		});
+	}
+</script>

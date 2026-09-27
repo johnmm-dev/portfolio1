@@ -74,9 +74,9 @@ Astro Content Collection, so page code still uses `getCollection`/
   deploy` (this deploys both the schema and the hosted Studio app in one
   step — running `schema deploy` alone updates the data other tools read,
   but the Studio *app* itself embeds the schema at build time and won't
-  show the change until redeployed). Hosted at
-  https://adnansabbir-blog.sanity.studio/ (a fork deploys its own — see
-  docs/FORKING.md).
+  show the change until redeployed). Not deployed
+  yet — the IDs in `studio/` still need replacing with this site's own Sanity
+  project (see docs/FORKING.md, Step 7).
 - **Project ID / dataset**: read from `SANITY_PROJECT_ID`/`SANITY_DATASET`
   env vars (`web/.env` locally, GitHub repository variables in CI) rather
   than hardcoded — see `web/.env.example`. Not actually secret (the dataset

@@ -5,9 +5,11 @@ import { getExperienceYears } from '@/lib/experience';
 // one file — see docs/FORKING.md. Same reasoning as the rest of `data/`, just
 // applied to site-wide metadata instead of one section's copy.
 export const owner = {
-	name: 'Adnan Sabbir',
-	jobTitle: 'Software Engineer',
-	employer: 'Odoo',
+	name: 'John Meeker',
+	jobTitle: 'Full-Stack Developer',
+	// Leave empty when between roles - Layout.astro omits `worksFor` from the
+	// structured data rather than publishing a blank organization.
+	employer: '',
 };
 
 // Brand suffix for fixed pages, per "Page <title> format" in
@@ -19,9 +21,9 @@ export const pageTitles = {
 	// Name first here, role second — the homepage is the one page whose title
 	// leads with the person rather than the page.
 	home: `${owner.name} — ${owner.jobTitle}`,
-	writing: withBrand('Robotics to Software'),
+	writing: withBrand('Writing'),
 	series: withBrand('Series'),
 	notFound: withBrand('Page Not Found'),
 };
 
-export const homeDescription = `Portfolio of ${owner.name}, a Dubai-based full-stack software engineer with ${getExperienceYears()}+ years across EdTech, logistics, auditing, and ERP. Currently at Odoo R&D.`;
+export const homeDescription = `Portfolio of ${owner.name}, an Illinois-based full-stack developer with ${getExperienceYears()}+ years building SaaS platforms, data migrations, and healthcare integrations with React, TypeScript, Node.js, PostgreSQL, and AWS.`;

@@ -3,19 +3,16 @@ import { defineType, defineField, defineArrayMember, getPublishedId } from 'sani
 // Keep in sync with web/src/data/tags.ts until the Astro site reads tags
 // from Sanity directly.
 const TAG_OPTIONS = [
+  { title: 'Full-Stack', value: 'fullStack' },
   { title: 'Backend Systems', value: 'backendSystems' },
-  { title: 'Product Architecture', value: 'productArchitecture' },
-  { title: 'ERP Systems', value: 'erpSystems' },
-  { title: 'Developer Tools', value: 'developerTools' },
-  { title: 'Robotics', value: 'robotics' },
-  { title: 'Technical Writing', value: 'technicalWriting' },
-  { title: 'Logistics', value: 'logistics' },
-  { title: 'EdTech', value: 'edtech' },
+  { title: 'Frontend', value: 'frontend' },
+  { title: 'PostgreSQL', value: 'postgresql' },
+  { title: 'Data Migration', value: 'dataMigration' },
+  { title: 'Integrations', value: 'integrations' },
+  { title: 'Modernization', value: 'modernization' },
+  { title: 'AWS', value: 'aws' },
+  { title: 'AI-Assisted Development', value: 'aiAssistedDevelopment' },
   { title: 'Career', value: 'career' },
-  { title: 'Philosophy', value: 'philosophy' },
-  { title: 'Dubai', value: 'dubai' },
-  { title: 'Hiking', value: 'hiking' },
-  { title: 'Fishing', value: 'fishing' },
   { title: 'About Me', value: 'aboutMe' },
 ];
 

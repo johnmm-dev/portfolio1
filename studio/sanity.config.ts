@@ -6,7 +6,7 @@ import {structure} from './structure'
 
 export default defineConfig({
   name: 'default',
-  title: 'adnansabbir.com Blog',
+  title: 'John Meeker Blog',
 
   projectId: '8iczsrc5',
   dataset: 'production',

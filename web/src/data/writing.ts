@@ -1,14 +1,13 @@
 export const writingTeaser = {
 	label: 'Writing',
-	heading: 'From robotics club to software engineer — told in series.',
+	heading: 'Notes on building software.',
 	homeHeading: 'Some recent writings.',
-	description:
-		'Serialized stories about building robots at BRAC University, becoming a software engineer, and building this very portfolio — one story at a time.',
+	description: 'Notes on full-stack development, data migrations, integrations, and modernizing legacy systems.',
 };
 
 // Used as the /writing index page's og:image, and as the fallback thumbnail/
 // og:image for any post with no thumbnail of its own.
 export const writingDefaultImage = {
 	url: '/writing-default.jpg',
-	alt: 'A person sitting on a rocky mountain outcrop at sunset, working on a laptop overlooking a lake and forested valley.',
+	alt: 'John Meeker — Full-Stack Developer.',
 };

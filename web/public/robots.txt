@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://adnansabbir.com/sitemap-index.xml
+Sitemap: https://johnmm-dev.github.io/sitemap-index.xml

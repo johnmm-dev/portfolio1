@@ -8,6 +8,9 @@ import FluidBackground from '@/components/home/FluidBackground.astro';
 import SectionNav from '@/components/home/SectionNav.astro';
 import Layout from '@/layouts/Layout.astro';
 import { pageTitles, homeDescription } from '@/data/site';
+import { funGallery } from '@/data/fun';
+
+const hasFunItems = funGallery.items.some((item) => item.active);
 ---
 
 <Layout title={pageTitles.home} description={homeDescription}>
@@ -16,6 +19,6 @@ import { pageTitles, homeDescription } from '@/data/site';
 	<Hero />
 	<Work />
 	<Writing />
-	<Fun />
+	{hasFunItems && <Fun />}
 	<Contact />
 </Layout>

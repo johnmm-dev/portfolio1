@@ -17,7 +17,7 @@ const isSanityConfigured = Boolean(env.SANITY_PROJECT_ID && env.SANITY_DATASET);
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://adnansabbir.com',
+	site: 'https://johnmm-dev.github.io',
 	integrations: [
 		sitemap({
 			filter: (page) => {

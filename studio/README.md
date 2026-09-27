@@ -1,11 +1,13 @@
-# adnansabbir.com Blog — Sanity Studio
+# John Meeker Blog — Sanity Studio
 
-Content management for the Writing section of [adnansabbir.com](https://adnansabbir.com).
+Content management for the Writing section of [johnmm-dev.github.io](https://johnmm-dev.github.io).
 Blog posts moved here from git-based `.mdx` files because draft posts sitting
 as files in a public repo were too exposed before publication.
 
-Project `8iczsrc5`, dataset `production`. Hosted Studio:
-https://adnansabbir-blog.sanity.studio/
+**Not set up yet.** `sanity.cli.ts` and `sanity.config.ts` still carry the
+original site's `projectId`, `studioHost`, and `appId`; replace them with a new
+Sanity project's values before running or deploying the Studio (see
+`../docs/FORKING.md`, Step 7).
 
 ## Commands
 

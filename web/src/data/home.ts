@@ -28,7 +28,7 @@ export const writingNavItem: NavItem = {
 	href: '#writing',
 	icon: 'pen',
 	color: '#0891B2',
-	active: true,
+	active: false,
 };
 
 export interface ProofPoint {
@@ -38,18 +38,18 @@ export interface ProofPoint {
 }
 
 export const hero = {
-	greeting: "Hey, I'm Adnan 👋",
-	role: 'Software Engineer',
-	subtitle: 'Building full-stack products across EdTech, logistics, auditing, and ERP',
+	greeting: "Hey, I'm John 👋",
+	role: 'Full-Stack Developer',
+	subtitle: 'Building SaaS platforms, data migrations, and healthcare integrations',
 	proofPoints: [
 		{ value: `${getExperienceYears()}+ years`, label: 'Production engineering', mobileLabel: 'Experience' },
-		{ value: 'Odoo R&D', label: 'Standard & Enterprise contributor', mobileLabel: 'Current team' },
-		{ value: 'Full-stack', label: 'Backend, frontend & DevOps', mobileLabel: 'BE + FE + DevOps' },
+		{ value: 'Full-stack', label: 'React, Node.js & PostgreSQL', mobileLabel: 'React + Node' },
+		{ value: 'AWS Certified', label: 'Developer – Associate', mobileLabel: 'Certified' },
 	] satisfies ProofPoint[],
 	navItems: [
 		{ label: 'Work', href: '#work', icon: 'folder', color: '#2563EB', active: true },
 		writingNavItem,
-		{ label: 'Fun', href: '#fun', icon: 'star', color: '#DB2777', active: true },
+		{ label: 'Fun', href: '#fun', icon: 'star', color: '#DB2777', active: false },
 		{ label: 'Contact', href: '#contact', icon: 'send', color: '#D97706', active: true },
 	] satisfies NavItem[],
 };

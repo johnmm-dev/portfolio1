@@ -35,7 +35,7 @@ const personSchema = {
 	'@type': 'Person',
 	name: owner.name,
 	jobTitle: owner.jobTitle,
-	worksFor: { '@type': 'Organization', name: owner.employer },
+	...(owner.employer && { worksFor: { '@type': 'Organization', name: owner.employer } }),
 	url: Astro.site,
 	sameAs: Object.values(socialLinks)
 		.filter((link) => link.active)
@@ -162,7 +162,7 @@ const articleSchema =
 			Skip to content
 		</a>
 		<ThemeToggle />
-		{!noAnalytics && <ConsentBanner />}
+		{!noAnalytics && import.meta.env.PUBLIC_GA_MEASUREMENT_ID && <ConsentBanner />}
 		<DebugBanner />
 		<main id="main-content">
 			<slot />

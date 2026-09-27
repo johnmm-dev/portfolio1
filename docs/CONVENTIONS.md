@@ -137,6 +137,12 @@ can't be recolored via CSS/props, which breaks the multi-colored icon design.
 - Consumers (e.g. `SectionNav.astro`) resolve an icon from a string key (e.g.
   `icon: 'folder'`) via a local lookup object, keeping `data/` files as pure
   content with no component imports.
+- Technology logos (the Tech stack list in `Work.astro`) are the one exception
+  to one-component-per-icon: there are too many, and they're filled brand
+  marks rather than stroked UI icons. Their paths live in `lib/techIcons.ts`
+  (Simple Icons brand marks, plus Lucide outlines for tools Simple Icons
+  doesn't carry, like AWS), rendered by `components/common/TechIcon.astro`.
+  `data/skills.ts` refers to them by key, same as above.
 
 ## Mobile-first responsive rule
 

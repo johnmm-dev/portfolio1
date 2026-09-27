@@ -1,23 +1,21 @@
-# Personal Portfolio & Technical Writing Site — Adnan Sabbir
+# Personal Portfolio Site — John Meeker
 
 ## Documentation map
 This file only covers repo orientation (layout, commands, tech stack). Everything
 else lives in `docs/` — **read the relevant file before starting related work:**
 
-- `docs/PROJECT_PLAN.md` — working style (this is a mentorship relationship, read
-  this before writing any code), site structure, and milestone tracking. Read this
-  first, every session.
-- `docs/CONTENT_STRATEGY.md` — positioning, tone, SEO goals, and what each page/post
-  should say. Read this before writing or editing any copy.
 - `docs/CONVENTIONS.md` — code and data patterns (directory structure, content/data
   separation, the `active` flag convention, shared content registries, icon pattern,
   theming, TypeScript, Prettier/formatting conventions, shared CSS classes, etc.).
   Read this before writing code.
 - `docs/COMMIT_CONVENTIONS.md` — commit message format and workflow. Read this
   before running `git commit`.
-- `docs/FORKING.md` — what a fork has to change to become someone else's site
-  (identity strings, domain, deployment target, branding assets, Sanity IDs).
-  Not needed for work on this repo; read it when helping someone set up a fork.
+- `docs/FORKING.md` — the setup checklist this site was forked with (identity
+  strings, domain, deployment target, branding assets, Sanity IDs). Useful when
+  changing any of those.
+
+All site copy (hero, work history, projects, contact) lives in `web/src/data/`.
+Keep it consistent with John's résumé; don't invent employers, dates, or metrics.
 
 If a decision made while coding isn't captured in the relevant doc yet, add it once
 it's confirmed working — these docs exist so patterns aren't relearned or reinvented
@@ -70,5 +68,5 @@ npx sanity deploy # deploy both the schema and the hosted Studio app
   custom Content Collection loader — no local Markdown/MDX files, see
   `docs/CONVENTIONS.md`'s "Blog content (Sanity)" section
 - Static-first architecture
-- Deployed via GitHub Pages (see `.github/workflows/deploy.yml`), live at
-  adnansabbir.com
+- Deployed via GitHub Pages (see `.github/workflows/deploy.yml`), served at
+  https://johnmm-dev.github.io

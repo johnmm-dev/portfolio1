@@ -1,11 +1,11 @@
-# adnansabbir.com — Astro site
+# johnmm-dev.github.io — Astro site
 
-The frontend for [adnansabbir.com](https://adnansabbir.com): homepage sections
-plus the Writing/blog pages, which fetch content from Sanity Studio
-(`../studio/`) at build time.
+The frontend for [johnmm-dev.github.io](https://johnmm-dev.github.io): homepage
+sections plus the optional Writing/blog pages, which fetch content from Sanity
+Studio (`../studio/`) at build time.
 
 See the repo root `CLAUDE.md` for full orientation, commands, and the
-`docs/` directory for working style, content strategy, and code conventions
+`docs/` directory for code and commit conventions
 — read those before making changes here.
 
 ## Setup

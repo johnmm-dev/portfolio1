@@ -27,7 +27,7 @@ export const resume = defineType({
               name: 'downloadName',
               type: 'string',
               title: 'Download name',
-              description: 'File name the visitor gets, e.g. "Adnan Sabbir Resume - Short.pdf".',
+              description: 'File name the visitor gets, e.g. "John Meeker Resume.pdf".',
               validation: (Rule) =>
                 Rule.required()
                   .regex(/^[^/\\:*?"<>|]+\.(pdf|docx?)$/i, {

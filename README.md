@@ -53,13 +53,7 @@ routes are still built (Astro can't skip a static route) but hold no posts,
 and are excluded from the sitemap and marked `noindex` until Sanity is
 configured.
 
-## Credits
-
-Forked from [Adnan Sabbir's portfolio](https://github.com/adnansabbir), which
-is MIT licensed. `docs/FORKING.md` is the setup checklist used for the fork.
-
 ## License
 
-The code is MIT licensed — see [LICENSE](LICENSE), which keeps the original
-copyright notice alongside this fork's. Site copy and images are not covered by
-the MIT grant; all rights reserved.
+The code is MIT licensed — see [LICENSE](LICENSE). Site copy and images are not
+covered by the MIT grant; all rights reserved.

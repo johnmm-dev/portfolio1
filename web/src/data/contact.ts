@@ -6,5 +6,5 @@ export const contact = {
 	availability: 'Open to full-stack roles and contract work.',
 	email: 'johnmeeker413@gmail.com',
 	location: 'Based in Illinois, USA',
-	coordinates: '40.0° N, 89.2° W',
+	coordinates: '37.7273° N, 89.2168° W',
 };

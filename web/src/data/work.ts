@@ -48,19 +48,11 @@ export const beyondRoles: BeyondRoleEntry[] = [
 	},
 	{
 		icon: 'terminal',
-		title: 'Salesforce to HubSpot CRM migration (2023)',
-		description:
-			'Technical owner for migrating 44,400+ records at 98.7% accuracy, cutting duplicates by 87%, consolidating 34 workflows into 19, and reducing manual CRM corrections by about 52%.',
-		active: true,
-		order: 4,
-	},
-	{
-		icon: 'terminal',
 		title: 'Legacy system modernization · Barreto Manufacturing (2022)',
 		description:
 			'Replaced an on-premise database and desktop app with modular Node.js services on AWS, PostgreSQL on RDS, and a React SPA for staff and dealers, validated by reconciliation and shadow testing before cutover.',
 		active: true,
-		order: 5,
+		order: 4,
 	},
 ];
 

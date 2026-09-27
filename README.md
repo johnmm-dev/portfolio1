@@ -10,8 +10,7 @@ and AWS.
 
 - Full-stack SaaS development: multi-tenant PostgreSQL, REST APIs, background
   workflows, React frontends
-- Data migration and validation, including a Salesforce to HubSpot migration of
-  44,400+ records at 98.7% accuracy
+- Data migration and validation, including legacy system replacements
 - Healthcare and third-party integrations, including a clearinghouse-to-EHR
   integration for Catholic Health Long Island (via KPMG)
 - Incremental frontend modernization from Angular to React

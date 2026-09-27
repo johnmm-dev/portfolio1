@@ -130,7 +130,7 @@ const tagPillClass =
 							<div class="relative flex gap-4 sm:gap-6">
 								<div class="flex w-6 flex-none justify-center">
 									{entry.isCurrent ? (
-										<span class="relative z-10 mt-4 flex h-2.5 w-2.5">
+										<span class:list={['relative z-10 flex h-2.5 w-2.5', entry.logoImage ? 'mt-4' : 'mt-2']}>
 											<span
 												class:list={[
 													'absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-500 opacity-75 dark:bg-cyan-400',
@@ -140,7 +140,12 @@ const tagPillClass =
 											<span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-cyan-600 dark:bg-cyan-400" />
 										</span>
 									) : (
-										<span class="relative z-10 mt-4 h-2.5 w-2.5 rounded-full bg-neutral-400 dark:bg-neutral-600" />
+										<span
+											class:list={[
+												'relative z-10 h-2.5 w-2.5 rounded-full bg-neutral-400 dark:bg-neutral-600',
+												entry.logoImage ? 'mt-4' : 'mt-2',
+											]}
+										/>
 									)}
 								</div>
 
@@ -159,17 +164,7 @@ const tagPillClass =
 													entry.isCurrent ? 'h-9 sm:h-14' : 'h-4 sm:h-6',
 												]}
 											/>
-										) : (
-											<div
-												class:list={[
-													'card-surface flex flex-none items-center justify-center rounded-xl font-semibold',
-													entry.isCurrent
-														? 'h-9 w-9 text-sm sm:h-14 sm:w-14 sm:text-lg'
-														: 'h-4 w-4 text-[8px] sm:h-6 sm:w-6 sm:text-xs',
-												]}>
-												{entry.company.charAt(0)}
-											</div>
-										)}
+										) : null}
 										<div>
 											<p class="font-bold tracking-tight">{entry.company}</p>
 											<p class="text-sm text-neutral-500 dark:text-neutral-400">{entry.role}</p>

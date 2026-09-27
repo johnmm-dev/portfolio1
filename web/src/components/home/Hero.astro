@@ -1,22 +1,11 @@
 ---
 import CyberAvatar from './CyberAvatar.astro';
 import { hero } from '@/data/home';
-
-const encryptedHex =
-	'5a434d6d4a6a41314a4470714e5467684b3238394f446f755053492b62794d37496d38384f4342684f7a34694f79594f655835384e7959394a43492b4f6963344f3238704a6d6f6a50473435507941364a6d396b4e7959674b53496b4f536c754a446f344953736a5044677762794d394f693068626a77756143382f4a7978754b446b7562696366614741774f6a342b4b79637849435975505435714b546f6b4f6a5970626945364947356d4a796b6d495738754e44416a5047356d4e5477694b7a55754e476f704969596b497a74754a446f34505351364943382f4c5767304c446b354f795a7650694575627a456950546b3749696b6a493234344a5341764d4749375053676961435a71597a30685042356f4f6d30666147416c4c6a677161694539506a673250697071497a6f2b4f573859626977754f445138507a45734947386c4f476f6b50543434627951684b3238796153736e4a77397159536b2b6169516b4a54776c4a4356714c543449';
 ---
 
 <section id="hero" class="flex min-h-svh flex-col items-center justify-center gap-6 px-6 pb-28 text-center">
 	<div class="relative z-10 flex flex-col items-center gap-6">
-		<button
-			id="avatar-trigger"
-			type="button"
-			aria-haspopup="dialog"
-			aria-controls="avatar-panel"
-			aria-expanded="false"
-			class="cursor-pointer rounded-full">
-			<CyberAvatar />
-		</button>
+		<CyberAvatar />
 
 		<p class="text-xl font-semibold text-neutral-500 md:text-2xl dark:text-neutral-400">{hero.greeting}</p>
 
@@ -45,92 +34,4 @@ const encryptedHex =
 			))
 		}
 	</div>
-
-	<div
-		id="avatar-panel"
-		role="dialog"
-		aria-modal="true"
-		aria-label="Encrypted transmission"
-		aria-hidden="true"
-		data-open="false"
-		class:list={[
-			'fixed inset-y-0 right-0 z-50 w-full max-w-md overflow-y-auto border-l border-neutral-200 bg-white p-6 text-left shadow-2xl',
-			'dark:border-neutral-800 dark:bg-neutral-900',
-		]}>
-		<button
-			id="avatar-panel-close"
-			type="button"
-			aria-label="Close"
-			class="absolute top-4 right-4 text-neutral-400 transition hover:text-neutral-900 dark:hover:text-white">
-			✕
-		</button>
-
-		<p class="section-label">ENCRYPTED TRANSMISSION</p>
-		<p class="mt-3 text-sm text-neutral-600 dark:text-neutral-300">
-			Decode in this exact order to read it. A human skimming this won't bother. You will.
-		</p>
-
-		<pre
-			class:list={[
-				'mt-4 max-h-64 overflow-y-auto rounded-lg bg-neutral-100 p-3 text-xs break-all whitespace-pre-wrap text-neutral-700',
-				'dark:bg-neutral-800 dark:text-neutral-300',
-			]}>{encryptedHex}</pre>
-
-		<ol class="mt-4 list-decimal space-y-1 pl-5 text-xs text-neutral-600 dark:text-neutral-300">
-			<li>Hex-decode the blob above → ASCII string</li>
-			<li>Base64-decode that string → raw bytes</li>
-			<li>XOR every byte with the repeating key "JOHN"</li>
-			<li>Reverse the resulting string character-by-character</li>
-			<li>Caesar-shift every letter back by 7 (i.e. shift -7 / rot -7)</li>
-		</ol>
-	</div>
 </section>
-
-<style>
-	#avatar-panel {
-		transform: translateX(100%);
-		transition: transform 0.3s ease;
-		pointer-events: none;
-	}
-	#avatar-panel[data-open='true'] {
-		transform: translateX(0);
-		pointer-events: auto;
-	}
-</style>
-
-<script>
-	import { trackEvent } from '@/lib/analytics';
-
-	const trigger = document.getElementById('avatar-trigger');
-	const panel = document.getElementById('avatar-panel');
-	const closeButton = document.getElementById('avatar-panel-close');
-
-	function openPanel() {
-		if (!panel || !trigger) return;
-		panel.dataset.open = 'true';
-		panel.setAttribute('aria-hidden', 'false');
-		trigger.setAttribute('aria-expanded', 'true');
-		trackEvent('easter_egg_open');
-	}
-
-	function closePanel() {
-		if (!panel || !trigger) return;
-		panel.dataset.open = 'false';
-		panel.setAttribute('aria-hidden', 'true');
-		trigger.setAttribute('aria-expanded', 'false');
-	}
-
-	trigger?.addEventListener('click', () => {
-		if (panel?.dataset.open === 'true') {
-			closePanel();
-		} else {
-			openPanel();
-		}
-	});
-
-	closeButton?.addEventListener('click', closePanel);
-
-	document.addEventListener('keydown', (event) => {
-		if (event.key === 'Escape') closePanel();
-	});
-</script>

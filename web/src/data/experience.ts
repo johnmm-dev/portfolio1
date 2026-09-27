@@ -2,8 +2,8 @@ export interface ExperienceEntry {
 	company: string;
 	role: string;
 	period: string;
-	// Path under public/ (e.g. '/work/odoo.webp'). Falls back to the
-	// company's first letter when omitted or the file isn't available.
+	// Path under public/ (e.g. '/work/acme.webp'). Optional - without it the
+	// entry shows no logo, just the company name.
 	logoImage?: string;
 	// Source file's native pixel size, so the browser can reserve the
 	// correct aspect ratio before the image loads (avoids layout shift).

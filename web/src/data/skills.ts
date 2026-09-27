@@ -9,6 +9,8 @@ export interface Skill {
 export interface SkillGroup {
 	label: string;
 	items: Skill[];
+	// The tab shown first. If no active group sets it, the first one is used.
+	defaultSelected?: boolean;
 	active: boolean;
 	order: number;
 }
@@ -36,6 +38,7 @@ export const skillGroups: SkillGroup[] = [
 		items: [
 			{ label: 'React', icon: 'react' },
 			{ label: 'Next.js', icon: 'nextdotjs' },
+			{ label: 'Astro', icon: 'astro' },
 			{ label: 'Angular', icon: 'angular' },
 			{ label: 'Redux Toolkit', icon: 'redux' },
 			{ label: 'TanStack Query', icon: 'reactquery' },
@@ -44,6 +47,7 @@ export const skillGroups: SkillGroup[] = [
 			{ label: 'HTML', icon: 'html5' },
 			{ label: 'CSS', icon: 'css' },
 		],
+		defaultSelected: true,
 		active: true,
 		order: 2,
 	},
@@ -80,7 +84,7 @@ export const skillGroups: SkillGroup[] = [
 		order: 5,
 	},
 	{
-		label: 'AI-assisted development',
+		label: 'AI tools',
 		items: [
 			{ label: 'Claude', icon: 'claude' },
 			{ label: 'OpenAI Codex', icon: 'terminal' },

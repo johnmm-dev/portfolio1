@@ -1,19 +1,20 @@
 # John Meeker — Portfolio
 
-Personal portfolio for John Meeker, a full-stack developer with 8+ years of
-experience across React, TypeScript, Node.js, PostgreSQL (including PL/pgSQL),
-and AWS.
+Personal portfolio for John Meeker, a full-stack developer with 6+ years of
+experience, focused on backend systems built with Node.js, TypeScript, and
+PostgreSQL.
 
 **Live at [johnmm-dev.github.io](https://johnmm-dev.github.io)**
 
 ## What it covers
 
-- Full-stack SaaS development: multi-tenant PostgreSQL, REST APIs, background
-  workflows, React frontends
-- Data migration and validation, including legacy system replacements
-- Healthcare and third-party integrations, including a clearinghouse-to-EHR
-  integration for Catholic Health Long Island (via KPMG)
-- Incremental frontend modernization from Angular to React
+- Backend services with Node.js, TypeScript, and PostgreSQL: REST APIs,
+  real-time features over WebSockets, and data-intensive services
+- Database design, PL/pgSQL, and multi-tenant PostgreSQL architecture
+- Third-party, multi-vendor, and healthcare integrations, including a
+  clearinghouse-to-EHR integration for Catholic Health Long Island (via KPMG)
+- Data migration and validation, and incremental modernization of legacy
+  systems, including Angular to React
 - AI-assisted development with code review and testing on every change
 
 ## Tech stack

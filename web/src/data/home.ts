@@ -40,11 +40,11 @@ export interface ProofPoint {
 export const hero = {
 	greeting: "Hey, I'm John 👋",
 	role: 'Full-Stack Developer',
-	subtitle: 'Building SaaS platforms, data migrations, and healthcare integrations',
+	subtitle: 'Backend systems with Node.js, TypeScript, and PostgreSQL',
 	proofPoints: [
 		{ value: `${getExperienceYears()}+ years`, label: 'Production engineering', mobileLabel: 'Experience' },
-		{ value: 'Full-stack', label: 'React, Node.js & PostgreSQL', mobileLabel: 'React + Node' },
-		{ value: 'AWS Certified', label: 'Developer – Associate', mobileLabel: 'Certified' },
+		{ value: 'Backend-focused', label: 'Node.js, TypeScript & PostgreSQL', mobileLabel: 'Node.js' },
+		{ value: 'JSNAD + AWS', label: 'Node.js & AWS Developer certified', mobileLabel: 'Certified' },
 	] satisfies ProofPoint[],
 	navItems: [
 		{ label: 'Work', href: '#work', icon: 'folder', color: '#2563EB', active: true },

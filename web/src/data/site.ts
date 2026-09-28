@@ -26,4 +26,4 @@ export const pageTitles = {
 	notFound: withBrand('Page Not Found'),
 };
 
-export const homeDescription = `Portfolio of ${owner.name}, an Illinois-based full-stack developer with ${getExperienceYears()}+ years building SaaS platforms, data migrations, and healthcare integrations with React, TypeScript, Node.js, PostgreSQL, and AWS.`;
+export const homeDescription = `Portfolio of ${owner.name}, an Illinois-based full-stack developer with ${getExperienceYears()}+ years building backend systems with Node.js, TypeScript, and PostgreSQL: REST APIs, real-time features, integrations, and data migrations.`;
